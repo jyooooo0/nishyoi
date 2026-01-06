@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日本茶 | NISHYOI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Zen Old Mincho"', 'serif'],
+                        sans: ['"Zen Kaku Gothic New"', 'sans-serif'],
+                    },
+                    colors: {
+                        'theme-gray': '#f5f5f5',
+                    }
+                }
+            }
+        }
+    </script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500&family=Zen+Old+Mincho:wght@400;500;600&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="font-sans antialiased bg-white text-[#1a1a1a]">
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 w-full p-6 md:p-10 z-50 mix-blend-difference flex justify-between items-start">
+        <h1 class="text-xs tracking-[0.2em] font-bold text-black md:text-white mix-blend-difference z-50">
+            <a href="../index.html">NISHYOI / TEA</a>
+        </h1>
+        <nav
+            class="hidden lg:flex flex-col text-xs tracking-widest gap-2 text-black md:text-white mix-blend-difference items-end">
+            <a href="../about/index.html" class="hover:opacity-50">ABOUT</a>
+            <a href="../index.html#projects" class="hover:opacity-50">PROJECTS</a>
+            <a href="../journal/index.html" class="hover:opacity-50">JOURNAL</a>
+        </nav>
+        <button id="menuBtn"
+            class="lg:hidden flex flex-col gap-1.5 z-50 w-8 mix-blend-difference text-black md:text-white">
+            <span class="block w-full h-[1px] bg-current transition-transform duration-300 origin-center"></span>
+            <span class="block w-full h-[1px] bg-current transition-opacity duration-300"></span>
+            <span class="block w-full h-[1px] bg-current transition-transform duration-300 origin-center"></span>
+        </button>
+    </header>
+
+    <!-- Menu Overlay -->
+    <div id="menuOverlay"
+        class="fixed inset-0 bg-[#FAFAFA] z-40 flex flex-col justify-center items-center opacity-0 pointer-events-none transition-opacity duration-500">
+        <nav class="flex flex-col gap-8 text-center font-serif text-xl tracking-widest">
+            <a href="../index.html" class="hover:opacity-50">TOP</a>
+            <a href="../about/index.html" class="hover:opacity-50">ABOUT US</a>
+            <a href="../index.html#projects" class="hover:opacity-50">PROJECTS</a>
+            <a href="../journal/index.html" class="hover:opacity-50">JOURNAL</a>
+        </nav>
+    </div>
+
+    <main>
+        <!-- Hero -->
+        <div class="h-[60vh] w-full relative overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1627435601361-ec25f5b1d0e5?q=80&w=2574&auto=format&fit=crop"
+                class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-black/10 flex items-center justify-center">
+                <h2 class="font-serif text-4xl md:text-5xl text-white mix-blend-overlay tracking-widest">日本茶</h2>
+            </div>
+        </div>
+
+        <!-- Concept -->
+        <section class="py-24 md:py-40 px-6 max-w-4xl mx-auto text-center">
+            <span class="text-[10px] tracking-[0.3em] text-gray-400 block mb-8 uppercase">Sipping Silence</span>
+            <h3 class="font-serif text-2xl md:text-3xl leading-relaxed mb-12">
+                不完全な一杯を、<br>愛でる。
+            </h3>
+            <p class="font-serif text-sm leading-8 text-gray-600 max-w-xl mx-auto">
+                機械で管理された均一な味ではありません。<br>
+                その年の気候、土の状態、淹れ手の心。<br>
+                すべてが複雑に絡み合い、二度と同じ味にはならない。<br>
+                そんな「揺らぎ」の中にこそ、お茶の本当の面白さがあると考えています。
+            </p>
+        </section>
+
+        <!-- Lineup -->
+        <section class="bg-theme-gray py-24 px-6">
+            <div class="max-w-6xl mx-auto">
+                <h3 class="font-serif text-center text-xl tracking-widest mb-16">LINEUP</h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24">
+                    <!-- Item 1 -->
+                    <div class="flex flex-col gap-6 md:flex-row items-center">
+                        <div class="w-full md:w-1/2 aspect-square overflow-hidden bg-white">
+                            <img src="https://images.unsplash.com/photo-1576092768241-dec231879fc3?q=80&w=2574&auto=format&fit=crop"
+                                class="w-full h-full object-cover hover:scale-105 transition-transform duration-700">
+                        </div>
+                        <div class="md:w-1/2 text-center md:text-left">
+                            <h4 class="font-serif text-xl mb-4">煎茶 / Sencha</h4>
+                            <p class="text-xs text-gray-500 leading-loose mb-6">
+                                爽やかな香りと、奥深い甘み。<br>
+                                朝の目覚めに最適な、キレのある味わい。
+                            </p>
+                            <span class="text-xs border-b border-black pb-1">¥1,200</span>
+                        </div>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div class="flex flex-col gap-6 md:flex-row-reverse items-center">
+                        <div class="w-full md:w-1/2 aspect-square overflow-hidden bg-white">
+                            <img src="https://images.unsplash.com/photo-1564890369478-c5af469afff0?q=80&w=2670&auto=format&fit=crop"
+                                class="w-full h-full object-cover hover:scale-105 transition-transform duration-700">
+                        </div>
+                        <div class="md:w-1/2 text-center md:text-left">
+                            <h4 class="font-serif text-xl mb-4">焙じ茶 / Hojicha</h4>
+                            <p class="text-xs text-gray-500 leading-loose mb-6">
+                                香ばしさが心を解きほぐす。<br>
+                                カフェイン控えめで、夜のリラックスタイムに。
+                            </p>
+                            <span class="text-xs border-b border-black pb-1">¥900</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Farm -->
+        <section class="py-24 px-6 max-w-5xl mx-auto">
+            <div class="flex flex-col md:flex-row gap-12 items-center">
+                <div class="md:w-1/2">
+                    <h3 class="font-serif text-2xl tracking-widest mb-6">野生の茶畑</h3>
+                    <p class="text-sm leading-loose font-serif text-gray-600 text-justify">
+                        私たちの茶丸は、耕作放棄地を再生したものです。
+                        農薬や肥料に頼らず、自然の循環のなかで育てる「自然栽培」に近い形をとっています。
+                        虫が食べた葉も、雑草も、すべてが茶葉の個性となります。
+                    </p>
+                </div>
+                <div class="md:w-1/2 aspect-[4/3] bg-gray-100 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1588612143003-8d626353dcc2?q=80&w=2669&auto=format&fit=crop"
+                        class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000">
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="py-10 text-center text-[10px] text-gray-400 tracking-widest">&copy; 2026 NISHYOI</footer>
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const overlay = document.getElementById('menuOverlay');
+        let isOpen = false;
+        menuBtn.addEventListener('click', () => {
+            isOpen = !isOpen;
+            const spans = menuBtn.querySelectorAll('span');
+            if (isOpen) {
+                overlay.style.opacity = '1'; overlay.style.pointerEvents = 'auto';
+                spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+            } else {
+                overlay.style.opacity = '0'; overlay.style.pointerEvents = 'none';
+                spans[0].style.transform = 'none'; spans[1].style.opacity = '1'; spans[2].style.transform = 'none';
+            }
+        });
+    </script>
+</body>
+
+</html>

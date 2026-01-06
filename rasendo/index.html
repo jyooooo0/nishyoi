@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宿 螺旋堂 | NISHYOI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Zen Old Mincho"', 'serif'],
+                        sans: ['"Zen Kaku Gothic New"', 'sans-serif'],
+                    },
+                    colors: {
+                        'nishoy-black': '#1a1a1a',
+                        'theme-gray': '#f5f5f5',
+                    }
+                }
+            }
+        }
+    </script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500&family=Zen+Old+Mincho:wght@400;500;600&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="font-sans antialiased text-[#1a1a1a] bg-white">
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 w-full p-6 md:p-10 z-50 mix-blend-difference flex justify-between items-start">
+        <h1 class="text-xs tracking-[0.2em] font-bold text-black md:text-white mix-blend-difference z-50">
+            <a href="../index.html">NISHYOI / RASENDO</a>
+        </h1>
+        <nav
+            class="hidden lg:flex flex-col text-xs tracking-widest gap-2 text-black md:text-white mix-blend-difference items-end">
+            <a href="../about/index.html" class="hover:opacity-50">ABOUT</a>
+            <a href="../index.html#projects" class="hover:opacity-50">PROJECTS</a>
+            <a href="../journal/index.html" class="hover:opacity-50">JOURNAL</a>
+        </nav>
+        <button id="menuBtn"
+            class="lg:hidden flex flex-col gap-1.5 z-50 w-8 mix-blend-difference text-black md:text-white">
+            <span class="block w-full h-[1px] bg-current transition-transform duration-300 origin-center"></span>
+            <span class="block w-full h-[1px] bg-current transition-opacity duration-300"></span>
+            <span class="block w-full h-[1px] bg-current transition-transform duration-300 origin-center"></span>
+        </button>
+    </header>
+
+    <!-- Menu Overlay -->
+    <div id="menuOverlay"
+        class="fixed inset-0 bg-[#FAFAFA] z-40 flex flex-col justify-center items-center opacity-0 pointer-events-none transition-opacity duration-500">
+        <nav class="flex flex-col gap-8 text-center font-serif text-xl tracking-widest">
+            <a href="../index.html" class="hover:opacity-50">TOP</a>
+            <a href="../about/index.html" class="hover:opacity-50">ABOUT US</a>
+            <a href="../index.html#projects" class="hover:opacity-50">PROJECTS</a>
+            <a href="../journal/index.html" class="hover:opacity-50">JOURNAL</a>
+        </nav>
+    </div>
+
+    <main>
+        <!-- Hero -->
+        <div class="relative h-[80vh] w-full overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1542051841857-5f90071e7989?q=80&w=2685&auto=format&fit=crop"
+                class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-black/20 flex items-center justify-center">
+                <div class="text-center text-white mix-blend-difference">
+                    <h2 class="font-serif text-4xl md:text-6xl tracking-widest mb-6">宿 螺旋堂</h2>
+                    <p class="text-[10px] tracking-[0.4em] uppercase">Shukubo Rasendo</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Concept -->
+        <section class="py-24 md:py-40 px-6 max-w-5xl mx-auto">
+            <div class="flex flex-col md:flex-row gap-16 md:gap-24 items-start">
+                <div class="md:w-1/3 sticky top-32">
+                    <h3 class="font-serif text-2xl tracking-widest mb-8">静寂に帰る<br>未完成な間。</h3>
+                    <p class="text-xs text-gray-500 leading-loose font-serif">
+                        築80年の古民家を、<br>
+                        私たちの手で少しずつ直しました。<br><br>
+                        新品の快適さはありません。<br>
+                        あるのは、梁の軋む音と、<br>
+                        風の抜ける音だけです。
+                    </p>
+                </div>
+                <div class="md:w-2/3 space-y-24">
+                    <p class="font-serif text-base leading-[2.5] text-justify">
+                        螺旋堂は、単なる宿泊施設ではありません。ここは「余白」を味わうための装置です。
+                        あえて照明を落とした室内。時計のない空間。
+                        情報過多な日常から離れ、自分自身の内側に意識を向ける時間を提供します。
+                        朝は鳥の声で目覚め、夜は囲炉裏の火を見つめる。
+                        そんな当たり前の営みを、もう一度思い出す場所です。
+                    </p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <img src="https://images.unsplash.com/photo-1516455207990-7a41ce80f7ee?q=80&w=2670&auto=format&fit=crop"
+                            class="w-full aspect-[3/4] object-cover grayscale opacity-80">
+                        <img src="https://images.unsplash.com/photo-1599619351208-3e6c839d6828?q=80&w=2672&auto=format&fit=crop"
+                            class="w-full aspect-[3/4] object-cover mt-12 grayscale opacity-80">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section class="bg-theme-gray py-24 px-6">
+            <div class="max-w-6xl mx-auto">
+                <h3 class="font-serif text-center text-xl tracking-widest mb-20">FEATURES</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                    <!-- 01 -->
+                    <div class="space-y-6">
+                        <div class="aspect-square bg-white overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1505693416388-b03463121f29?q=80&w=2670&auto=format&fit=crop"
+                                class="w-full h-full object-cover">
+                        </div>
+                        <h4 class="font-serif text-lg tracking-widest">客室 (Guest Room)</h4>
+                        <p class="text-xs text-gray-500 leading-loose">
+                            お部屋は全部で2室。襖で仕切られた畳の空間です。
+                            テレビや冷蔵庫はございません。
+                            読書や瞑想に最適な静けさを大切にしています。
+                        </p>
+                    </div>
+                    <!-- 02 -->
+                    <div class="space-y-6">
+                        <div class="aspect-square bg-white overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1510515513233-a86477e69c76?q=80&w=2670&auto=format&fit=crop"
+                                class="w-full h-full object-cover">
+                        </div>
+                        <h4 class="font-serif text-lg tracking-widest">囲炉裏 (Hearth)</h4>
+                        <p class="text-xs text-gray-500 leading-loose">
+                            共有スペースには囲炉裏があります。
+                            冬には炭火を囲み、地元の食材を焼いたり、
+                            語り合ったりする場となります。
+                        </p>
+                    </div>
+                    <!-- 03 -->
+                    <div class="space-y-6">
+                        <div class="aspect-square bg-white overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=2670&auto=format&fit=crop"
+                                class="w-full h-full object-cover">
+                        </div>
+                        <h4 class="font-serif text-lg tracking-widest">お風呂 (Bath)</h4>
+                        <p class="text-xs text-gray-500 leading-loose">
+                            五右衛門風呂を現代風にアレンジした浴室。
+                            薪で沸かすお湯は柔らかく、芯から温まります。
+                            窓の外には裏山の緑が広がります。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Information -->
+        <section class="py-24 px-6 max-w-4xl mx-auto border-b border-gray-100">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 text-sm font-serif">
+                <div>
+                    <h4 class="font-bold text-xs tracking-widest mb-6">CHECK-IN / OUT</h4>
+                    <p class="leading-loose">
+                        Check-in: 15:00 - 18:00<br>
+                        Check-out: 10:00
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-xs tracking-widest mb-6">AMENITIES</h4>
+                    <p class="leading-loose text-gray-600">
+                        バスタオル / フェイスタオル / 歯ブラシ<br>
+                        シャンプー / コンディショナー / ボディソープ<br>
+                        ※浴衣やパジャマはご持参ください。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reservation Form -->
+        <section class="py-24 px-6 max-w-2xl mx-auto">
+            <div class="text-center mb-16">
+                <h3 class="font-serif text-2xl tracking-widest mb-4">RESERVATION</h3>
+                <p class="text-xs text-gray-400">現在、Web予約は準備中です。</p>
+            </div>
+
+            <form id="reserveForm" class="space-y-8 opacity-50 pointer-events-none">
+                <div class="grid grid-cols-1 gap-8">
+                    <div class="relative">
+                        <input type="text" id="name" placeholder="Name"
+                            class="w-full border-b border-gray-300 py-4 focus:outline-none focus:border-black transition-colors bg-transparent placeholder-gray-400 font-serif">
+                    </div>
+                    <div class="relative">
+                        <input type="email" id="email" placeholder="Email"
+                            class="w-full border-b border-gray-300 py-4 focus:outline-none focus:border-black transition-colors bg-transparent placeholder-gray-400 font-serif">
+                    </div>
+                    <div class="grid grid-cols-2 gap-8">
+                        <input type="date" id="date"
+                            class="w-full border-b border-gray-300 py-4 focus:outline-none focus:border-black transition-colors bg-transparent font-serif text-gray-600">
+                        <select id="guests"
+                            class="w-full border-b border-gray-300 py-4 focus:outline-none focus:border-black transition-colors bg-transparent font-serif text-gray-600">
+                            <option value="1">1 Guest</option>
+                            <option value="2">2 Guests</option>
+                            <option value="3">3 Guests</option>
+                            <option value="4">4 Guests</option>
+                        </select>
+                    </div>
+                    <div class="relative">
+                        <textarea id="notes" placeholder="Message" rows="4"
+                            class="w-full border-b border-gray-300 py-4 focus:outline-none focus:border-black transition-colors bg-transparent placeholder-gray-400 font-serif resize-none"></textarea>
+                    </div>
+                </div>
+                <div class="text-center pt-8">
+                    <button type="submit"
+                        class="bg-black text-white px-12 py-4 text-xs tracking-widest hover:bg-gray-800 transition-colors">
+                        SEND REQUEST
+                    </button>
+                    <p id="statusMessage" class="mt-4 text-xs text-green-600 hidden">送信完了しました</p>
+                </div>
+            </form>
+        </section>
+
+    </main>
+
+    <footer class="py-10 text-center text-[10px] text-gray-400 tracking-widest">&copy; 2026 NISHYOI</footer>
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const overlay = document.getElementById('menuOverlay');
+        let isOpen = false;
+        menuBtn.addEventListener('click', () => {
+            isOpen = !isOpen;
+            const spans = menuBtn.querySelectorAll('span');
+            if (isOpen) {
+                overlay.style.opacity = '1'; overlay.style.pointerEvents = 'auto';
+                spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+            } else {
+                overlay.style.opacity = '0'; overlay.style.pointerEvents = 'none';
+                spans[0].style.transform = 'none'; spans[1].style.opacity = '1'; spans[2].style.transform = 'none';
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABOUT US | NISHYOI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Zen Old Mincho"', 'serif'],
+                        sans: ['"Zen Kaku Gothic New"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500&family=Zen+Old+Mincho:wght@400;500;600&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="font-sans antialiased bg-[#FAFAFA] text-[#1a1a1a]">
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 w-full p-6 md:p-10 z-50 mix-blend-difference flex justify-between items-start">
+        <h1 class="text-xs tracking-[0.2em] font-bold text-black md:text-white mix-blend-difference z-50">
+            <a href="../index.html">
+                NIHEE LLC.<br>
+                NISHYOI
+            </a>
+        </h1>
+
+        <!-- Desktop Nav -->
+        <nav
+            class="hidden lg:flex flex-col text-xs tracking-widest gap-2 text-black md:text-white mix-blend-difference items-end">
+            <a href="./index.html" class="opacity-50 cursor-default">ABOUT</a>
+            <a href="../index.html#projects" class="hover:opacity-50 transition-opacity">PROJECTS</a>
+            <a href="../journal/index.html" class="hover:opacity-50 transition-opacity">JOURNAL</a>
+        </nav>
+
+        <!-- Mobile/Tablet Hamburger -->
+        <button id="menuBtn"
+            class="lg:hidden flex flex-col gap-1.5 z-50 w-8 mix-blend-difference text-black md:text-white">
+            <span class="block w-full h-[1px] bg-current transition-transform duration-300 origin-center"></span>
+            <span class="block w-full h-[1px] bg-current transition-opacity duration-300"></span>
+            <span class="block w-full h-[1px] bg-current transition-transform duration-300 origin-center"></span>
+        </button>
+    </header>
+
+    <!-- Menu Overlay -->
+    <div id="menuOverlay"
+        class="fixed inset-0 bg-[#FAFAFA] z-40 flex flex-col justify-center items-center opacity-0 pointer-events-none transition-opacity duration-500">
+        <nav class="flex flex-col gap-8 text-center font-serif text-xl tracking-widest">
+            <a href="../index.html" class="hover:opacity-50">TOP</a>
+            <a href="./index.html" class="hover:opacity-50">ABOUT US</a>
+            <a href="../index.html#projects" class="hover:opacity-50">PROJECTS</a>
+            <a href="../journal/index.html" class="hover:opacity-50">JOURNAL</a>
+        </nav>
+    </div>
+
+    <main class="pt-32 pb-20 px-6 max-w-4xl mx-auto">
+        <h1 class="font-serif text-3xl md:text-5xl tracking-widest mb-12">未完成な暮らし</h1>
+
+        <div class="aspect-[21/9] w-full bg-gray-200 mb-20 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1447023029226-ef8f6b52e3ea?q=80&w=2684&auto=format&fit=crop"
+                class="w-full h-full object-cover grayscale opacity-80" alt="Unfinished Living Concept">
+        </div>
+
+        <div
+            class="prose prose-stone font-serif mx-auto leading-loose text-justify text-sm md:text-base space-y-12 max-w-2xl">
+            <p>
+                私たちの活動の根底にあるのは、効率化が加速する社会のなかで、
+                「便利さを追い求め過ぎること」と「田舎の不便さを美徳として抱え込み過ぎること」、
+                そのどちらにも振り切れることなく、あいだで絶妙なバランスを保つという姿勢です。
+            </p>
+            <p>
+                テクノロジーの力を積極的に取り入れつつ、自然資源を最大限に活かし、両者の相乗効果を探り続ける。
+                「完成」をゴールとせず、変化そのものを楽しみ、試行錯誤を重ねながら暮らしを進化させていく。
+            </p>
+            <p>
+                合同会社ニヘエ (NIHEE LLC.) は、山形県鶴岡市を拠点に、
+                宿、農業、食、メディアを通じて、この「未完成な暮らし」を実践し、提案していきます。
+            </p>
+        </div>
+
+        <!-- Member / Profile -->
+        <div class="mt-32 pt-16 border-t border-gray-100 grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div>
+                <h3 class="font-bold text-xs tracking-widest mb-4">PROFILE</h3>
+                <p class="font-serif text-sm leading-7">
+                    五十嵐 丈 (Jo Igarashi)<br>
+                    19XX年生まれ。山形県鶴岡市在住。<br>
+                    ... (プロフィールテキスト)
+                </p>
+            </div>
+            <div>
+                <h3 class="font-bold text-xs tracking-widest mb-4">ACCESS</h3>
+                <p class="font-serif text-sm leading-7">
+                    〒997-XXXX<br>
+                    山形県鶴岡市...<br>
+                    <a href="mailto:hello@nishoy.jp" class="underline">hello@nishoy.jp</a>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="py-10 text-center text-[10px] text-gray-400 tracking-widest">&copy; 2026 NISHYOI</footer>
+
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const overlay = document.getElementById('menuOverlay');
+        let isOpen = false;
+        menuBtn.addEventListener('click', () => {
+            isOpen = !isOpen;
+            const spans = menuBtn.querySelectorAll('span');
+            if (isOpen) {
+                overlay.style.opacity = '1'; overlay.style.pointerEvents = 'auto';
+                spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+            } else {
+                overlay.style.opacity = '0'; overlay.style.pointerEvents = 'none';
+                spans[0].style.transform = 'none'; spans[1].style.opacity = '1'; spans[2].style.transform = 'none';
+            }
+        });
+    </script>
+</body>
+
+</html>

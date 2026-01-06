@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>山菜販売 | NISHYOI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Zen Old Mincho"', 'serif'],
+                        sans: ['"Zen Kaku Gothic New"', 'sans-serif'],
+                    },
+                    colors: {
+                        'theme-gray': '#f5f5f5',
+                    }
+                }
+            }
+        }
+    </script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500&family=Zen+Old+Mincho:wght@400;500;600&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="font-sans antialiased bg-white text-[#1a1a1a]">
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 w-full p-6 md:p-10 z-50 mix-blend-difference flex justify-between items-start">
+        <h1 class="text-xs tracking-[0.2em] font-bold text-black md:text-white mix-blend-difference z-50">
+            <a href="../index.html">NISHYOI / FOOD</a>
+        </h1>
+        <nav
+            class="hidden lg:flex flex-col text-xs tracking-widest gap-2 text-black md:text-white mix-blend-difference items-end">
+            <a href="../about/index.html" class="hover:opacity-50">ABOUT</a>
+            <a href="../index.html#projects" class="hover:opacity-50">PROJECTS</a>
+            <a href="../journal/index.html" class="hover:opacity-50">JOURNAL</a>
+        </nav>
+        <button id="menuBtn"
+            class="lg:hidden flex flex-col gap-1.5 z-50 w-8 mix-blend-difference text-black md:text-white">
+            <span class="block w-full h-[1px] bg-current transition-transform duration-300 origin-center"></span>
+            <span class="block w-full h-[1px] bg-current transition-opacity duration-300"></span>
+            <span class="block w-full h-[1px] bg-current transition-transform duration-300 origin-center"></span>
+        </button>
+    </header>
+
+    <!-- Menu Overlay -->
+    <div id="menuOverlay"
+        class="fixed inset-0 bg-[#FAFAFA] z-40 flex flex-col justify-center items-center opacity-0 pointer-events-none transition-opacity duration-500">
+        <nav class="flex flex-col gap-8 text-center font-serif text-xl tracking-widest">
+            <a href="../index.html" class="hover:opacity-50">TOP</a>
+            <a href="../about/index.html" class="hover:opacity-50">ABOUT US</a>
+            <a href="../index.html#projects" class="hover:opacity-50">PROJECTS</a>
+            <a href="../journal/index.html" class="hover:opacity-50">JOURNAL</a>
+        </nav>
+    </div>
+
+    <main>
+        <!-- Hero -->
+        <div class="h-[60vh] w-full relative overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1549419163-9524ec305c75?q=80&w=2787&auto=format&fit=crop"
+                class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-black/10 flex items-center justify-center">
+                <h2 class="font-serif text-4xl md:text-5xl text-white mix-blend-overlay tracking-widest">山菜・食</h2>
+            </div>
+        </div>
+
+        <!-- Intro -->
+        <section class="py-24 px-6 max-w-3xl mx-auto text-center font-serif leading-loose">
+            <p class="text-lg mb-8">「食べることは、生きること」</p>
+            <p class="text-sm text-gray-600">
+                雪国の春は、苦味から始まります。<br>
+                フキノトウ、コシアブラ、タラの芽。<br>
+                厳しい冬を越え、力強く芽吹いた山菜たちは、<br>
+                私たちの身体を目覚めさせてくれます。
+            </p>
+        </section>
+
+        <!-- Calendar -->
+        <section class="bg-gray-50 py-24 px-6">
+            <div class="max-w-5xl mx-auto">
+                <h3 class="font-serif text-center text-xl tracking-widest mb-16">SEASONAL CALENDAR</h3>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <!-- Spring -->
+                    <div class="border-t border-black pt-4">
+                        <span class="text-xs font-bold block mb-4">SPRING (4-5月)</span>
+                        <ul class="text-xs font-serif space-y-2 text-gray-600">
+                            <li>フキノトウ</li>
+                            <li>タラの芽</li>
+                            <li>コシアブラ</li>
+                            <li>ワラビ</li>
+                        </ul>
+                    </div>
+                    <!-- Summer -->
+                    <div class="border-t border-gray-300 pt-4 opacity-50">
+                        <span class="text-xs font-bold block mb-4">SUMMER (6-8月)</span>
+                        <ul class="text-xs font-serif space-y-2 text-gray-600">
+                            <li>夏野菜</li>
+                            <li>ハーブ</li>
+                        </ul>
+                    </div>
+                    <!-- Autumn -->
+                    <div class="border-t border-gray-300 pt-4 opacity-50">
+                        <span class="text-xs font-bold block mb-4">AUTUMN (9-11月)</span>
+                        <ul class="text-xs font-serif space-y-2 text-gray-600">
+                            <li>キノコ類</li>
+                            <li>根菜</li>
+                            <li>お米</li>
+                        </ul>
+                    </div>
+                    <!-- Winter -->
+                    <div class="border-t border-gray-300 pt-4 opacity-50">
+                        <span class="text-xs font-bold block mb-4">WINTER (12-3月)</span>
+                        <ul class="text-xs font-serif space-y-2 text-gray-600">
+                            <li>保存食</li>
+                            <li>味噌</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery -->
+        <section class="py-24 px-6">
+            <div class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div class="aspect-[3/4] overflow-hidden bg-gray-200">
+                    <img src="https://images.unsplash.com/photo-1615486511484-92e5725d1406?q=80&w=2574&auto=format&fit=crop"
+                        class="w-full h-full object-cover">
+                </div>
+                <div class="aspect-[3/4] overflow-hidden bg-gray-200 mt-8 md:mt-16">
+                    <img src="https://images.unsplash.com/photo-1596559058864-1601666f7f3c?q=80&w=2670&auto=format&fit=crop"
+                        class="w-full h-full object-cover">
+                </div>
+                <div class="aspect-[3/4] overflow-hidden bg-gray-200">
+                    <img src="https://images.unsplash.com/photo-1621816738965-0c75b02660ae?q=80&w=2787&auto=format&fit=crop"
+                        class="w-full h-full object-cover">
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="py-24 text-center">
+            <p class="font-serif text-sm mb-6">季節の山菜セット、発送承ります。</p>
+            <a href="mailto:hello@nishoy.jp"
+                class="inline-block border border-black px-12 py-3 text-xs tracking-widest hover:bg-black hover:text-white transition-colors">
+                CONTACT US
+            </a>
+        </section>
+
+    </main>
+
+    <footer class="py-10 text-center text-[10px] text-gray-400 tracking-widest">&copy; 2026 NISHYOI</footer>
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const overlay = document.getElementById('menuOverlay');
+        let isOpen = false;
+        menuBtn.addEventListener('click', () => {
+            isOpen = !isOpen;
+            const spans = menuBtn.querySelectorAll('span');
+            if (isOpen) {
+                overlay.style.opacity = '1'; overlay.style.pointerEvents = 'auto';
+                spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+            } else {
+                overlay.style.opacity = '0'; overlay.style.pointerEvents = 'none';
+                spans[0].style.transform = 'none'; spans[1].style.opacity = '1'; spans[2].style.transform = 'none';
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nishyoi | 未完成な暮らし</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Zen Old Mincho"', 'serif'],
+                        sans: ['"Zen Kaku Gothic New"', 'sans-serif'],
+                    },
+                    colors: {
+                        'nishoy-black': '#1a1a1a',
+                        'nishoy-gray': '#f4f4f4',
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 1.5s ease-out forwards',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-5px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500&family=Zen+Old+Mincho:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #FAFAFA;
+            color: #1a1a1a;
+            font-feature-settings: "palt";
+        }
+
+        .vertical-text {
+            writing-mode: vertical-rl;
+            text-orientation: upright;
+            letter-spacing: 0.2em;
+        }
+
+        .hover-img-scale {
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .group:hover .hover-img-scale {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body class="font-sans antialiased bg-[#FAFAFA]">
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 w-full p-6 md:p-10 z-50 mix-blend-difference flex justify-between items-start">
+        <h1 class="text-xs tracking-[0.2em] font-bold text-black md:text-white mix-blend-difference z-50">
+            <a href="./index.html">
+                NIHEE LLC.<br>
+                NISHYOI
+            </a>
+        </h1>
+
+        <!-- Desktop Nav -->
+        <nav
+            class="hidden lg:flex flex-col text-xs tracking-widest gap-2 text-black md:text-white mix-blend-difference items-end">
+            <a href="./about/index.html" class="hover:opacity-50 transition-opacity">ABOUT</a>
+            <a href="#projects" class="hover:opacity-50 transition-opacity">PROJECTS</a>
+            <a href="./journal/index.html" class="hover:opacity-50 transition-opacity">JOURNAL</a>
+            <div class="mt-4 flex gap-4">
+                <a href="https://www.instagram.com/nishyoi/" target="_blank" class="hover:opacity-50 text-[10px]">IG:
+                    @nishyoi</a>
+                <a href="https://www.instagram.com/rasen_tea_room/" target="_blank"
+                    class="hover:opacity-50 text-[10px]">IG: @rasendo</a>
+            </div>
+        </nav>
+
+        <!-- Mobile/Tablet Hamburger -->
+        <button id="menuBtn"
+            class="lg:hidden flex flex-col gap-1.5 z-50 w-8 mix-blend-difference text-black md:text-white">
+            <span class="block w-full h-[1px] bg-current transition-transform duration-300 origin-center"></span>
+            <span class="block w-full h-[1px] bg-current transition-opacity duration-300"></span>
+            <span class="block w-full h-[1px] bg-current transition-transform duration-300 origin-center"></span>
+        </button>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="menuOverlay"
+        class="fixed inset-0 bg-[#FAFAFA] z-40 flex flex-col justify-center items-center opacity-0 pointer-events-none transition-opacity duration-500">
+        <nav class="flex flex-col gap-8 text-center font-serif text-xl tracking-widest">
+            <a href="./index.html" class="hover:opacity-50">TOP</a>
+            <a href="./about/index.html" class="hover:opacity-50">ABOUT US</a>
+            <a href="#projects" class="hover:opacity-50" onclick="closeMenu()">PROJECTS</a>
+            <a href="./journal/index.html" class="hover:opacity-50">JOURNAL</a>
+        </nav>
+        <div class="mt-12 flex flex-col gap-4 text-center text-xs tracking-widest text-gray-400">
+            <a href="https://www.instagram.com/nishyoi/" target="_blank">Instagram: @nishyoi</a>
+            <a href="https://www.instagram.com/rasen_tea_room/" target="_blank">Instagram: @rasen_tea_room</a>
+        </div>
+    </div>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="min-h-screen flex items-center justify-center relative px-6 py-20 overflow-hidden">
+            <div class="max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24 items-center">
+
+                <!-- Statement -->
+                <div class="space-y-8 animate-fade-in opacity-0" style="animation-delay: 0.2s;">
+                    <h2 class="font-serif text-3xl md:text-5xl leading-relaxed tracking-wider">
+                        未完成な<br>
+                        暮らし。
+                    </h2>
+                    <div class="space-y-6 text-sm md:text-base leading-loose font-serif text-gray-600">
+                        <p>
+                            便利さを追い求め過ぎることと<br>
+                            不便さを美徳として抱え込むこと。
+                        </p>
+                        <p>
+                            そのあいだにある「余白」<br>
+                            アップデートし続ける姿勢。<br>
+                            試行錯誤そのものを楽しむ。
+                        </p>
+                    </div>
+                    <a href="./about/index.html"
+                        class="inline-block border-b border-black pb-1 text-xs tracking-widest hover:opacity-50 transition-opacity">
+                        READ MORE →
+                    </a>
+                </div>
+
+                <!-- Abstract Visual -->
+                <div class="relative h-[50vh] md:h-[60vh] w-full bg-gray-200 overflow-hidden animate-fade-in opacity-0"
+                    style="animation-delay: 0.5s;">
+                    <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?q=80&w=2574&auto=format&fit=crop"
+                        class="absolute inset-0 w-full h-full object-cover grayscale opacity-80 mix-blend-multiply hover-img-scale">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-[#FAFAFA] via-transparent to-transparent opacity-50">
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-float text-[10px] tracking-[0.3em] opacity-50">
+                SCROLL
+            </div>
+        </section>
+
+        <!-- Projects Flow (Random) -->
+        <section id="projects" class="px-6 py-24 md:py-40 bg-white min-h-screen">
+            <div class="max-w-7xl mx-auto flex flex-col relative">
+
+                <div
+                    class="mb-24 flex items-end justify-between border-b pb-4 sticky top-24 mix-blend-difference z-10 w-full md:w-1/3">
+                    <h3 class="font-serif text-2xl tracking-widest text-black">Projects</h3>
+                    <span class="text-xs text-gray-400">Activity</span>
+                </div>
+
+                <!-- 01: Rasendo (Right) -->
+                <a href="./rasendo/index.html" class="group block w-full md:w-2/3 ml-auto relative mb-32 md:mb-48"
+                    data-aos="fade-up">
+                    <div class="overflow-hidden aspect-[16/9] md:aspect-[3/2] bg-gray-100 relative">
+                        <div class="absolute inset-0 bg-black/10 transition-opacity group-hover:opacity-0 z-10"></div>
+                        <img src="https://images.unsplash.com/photo-1542051841857-5f90071e7989?q=80&w=2685&auto=format&fit=crop"
+                            class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                            alt="Rasendo" loading="lazy">
+                    </div>
+                    <div class="mt-4 flex justify-between items-start">
+                        <div>
+                            <span class="text-[10px] uppercase tracking-widest text-gray-400 block mb-1">01 /
+                                Stay</span>
+                            <h4 class="font-serif text-xl md:text-3xl tracking-widest flex items-center gap-2">
+                                宿 螺旋堂
+                                <span
+                                    class="text-[10px] md:text-xs text-gray-400 font-sans font-normal border border-gray-300 px-2 py-0.5 rounded-full">@rasendo</span>
+                            </h4>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 02: Tea (Left) -->
+                <a href="./tea/index.html" class="group block w-full md:w-1/2 mr-auto relative mb-32 md:mb-56"
+                    data-aos="fade-up">
+                    <div class="overflow-hidden aspect-[4/5] bg-gray-100 relative">
+                        <img src="https://images.unsplash.com/photo-1627435601361-ec25f5b1d0e5?q=80&w=2574&auto=format&fit=crop"
+                            class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                            alt="Tea" loading="lazy">
+                    </div>
+                    <div class="mt-4">
+                        <span class="text-[10px] uppercase tracking-widest text-gray-400 block mb-1">02 / Tea</span>
+                        <h4 class="font-serif text-xl md:text-2xl tracking-widest">日本茶</h4>
+                        <p class="mt-2 text-xs text-gray-500 font-serif">不完全さを味わう。</p>
+                    </div>
+                </a>
+
+                <!-- 03: Food (Center) -->
+                <a href="./food/index.html" class="group block w-full md:w-5/12 mx-auto relative mb-32 md:mb-40"
+                    data-aos="fade-up">
+                    <div class="overflow-hidden aspect-[3/4] bg-gray-100 relative">
+                        <img src="https://images.unsplash.com/photo-1621816738965-0c75b02660ae?q=80&w=2787&auto=format&fit=crop"
+                            class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                            alt="Sansai" loading="lazy">
+                    </div>
+                    <div class="mt-4 text-center">
+                        <span class="text-[10px] uppercase tracking-widest text-gray-400 block mb-1">03 / Food</span>
+                        <h4 class="font-serif text-xl md:text-2xl tracking-widest">山菜販売</h4>
+                    </div>
+                </a>
+
+                <!-- 04: Life (Left Wide) -->
+                <a href="./life/index.html" class="group block w-full md:w-8/12 ml-6 md:ml-12 relative mb-32 md:mb-64"
+                    data-aos="fade-up">
+                    <div class="overflow-hidden aspect-square md:aspect-[16/10] bg-gray-100 relative">
+                        <img src="https://images.unsplash.com/photo-1595182963625-783a00262173?q=80&w=2787&auto=format&fit=crop"
+                            class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                            alt="Animals" loading="lazy">
+                    </div>
+                    <div class="mt-4">
+                        <h4 class="font-serif text-xl md:text-2xl tracking-widest">ヤギとニワトリ</h4>
+                        <span class="text-[10px] uppercase tracking-widest text-gray-400">04 / Coexistence</span>
+                    </div>
+                </a>
+
+                <!-- 05: Instagram / Journal (Grid Layout) -->
+                <div class="w-full mt-24 md:mt-40 border-t border-gray-100 pt-16" data-aos="fade-up">
+                    <div class="flex justify-between items-end mb-12 px-2">
+                        <div>
+                            <span class="text-[10px] uppercase tracking-widest text-gray-400 block mb-2">05 /
+                                Journal</span>
+                            <h4 class="font-serif text-xl md:text-2xl tracking-widest">Instagram</h4>
+                        </div>
+                        <a href="https://www.instagram.com/nishyoi/" target="_blank"
+                            class="text-xs hover:opacity-50 transition-opacity">
+                            View All →
+                        </a>
+                    </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-6">
+                        <!-- IG Post 1: Tea -->
+                        <a href="https://www.instagram.com/nishyoi/" target="_blank"
+                            class="group block aspect-square bg-gray-100 relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1563822249548-9a72b6353cd1?q=80&w=800&auto=format&fit=crop"
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                alt="IG Post">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                <span class="text-white text-lg">♥</span>
+                            </div>
+                        </a>
+
+                        <!-- IG Post 2: Renovation -->
+                        <a href="https://www.instagram.com/nishyoi/" target="_blank"
+                            class="group block aspect-square bg-gray-100 relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=800&auto=format&fit=crop"
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                alt="IG Post">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                <span class="text-white text-lg">♥</span>
+                            </div>
+                        </a>
+
+                        <!-- IG Post 3: Nature/Food -->
+                        <a href="https://www.instagram.com/nishyoi/" target="_blank"
+                            class="group block aspect-square bg-gray-100 relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1549419163-9524ec305c75?q=80&w=800&auto=format&fit=crop"
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                alt="IG Post">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                <span class="text-white text-lg">♥</span>
+                            </div>
+                        </a>
+
+                        <!-- IG Post 4: Goats -->
+                        <a href="https://www.instagram.com/nishyoi/" target="_blank"
+                            class="group block aspect-square bg-gray-100 relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?q=80&w=800&auto=format&fit=crop"
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                alt="IG Post">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                <span class="text-white text-lg">♥</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Company Info Footer -->
+        <footer class="py-20 px-6 border-t border-gray-100 bg-[#FAFAFA]">
+            <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div>
+                    <h5 class="font-bold text-xs tracking-widest mb-6">COMPANY</h5>
+                    <p class="text-sm leading-7 text-gray-600 font-serif">
+                        合同会社ニヘエ (NIHEE LLC.)<br>
+                        山形県鶴岡市...<br>
+                        hello@nishoy.jp
+                    </p>
+                    <div class="mt-6 flex flex-col gap-2">
+                        <a href="https://www.instagram.com/nishyoi/" target="_blank"
+                            class="text-xs text-gray-500 hover:text-black transition-colors">Instagram: @nishyoi</a>
+                        <a href="https://www.instagram.com/rasen_tea_room/" target="_blank"
+                            class="text-xs text-gray-500 hover:text-black transition-colors">Instagram:
+                            @rasen_tea_room</a>
+                    </div>
+                </div>
+                <div>
+                    <h5 class="font-bold text-xs tracking-widest mb-6">VISION</h5>
+                    <p class="text-sm leading-7 text-gray-600 font-serif">
+                        未完成な暮らしを、<br>
+                        共に育てる。
+                    </p>
+                </div>
+            </div>
+            <div class="mt-20 text-center text-[10px] text-gray-400 tracking-widest">
+                &copy; 2026 NISHYOI / NIHEE LLC.
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- Menu Logic -->
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const overlay = document.getElementById('menuOverlay');
+        let isOpen = false;
+
+        function toggleMenu() {
+            isOpen = !isOpen;
+            const spans = menuBtn.querySelectorAll('span');
+
+            if (isOpen) {
+                overlay.style.opacity = '1';
+                overlay.style.pointerEvents = 'auto';
+
+                // Burger to X animation
+                spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+                document.body.style.overflow = 'hidden';
+            } else {
+                overlay.style.opacity = '0';
+                overlay.style.pointerEvents = 'none';
+
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+                document.body.style.overflow = '';
+            }
+        }
+
+        function closeMenu() {
+            if (isOpen) toggleMenu();
+        }
+
+        menuBtn.addEventListener('click', toggleMenu);
+    </script>
+</body>
+
+</html>
