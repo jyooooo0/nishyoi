@@ -1,0 +1,40 @@
+---
+/**
+ * 川の線 — セクションの余白を流れる1.5pxの蛇行線。
+ * スクロールで視界に入ると描画される(reduced-motionでは静止表示)。
+ */
+interface Props {
+  /** 蛇行パターン(場所ごとに少し変える) */
+  variant?: 1 | 2 | 3;
+  class?: string;
+}
+const { variant = 1, class: className = '' } = Astro.props;
+const paths = {
+  1: 'M -10 30 C 150 30, 250 78, 420 74 S 720 22, 900 34 S 1150 70, 1290 62',
+  2: 'M -10 70 C 180 66, 300 24, 500 30 S 820 82, 1000 70 S 1200 30, 1290 38',
+  3: 'M -10 50 C 120 58, 260 30, 430 40 S 700 76, 880 60 S 1140 28, 1290 46',
+};
+---
+
+<svg
+  class={`river ${className}`}
+  viewBox="0 0 1280 100"
+  preserveAspectRatio="none"
+  aria-hidden="true"
+>
+  <path class="river-path" d={paths[variant]} pathLength="1"></path>
+</svg>
+
+<style>
+  .river {
+    display: block;
+    width: 100%;
+    height: clamp(48px, 8vh, 90px);
+  }
+  .river path {
+    fill: none;
+    stroke: var(--color-river);
+    stroke-width: 1.5;
+    opacity: 0.55;
+  }
+</style>

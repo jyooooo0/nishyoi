@@ -1,0 +1,69 @@
+---
+import SekkiStrip from './SekkiStrip.astro';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <SekkiStrip class="foot-sekki" />
+    <div class="cols">
+      <div>
+        <p class="t-label" style="margin-bottom:.6rem;">NISHYOI</p>
+        <p class="desc">
+          山形県鶴岡市関川。<br />
+          山あいの集落で、暮らしを記録しながらつくる。
+        </p>
+      </div>
+      <nav aria-label="フッターナビゲーション" class="foot-nav">
+        <a href="/about/">NISHYOIについて</a>
+        <a href="/events/">イベント</a>
+        <a href="/journal/">記録</a>
+        <a href="/works/">Web制作</a>
+        <a href="/contact/">お問い合わせ</a>
+      </nav>
+      <div class="foot-nav">
+        <a href="https://www.instagram.com/nishyoi/" target="_blank" rel="noopener">Instagram @nishyoi</a>
+        <a href="https://kotograph-joe.com/" target="_blank" rel="noopener">KOTOGRAPH(写真)</a>
+        <a href="/privacy/">プライバシーポリシー</a>
+        <a href="/terms/">イベント利用規約</a>
+      </div>
+    </div>
+    <p class="copy t-data">&copy; {year} NISHYOI</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--line);
+    padding-block: 3.5rem 2rem;
+    background: var(--color-paper);
+  }
+  .foot-sekki { margin-bottom: 3rem; }
+  .cols {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 2.5rem;
+  }
+  @media (max-width: 48rem) {
+    .cols { grid-template-columns: 1fr; }
+  }
+  .desc {
+    font-size: 0.82rem;
+    color: var(--color-ink-soft);
+    line-height: 2.1;
+  }
+  .foot-nav { display: grid; gap: 0.55rem; align-content: start; }
+  .foot-nav a {
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    color: var(--color-ink-soft);
+    width: fit-content;
+  }
+  .foot-nav a:hover { color: var(--color-river); }
+  .copy {
+    margin-top: 3.5rem;
+    color: var(--color-ink-soft);
+    letter-spacing: 0.3em;
+  }
+</style>

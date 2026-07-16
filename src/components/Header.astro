@@ -1,0 +1,206 @@
+---
+/**
+ * 固定ヘッダー。ロゴ+メニューボタン、全画面オーバーレイナビ。
+ * mix-blend-difference は視認性が壊れやすいため使わず、
+ * 細い下地(グラデーション)で写真上でも読めるようにする。
+ */
+const nav = [
+  { href: '/about/', label: 'NISHYOIについて', en: 'About' },
+  { href: '/events/', label: 'イベント', en: 'Events' },
+  { href: '/journal/', label: '記録', en: 'Journal' },
+  { href: '/works/', label: 'Web制作', en: 'Works' },
+  { href: '/contact/', label: 'お問い合わせ', en: 'Contact' },
+];
+const current = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <a class="logo" href="/">NISHYOI</a>
+  <button
+    id="menu-btn"
+    class="menu-btn"
+    type="button"
+    aria-expanded="false"
+    aria-controls="menu-overlay"
+  >
+    <span class="lines" aria-hidden="true"><i></i><i></i></span>
+    <span class="t-label" style="letter-spacing:.2em;">MENU</span>
+  </button>
+</header>
+
+<div id="menu-overlay" class="overlay" hidden>
+  <nav aria-label="メインナビゲーション">
+    <ul>
+      {nav.map((item, i) => (
+        <li style={`--stagger:${i * 60}ms`}>
+          <a
+            href={item.href}
+            aria-current={current.startsWith(item.href) ? 'page' : undefined}
+          >
+            <span class="en">{item.en}</span>
+            <span class="ja">{item.label}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+  <div class="overlay-foot">
+    <a href="https://www.instagram.com/nishyoi/" target="_blank" rel="noopener">Instagram @nishyoi</a>
+    <a href="https://kotograph-joe.com/" target="_blank" rel="noopener">KOTOGRAPH</a>
+  </div>
+</div>
+
+<style>
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 50;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.1rem clamp(1.5rem, 4vw, 3rem);
+    pointer-events: none;
+  }
+  .site-header::before {
+    /* 写真の上でも文字が読める、ごく薄い上部グラデーション */
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(247, 244, 238, 0.85), rgba(247, 244, 238, 0));
+    pointer-events: none;
+  }
+  .logo, .menu-btn { position: relative; pointer-events: auto; }
+  .logo {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    letter-spacing: 0.42em;
+    text-decoration: none;
+    color: var(--color-ink);
+  }
+  .menu-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-ink);
+    padding: 0.4rem 0;
+  }
+  .menu-btn .lines { display: grid; gap: 6px; width: 26px; }
+  .menu-btn .lines i {
+    display: block;
+    height: 1px;
+    background: currentColor;
+    transition: transform var(--dur-micro) var(--ease-river);
+  }
+  .menu-btn[aria-expanded="true"] .lines i:first-child { transform: translateY(3.5px) rotate(45deg); }
+  .menu-btn[aria-expanded="true"] .lines i:last-child { transform: translateY(-3.5px) rotate(-45deg); }
+
+  .overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    background: var(--color-paper);
+    display: grid;
+    grid-template-rows: 1fr auto;
+    place-items: center;
+    opacity: 0;
+    transition: opacity var(--dur-move) var(--ease-river);
+  }
+  .overlay.is-open { opacity: 1; }
+  .overlay ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: clamp(1.2rem, 3.5vh, 2rem);
+    text-align: center;
+  }
+  .overlay li {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity var(--dur-move) var(--ease-river), transform var(--dur-move) var(--ease-river);
+    transition-delay: var(--stagger, 0ms);
+  }
+  .overlay.is-open li { opacity: 1; transform: none; }
+  .overlay a {
+    text-decoration: none;
+    display: grid;
+    gap: 0.15rem;
+  }
+  .overlay a .en {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--color-river);
+  }
+  .overlay a .ja {
+    font-family: var(--font-serif);
+    font-size: clamp(1.2rem, 3vh, 1.5rem);
+    letter-spacing: 0.22em;
+  }
+  .overlay a[aria-current="page"] .ja { color: var(--color-ink-soft); }
+  .overlay a:hover .ja { color: var(--color-river); }
+  .overlay-foot {
+    padding-bottom: 3rem;
+    display: flex;
+    gap: 2.5rem;
+  }
+  .overlay-foot a {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    color: var(--color-ink-soft);
+    text-decoration: none;
+  }
+  .overlay-foot a:hover { color: var(--color-river); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .overlay, .overlay li, .menu-btn .lines i { transition: none; }
+  }
+</style>
+
+<script>
+  const btn = document.getElementById('menu-btn') as HTMLButtonElement;
+  const overlay = document.getElementById('menu-overlay') as HTMLElement;
+  let open = false;
+
+  function setOpen(next: boolean) {
+    open = next;
+    btn.setAttribute('aria-expanded', String(open));
+    if (open) {
+      overlay.hidden = false;
+      requestAnimationFrame(() => overlay.classList.add('is-open'));
+      document.body.style.overflow = 'hidden';
+      (overlay.querySelector('a') as HTMLElement | null)?.focus();
+    } else {
+      overlay.classList.remove('is-open');
+      document.body.style.overflow = '';
+      // transitionendが発火しない環境(reduced-motion等)でも必ず閉じ切る
+      let closed = false;
+      const done = () => {
+        if (closed) return;
+        closed = true;
+        overlay.hidden = true;
+      };
+      overlay.addEventListener('transitionend', done, { once: true });
+      setTimeout(done, 600);
+      btn.focus();
+    }
+  }
+
+  btn.addEventListener('click', () => setOpen(!open));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && open) setOpen(false);
+    // 簡易フォーカストラップ
+    if (e.key === 'Tab' && open) {
+      const focusables = [btn, ...overlay.querySelectorAll<HTMLElement>('a')];
+      const first = focusables[0]!;
+      const last = focusables[focusables.length - 1]!;
+      if (e.shiftKey && document.activeElement === first) { last.focus(); e.preventDefault(); }
+      else if (!e.shiftKey && document.activeElement === last) { first.focus(); e.preventDefault(); }
+    }
+  });
+</script>

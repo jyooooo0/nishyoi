@@ -1,0 +1,70 @@
+---
+/**
+ * 写真フレーム。実写真があれば表示し、なければ撮影予定の仮枠を出す。
+ * 仮画像(無関係なストック写真)は使わない方針のための部品。
+ * src には src/assets 内の画像を渡す(astro:assets で最適化)。
+ */
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+
+interface Props {
+  src?: ImageMetadata;
+  alt?: string;
+  /** aspect-ratio 文字列 例 "16/9" */
+  ratio: string;
+  /** 仮枠に出す撮影メモ 例 "撮影予定: 関川全景(夏)" */
+  note?: string;
+  /** object-position 例 "50% 35%" — 写真ごとの焦点位置 */
+  focal?: string;
+  /** LCP画像はtrue(即時読込) */
+  priority?: boolean;
+  /** マスク出現演出を付けるか */
+  reveal?: boolean;
+  class?: string;
+  widths?: number[];
+  sizes?: string;
+}
+const {
+  src,
+  alt = '',
+  ratio,
+  note = '撮影予定',
+  focal = '50% 50%',
+  priority = false,
+  reveal = true,
+  class: className = '',
+  widths = [480, 800, 1200, 1600, 2400],
+  sizes = '100vw',
+} = Astro.props;
+const revealClass = reveal && !priority ? 'reveal-mask' : '';
+---
+
+{src ? (
+  <div class={`photo ${revealClass} ${className}`} style={`aspect-ratio: ${ratio};`}>
+    <Image
+      src={src}
+      alt={alt}
+      widths={widths}
+      sizes={sizes}
+      loading={priority ? 'eager' : 'lazy'}
+      fetchpriority={priority ? 'high' : 'auto'}
+      style={`object-position: ${focal};`}
+    />
+  </div>
+) : (
+  <div class={`ph-frame ${revealClass} ${className}`} style={`aspect-ratio: ${ratio};`} role="img" aria-label={`${note}(写真は準備中)`}>
+    <span class="ph-note">{note} / {ratio.replace('/', ':')}</span>
+  </div>
+)}
+
+<style>
+  .photo {
+    overflow: hidden;
+    background: var(--color-paper-dim);
+  }
+  .photo :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+</style>

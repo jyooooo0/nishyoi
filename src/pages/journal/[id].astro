@@ -1,0 +1,15 @@
+---
+import { getCollection } from 'astro:content';
+import Stub from '../../layouts/Stub.astro';
+
+export async function getStaticPaths() {
+  const posts = (await getCollection('journal')).filter(
+    (j) => !(import.meta.env.PROD && j.data.draft)
+  );
+  return posts.map((j) => ({ params: { id: j.id }, props: { post: j } }));
+}
+const { post } = Astro.props;
+---
+<Stub title={post.data.title} en="Journal" step="Step 5(記事詳細)">
+  <p style="font-size:.88rem; color: var(--color-ink-soft);">{post.data.summary}</p>
+</Stub>

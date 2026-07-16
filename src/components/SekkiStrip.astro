@@ -1,0 +1,56 @@
+---
+/**
+ * 二十四節気インジケーター。24本の目盛りのうち現在の節気だけが
+ * 季節色で立ち上がる。時間の物差しであり装飾ではない。
+ */
+import { SEKKI, currentSekki } from '../lib/sekki';
+
+interface Props {
+  /** 現在名のラベルを表示するか */
+  showLabel?: boolean;
+  class?: string;
+}
+const { showLabel = true, class: className = '' } = Astro.props;
+const now = currentSekki();
+---
+
+<div class={`sekki-strip ${className}`} role="img" aria-label={`二十四節気の現在地: ${now.name}`}>
+  {SEKKI.map((s) => (
+    <span class="tick" data-now={s.index === now.index ? 'true' : undefined}>
+      {s.index === now.index && showLabel && <em>{s.name}</em>}
+    </span>
+  ))}
+</div>
+
+<style>
+  .sekki-strip {
+    display: flex;
+    align-items: flex-end;
+    gap: 0;
+    height: 2.4rem;
+  }
+  .tick {
+    flex: 1;
+    height: 0.55rem;
+    border-left: 1px solid var(--line);
+  }
+  .tick:last-child { border-right: 1px solid var(--line); }
+  .tick[data-now] {
+    border-left: 2px solid var(--season);
+    height: 1.15rem;
+    position: relative;
+  }
+  .tick em {
+    position: absolute;
+    bottom: 1.5rem;
+    left: -0.4rem;
+    font-style: normal;
+    font-family: var(--font-serif);
+    font-size: 0.82rem;
+    letter-spacing: 0.24em;
+    color: var(--season);
+    white-space: nowrap;
+  }
+  /* 右端付近の節気でラベルがはみ出さないように */
+  .tick:nth-child(n + 19) em { left: auto; right: -0.4rem; }
+</style>

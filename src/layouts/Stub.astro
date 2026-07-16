@@ -1,0 +1,35 @@
+---
+/**
+ * 実装前ページの仮レイアウト。段階実装(Step 4〜8)で本実装に置き換える。
+ * 本番公開時までに全てのStubが無くなっていること。
+ */
+import Base from './Base.astro';
+
+interface Props {
+  title: string;
+  en: string;
+  /** 実装予定ステップ */
+  step: string;
+}
+const { title, en, step } = Astro.props;
+---
+
+<Base title={title}>
+  <section class="section stub">
+    <div class="container">
+      <div class="heading-pair">
+        <span class="en">{en}</span>
+        <h1 class="t-section">{title}</h1>
+      </div>
+      <p class="note t-data">このページは{step}で実装予定です。</p>
+      <slot />
+      <a class="link-line" href="/">トップへ戻る <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .stub { min-height: 55vh; padding-top: calc(var(--space-section) + 3rem); }
+  .stub .container { display: grid; gap: 2rem; max-width: 46rem; }
+  .note { color: var(--color-ink-soft); }
+</style>

@@ -1,0 +1,13 @@
+---
+import { getCollection } from 'astro:content';
+import Stub from '../../layouts/Stub.astro';
+
+export async function getStaticPaths() {
+  const events = await getCollection('events');
+  return events.map((e) => ({ params: { id: e.id }, props: { event: e } }));
+}
+const { event } = Astro.props;
+---
+<Stub title={event.data.title} en="Event" step="Step 6(詳細・申込みフォーム)">
+  <p style="font-size:.88rem; color: var(--color-ink-soft);">{event.data.summary}</p>
+</Stub>

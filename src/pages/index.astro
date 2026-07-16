@@ -1,0 +1,450 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PhotoFrame from '../components/PhotoFrame.astro';
+import RiverLine from '../components/RiverLine.astro';
+import SekkiStrip from '../components/SekkiStrip.astro';
+import { EVENT_STATUS } from '../content.config';
+
+// 募集中のイベント(最大3件)。下書き・終了系は載せない
+const events = (await getCollection('events'))
+  .filter((e) => ['open', 'soon', 'full'].includes(e.data.status))
+  .sort((a, b) => a.data.date.getTime() - b.data.date.getTime())
+  .slice(0, 3);
+const [featured, ...restEvents] = events;
+
+// 最新Journal(本番では draft を除外)
+const journal = (await getCollection('journal'))
+  .filter((j) => !(import.meta.env.PROD && j.data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 4);
+
+// Web制作の実績(掲載許可済みのみ)
+const works = (await getCollection('works')).filter((w) => w.data.published);
+
+const fmt = (d: Date) =>
+  `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
+
+const entrances = [
+  { label: '季節と手仕事', en: 'Seasons & Handwork', ratio: '4/5', note: '撮影予定: 手仕事の手元' },
+  { label: '動物と暮らし', en: 'Animals & Life', ratio: '1/1', note: '撮影予定: ニワトリ/孵卵器' },
+  { label: '田舎とテクノロジー', en: 'Countryside & Technology', ratio: '3/2', note: '撮影予定: 地形図とPC' },
+  { label: '集落の記録', en: 'Village Records', ratio: '4/3', note: '撮影予定: 集落の風景' },
+];
+---
+
+<Base>
+  <!-- 1. ファーストビュー -->
+  <section class="hero">
+    <div class="hero-media">
+      <PhotoFrame
+        ratio="16/9"
+        note="撮影予定: 関川集落の全景(夏・引き) PC=16:9 / SP=縦3:4"
+        priority
+        reveal={false}
+        class="hero-photo-frame"
+      />
+    </div>
+    <div class="hero-copy">
+      <h1 class="t-display">
+        山あいの暮らしを、<br />記録する。
+      </h1>
+      <p class="hero-lead">
+        山形の山あいにある、生まれ育った集落。<br />
+        なくなるかもしれないこの場所で、私はもう一度、暮らしをつくり始めます。<br />
+        古くからの知恵と新しい技術を手がかりに、その過程を記録します。
+      </p>
+    </div>
+    <div class="hero-sekki">
+      <SekkiStrip />
+    </div>
+  </section>
+
+  <!-- 2. コンセプト -->
+  <section class="section concept">
+    <div class="container concept-grid">
+      <p class="t-vertical t-label concept-vert reveal" aria-hidden="true">関川 — SEKIGAWA</p>
+      <div class="concept-body">
+        <div class="heading-pair reveal">
+          <span class="en">Concept</span>
+          <h2 class="t-section">消えるかもしれない場所で、<br />暮らしを育てる。</h2>
+        </div>
+        <p class="concept-text reveal" style="--stagger:90ms">
+          集落の時間を記録しながら、里山の知恵と現代のテクノロジーを組み合わせて、
+          暮らし続けられる形を試す。うまくいけば暮らしのモデルになり、
+          いかなくても、記録はアーカイブとして残ります。
+        </p>
+        <a class="link-line reveal" style="--stagger:180ms" href="/about/">NISHYOIについて <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+    <RiverLine variant={1} />
+  </section>
+
+  <!-- 3. 募集中のイベント -->
+  {events.length > 0 && (
+    <section class="section events" style="background: var(--color-paper-dim);">
+      <div class="container">
+        <div class="heading-pair reveal">
+          <span class="en">Events</span>
+          <h2 class="t-section">募集中のイベント</h2>
+        </div>
+        <div class="events-grid">
+          {featured && (
+            <a class="event-featured reveal" href={`/events/${featured.id}/`} style="--stagger:90ms">
+              <PhotoFrame ratio="3/2" note={`撮影予定: ${featured.data.sekki ?? ''}のイベント風景`} />
+              <div class="event-meta">
+                <span class="badge" data-state={featured.data.status}>{EVENT_STATUS[featured.data.status]}</span>
+                <span class="t-data">{fmt(featured.data.date)}</span>
+                {featured.data.sekki && <span class="t-data sekki-tag">{featured.data.sekki}</span>}
+                {featured.data.remaining != null && featured.data.status === 'open' && (
+                  <span class="t-data">残席 {featured.data.remaining}</span>
+                )}
+              </div>
+              <h3 class="event-title">{featured.data.title}</h3>
+              <p class="event-summary">{featured.data.summary}</p>
+            </a>
+          )}
+          <div class="event-list">
+            {restEvents.map((e, i) => (
+              <a class="event-row reveal" href={`/events/${e.id}/`} style={`--stagger:${180 + i * 90}ms`}>
+                <div class="event-meta">
+                  <span class="badge" data-state={e.data.status}>{EVENT_STATUS[e.data.status]}</span>
+                  <span class="t-data">{fmt(e.data.date)}</span>
+                  {e.data.sekki && <span class="t-data sekki-tag">{e.data.sekki}</span>}
+                </div>
+                <h3 class="event-title">{e.data.title}</h3>
+              </a>
+            ))}
+            <a class="link-line reveal" style={`--stagger:${180 + restEvents.length * 90}ms`} href="/events/">すべてのイベント <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- 4. 暮らしの4つの入口 -->
+  <section class="section entrances">
+    <div class="container">
+      <div class="heading-pair reveal">
+        <span class="en">Ways In</span>
+        <h2 class="t-section">暮らしの入口</h2>
+      </div>
+      <div class="entrance-grid">
+        {entrances.map((ent, i) => (
+          <a
+            class="entrance"
+            href="/journal/"
+            style={`--stagger:${i * 90}ms`}
+          >
+            <PhotoFrame ratio={ent.ratio} note={ent.note} />
+            <span class="ent-en t-label">{ent.en}</span>
+            <span class="ent-ja">{ent.label}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+    <RiverLine variant={2} />
+  </section>
+
+  <!-- 5. 最新Journal(コンタクトシート) -->
+  {journal.length > 0 && (
+    <section class="section journal">
+      <div class="container">
+        <div class="heading-pair reveal">
+          <span class="en">Journal</span>
+          <h2 class="t-section">最新の記録</h2>
+        </div>
+        <div class="sheet" role="list">
+          {journal.map((j, i) => (
+            <a class="frame reveal" role="listitem" href={`/journal/${j.id}/`} style={`--stagger:${i * 90}ms`}>
+              <PhotoFrame ratio="3/2" note="記事写真" reveal={false} />
+              <div class="frame-no t-data">
+                <span>No.{String(journal.length - i).padStart(3, '0')}</span>
+                <span>{j.data.sekki ?? ''}</span>
+              </div>
+              <h3 class="frame-title">{j.data.title}</h3>
+              <div class="frame-meta t-data">
+                <span>{fmt(j.data.date)}</span>
+                <span class="frame-cat">{j.data.category}</span>
+              </div>
+            </a>
+          ))}
+        </div>
+        <a class="link-line reveal" href="/journal/">記録をすべて読む <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+  )}
+
+  <!-- 6. 丈のプロフィール -->
+  <section class="section profile" style="background: var(--color-paper-dim);">
+    <div class="container profile-grid">
+      <PhotoFrame ratio="4/5" note="撮影予定: 丈・作業中(薪割り/撮影/山仕事)" class="profile-photo" />
+      <div class="profile-body">
+        <div class="heading-pair reveal">
+          <span class="en">Profile</span>
+          <h2 class="t-section">五十嵐 丈<span class="t-data" style="margin-left:1em; letter-spacing:.2em;">JO IGARASHI</span></h2>
+        </div>
+        <p class="profile-text reveal" style="--stagger:90ms">
+          1993年、鶴岡市関川生まれ。大学進学で一度地域を離れ、卒業後は銀行勤務を経験。
+          その後、自然体験プログラムや、しな織・しなの花を活用した地域事業に携わる。
+          現在はそれらのプロジェクトを離れ、写真家として活動しながら、
+          生まれ育った集落で、暮らしそのものを起点にしたNISHYOIを始めている。
+        </p>
+        <div class="profile-links reveal" style="--stagger:180ms">
+          <a class="link-line" href="/about/jo/">プロフィール <span aria-hidden="true">→</span></a>
+          <a class="link-line" href="https://kotograph-joe.com/" target="_blank" rel="noopener">KOTOGRAPH(写真の仕事) <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <RiverLine variant={3} />
+
+  <!-- 7. Web制作 -->
+  <section class="section web-works">
+    <div class="container">
+      <div class="heading-pair reveal">
+        <span class="en" style="color: var(--color-night-ink); opacity:.7;">Web Works</span>
+        <h2 class="t-section">小さな事業の、Webをつくる</h2>
+      </div>
+      <div class="web-grid">
+        <p class="web-text reveal" style="--stagger:90ms">
+          庄内の小規模事業者・店舗・作家・地域プロジェクト、
+          そして全国の過疎地域で小さな事業を始める人へ。
+          魅力の整理から、写真撮影、文章、Web制作、予約や問い合わせの導線まで、
+          発信のかたちを一緒につくります。
+        </p>
+        <div class="web-side reveal" style="--stagger:180ms">
+          {works.length > 0 ? (
+            <ul class="web-list">
+              {works.map((w) => (
+                <li><a href={`/works/${w.id}/`}>{w.data.title}</a></li>
+              ))}
+            </ul>
+          ) : (
+            <p class="t-data" style="opacity:.6;">制作実績は掲載許可の確認後に公開します。</p>
+          )}
+          <a class="link-line" href="/works/">Web制作について <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--
+    8-9. 将来枠: Films(YouTube開始後) / Shop(販売開始後)
+    データコレクションを追加した時点でここにセクションを差し込む。
+    空のセクション・ナビは公開しない方針。
+  -->
+</Base>
+
+<style>
+  /* ---------- hero ---------- */
+  .hero {
+    position: relative;
+    padding-top: 0;
+  }
+  .hero-media {
+    height: min(88svh, 200vw);
+  }
+  @media (min-width: 48rem) {
+    .hero-media { height: 78vh; }
+  }
+  .hero-media :global(.ph-frame),
+  .hero-media :global(.photo) {
+    height: 100%;
+    aspect-ratio: auto !important;
+  }
+  .hero-copy {
+    position: relative;
+    margin-top: -5.5rem;
+    margin-left: clamp(1.5rem, 4vw, 3rem);
+    max-width: min(34rem, calc(100% - 3rem));
+    background: var(--color-paper);
+    border: 1px solid var(--line);
+    padding: clamp(1.4rem, 3vw, 2.4rem);
+    z-index: 2;
+  }
+  .hero-lead {
+    margin-top: 1.2rem;
+    font-size: 0.88rem;
+    color: var(--color-ink-soft);
+    line-height: 2.2;
+  }
+  .hero-sekki {
+    max-width: 22rem;
+    margin-left: auto;
+    padding: 2rem clamp(1.5rem, 4vw, 3rem) 0;
+  }
+
+  /* ---------- concept ---------- */
+  .concept-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: start;
+  }
+  .concept-vert {
+    border-left: 1px solid var(--line);
+    padding-left: 1rem;
+    min-height: 12rem;
+  }
+  .concept-body { display: grid; gap: 1.8rem; max-width: 40em; }
+  .concept-text { color: var(--color-ink-soft); font-size: 0.92rem; }
+  @media (max-width: 40rem) {
+    .concept-grid { grid-template-columns: 1fr; }
+    .concept-vert { display: none; }
+  }
+
+  /* ---------- events ---------- */
+  .events .heading-pair { margin-bottom: 2.8rem; }
+  .events-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: clamp(2rem, 4vw, 3.5rem);
+    align-items: start;
+  }
+  @media (max-width: 48rem) {
+    .events-grid { grid-template-columns: 1fr; }
+  }
+  .event-featured { text-decoration: none; display: grid; gap: 0.9rem; }
+  .event-meta { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-top: 0.4rem; }
+  .sekki-tag { color: var(--season); }
+  .event-title {
+    font-size: 1.05rem;
+    letter-spacing: 0.08em;
+    transition: color var(--dur-micro);
+  }
+  .event-featured:hover .event-title,
+  .event-row:hover .event-title { color: var(--color-river); }
+  .event-summary {
+    font-size: 0.82rem;
+    color: var(--color-ink-soft);
+    line-height: 2;
+  }
+  .event-list { display: grid; gap: 2rem; align-content: start; padding-top: 0.5rem; }
+  .event-row {
+    text-decoration: none;
+    display: grid;
+    gap: 0.5rem;
+    border-top: 1px solid var(--line);
+    padding-top: 1.4rem;
+  }
+
+  /* ---------- entrances ---------- */
+  .entrances .heading-pair { margin-bottom: 2.8rem; }
+  .entrance-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+  }
+  .entrance {
+    text-decoration: none;
+    display: grid;
+    gap: 0.6rem;
+  }
+  /* 段差: 右列を下げ、非対称に */
+  .entrance:nth-child(2) { margin-top: clamp(2rem, 6vw, 4.5rem); }
+  .entrance:nth-child(3) { margin-top: clamp(-2rem, -3vw, -1rem); }
+  .entrance .ent-en { margin-top: 0.5rem; }
+  .entrance .ent-ja {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    letter-spacing: 0.14em;
+    transition: color var(--dur-micro);
+  }
+  .entrance:hover .ent-ja { color: var(--color-river); }
+  @media (max-width: 40rem) {
+    .entrance-grid { grid-template-columns: 1fr; }
+    .entrance:nth-child(odd) { margin-right: 12%; margin-top: 0; }
+    .entrance:nth-child(even) { margin-left: 12%; margin-top: 0; }
+  }
+
+  /* ---------- journal / contact sheet ---------- */
+  .journal .heading-pair { margin-bottom: 2.8rem; }
+  .sheet {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.2rem;
+    margin-bottom: 2.5rem;
+  }
+  @media (max-width: 64rem) { .sheet { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 40rem) {
+    .sheet {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x proximity;
+      padding-bottom: 1rem;
+    }
+    .sheet .frame { flex: 0 0 72%; scroll-snap-align: start; }
+  }
+  .frame {
+    text-decoration: none;
+    border: 1px solid var(--line);
+    background: var(--color-paper);
+    padding: 0.5rem 0.5rem 0.9rem;
+    display: grid;
+    gap: 0.5rem;
+    align-content: start;
+  }
+  .frame-no {
+    display: flex;
+    justify-content: space-between;
+    color: var(--color-ink-soft);
+  }
+  .frame-no span:last-child { color: var(--season); }
+  .frame-title {
+    font-size: 0.88rem;
+    letter-spacing: 0.06em;
+    line-height: 1.8;
+    transition: color var(--dur-micro);
+  }
+  .frame:hover .frame-title { color: var(--color-river); }
+  .frame-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    color: var(--color-ink-soft);
+  }
+  .frame-cat { letter-spacing: 0.04em; }
+
+  /* ---------- profile ---------- */
+  .profile-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 26rem) 1fr;
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: center;
+  }
+  /* 左右非対称: 写真を左端へ寄せる */
+  .profile-grid { max-width: calc(var(--container) * 0.92); }
+  @media (max-width: 48rem) {
+    .profile-grid { grid-template-columns: 1fr; }
+    .profile-photo { margin-right: 14%; }
+  }
+  .profile-body { display: grid; gap: 1.6rem; max-width: 36em; }
+  .profile-text { font-size: 0.9rem; color: var(--color-ink-soft); }
+  .profile-links { display: flex; gap: 2.5rem; flex-wrap: wrap; }
+
+  /* ---------- web works(夜色) ---------- */
+  .web-works {
+    background: var(--color-night);
+    color: var(--color-night-ink);
+    --line: var(--line-night);
+  }
+  .web-works .heading-pair { margin-bottom: 2.5rem; }
+  .web-works .t-section { color: var(--color-night-ink); }
+  .web-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: clamp(2rem, 5vw, 4rem);
+  }
+  @media (max-width: 48rem) { .web-grid { grid-template-columns: 1fr; } }
+  .web-text {
+    font-size: 0.9rem;
+    line-height: 2.2;
+    opacity: 0.85;
+    max-width: 36em;
+  }
+  .web-side { display: grid; gap: 1.5rem; align-content: start; }
+  .web-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.8rem; }
+  .web-list a { color: inherit; }
+</style>

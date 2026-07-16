@@ -1,0 +1,247 @@
+@import "tailwindcss";
+
+/* ============================================================
+   NISHYOI デザイントークン — 「川と節気」
+   雪あかりの紙 + 墨 + 川縹。季節色は節気に応じて1色だけ切替。
+   ============================================================ */
+@theme {
+  --color-paper: #f7f4ee;
+  --color-paper-dim: #ede9e0;
+  --color-ink: #21201c;
+  --color-ink-soft: #56544b;
+  --color-river: #33586b;
+  --color-night: #161a1d;
+  --color-night-ink: #e8e4da;
+  --color-season-spring: #7c8a4d;
+  --color-season-summer: #3f6b4f;
+  --color-season-autumn: #a9683a;
+  --color-season-winter: #5c6b7a;
+
+  --font-serif: "Zen Old Mincho", "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", serif;
+  --font-sans: "Zen Kaku Gothic New", "Yu Gothic", "YuGothic", "Hiragino Kaku Gothic ProN", sans-serif;
+  --font-mono: "IBM Plex Mono", Consolas, ui-monospace, monospace;
+
+  --ease-river: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root {
+  /* 現在の季節色。<html data-season="..."> で切替(既定: 夏) */
+  --season: var(--color-season-summer);
+  --line: rgba(33, 32, 28, 0.18);
+  --line-night: rgba(232, 228, 218, 0.22);
+
+  --dur-micro: 200ms;
+  --dur-move: 500ms;
+  --dur-reveal: 800ms;
+
+  --space-section: clamp(6rem, 14vh, 12.5rem);
+  --container: 75rem; /* 1200px */
+}
+:root[data-season="spring"] { --season: var(--color-season-spring); }
+:root[data-season="summer"] { --season: var(--color-season-summer); }
+:root[data-season="autumn"] { --season: var(--color-season-autumn); }
+:root[data-season="winter"] { --season: var(--color-season-winter); }
+
+/* ---------- base ---------- */
+html {
+  scroll-behavior: smooth;
+}
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-feature-settings: "palt";
+  line-height: 2;
+  margin: 0;
+  overflow-x: clip;
+}
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: 0.1em;
+  text-wrap: balance;
+  margin: 0;
+}
+p { margin: 0; }
+a { color: inherit; }
+img { max-width: 100%; display: block; }
+
+::selection { background: var(--color-river); color: var(--color-paper); }
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--color-river);
+  outline-offset: 3px;
+}
+
+/* ---------- typography utilities ---------- */
+.t-display {
+  font-family: var(--font-serif);
+  font-size: clamp(1.75rem, 4.5vw, 3rem);
+  letter-spacing: 0.12em;
+  line-height: 1.7;
+}
+.t-section {
+  font-family: var(--font-serif);
+  font-size: clamp(1.3rem, 2.6vw, 1.7rem);
+  letter-spacing: 0.14em;
+}
+.t-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+}
+.t-data {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  font-variant-numeric: tabular-nums;
+}
+.t-vertical {
+  writing-mode: vertical-rl;
+  letter-spacing: 0.3em;
+}
+
+/* 英日ペア見出し */
+.heading-pair { display: grid; gap: 0.4rem; }
+.heading-pair .en {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--color-river);
+}
+
+/* ---------- links ---------- */
+.link-line {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.6em;
+  text-decoration: none;
+  font-size: 0.82rem;
+  letter-spacing: 0.18em;
+  padding-bottom: 0.3em;
+  position: relative;
+}
+.link-line::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0.35);
+  transform-origin: left;
+  transition: transform var(--dur-micro) var(--ease-river);
+}
+.link-line:hover::after,
+.link-line:focus-visible::after { transform: scaleX(1); }
+
+/* ---------- 状態バッジ ---------- */
+.badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.15em 0.9em;
+  color: var(--color-ink-soft);
+  transition: color var(--dur-move), border-color var(--dur-move);
+}
+.badge[data-state="open"] { border-color: var(--season); color: var(--season); }
+.badge[data-state="soon"] { border-color: var(--color-river); color: var(--color-river); }
+.badge[data-state="full"],
+.badge[data-state="closed"],
+.badge[data-state="ended"],
+.badge[data-state="cancelled"] { opacity: 0.75; }
+
+/* ---------- スクロール出現(reveal) ----------
+   JSが動いてIntersectionObserverを登録できた時(html.js-anim)だけ
+   初期非表示にする。JS無効・失敗時は最初から全て見える。 */
+.js-anim .reveal,
+.js-anim .reveal-mask { will-change: transform, opacity; }
+.js-anim .reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity var(--dur-move) var(--ease-river),
+    transform var(--dur-move) var(--ease-river);
+  transition-delay: var(--stagger, 0ms);
+}
+.js-anim .reveal.is-visible { opacity: 1; transform: none; }
+
+/* 写真のマスクがほどける演出 */
+.js-anim .reveal-mask {
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path var(--dur-reveal) var(--ease-river);
+  transition-delay: var(--stagger, 0ms);
+}
+.js-anim .reveal-mask.is-visible { clip-path: inset(0 0 0 0); }
+
+/* ヒーロー写真: 読み込み後ごく緩やかに1回だけ寄る */
+@keyframes hero-settle {
+  from { transform: scale(1.03); }
+  to { transform: scale(1); }
+}
+.hero-photo { animation: hero-settle 8s var(--ease-river) both; }
+
+/* 川の線: 表示されたら描画される(JS無効時は常時表示) */
+.js-anim .river-path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1600ms var(--ease-river);
+}
+.js-anim .river-path.is-visible { stroke-dashoffset: 0; }
+
+/* ---------- reduced motion: 全演出を停止 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .js-anim .reveal { opacity: 1; transform: none; transition: none; }
+  .js-anim .reveal-mask { clip-path: none; transition: none; }
+  .hero-photo { animation: none; }
+  .js-anim .river-path { stroke-dasharray: none; stroke-dashoffset: 0; transition: none; }
+  .link-line::after { transition: none; transform: scaleX(1); opacity: 0.4; }
+  .link-line:hover::after { opacity: 1; }
+}
+
+/* ---------- 写真プレースホルダー(実写真が入るまでの仮枠) ---------- */
+.ph-frame {
+  position: relative;
+  border: 1px solid var(--line);
+  background:
+    repeating-linear-gradient(
+      45deg,
+      rgba(51, 88, 107, 0.10),
+      rgba(51, 88, 107, 0.10) 1px,
+      transparent 1px,
+      transparent 9px
+    ),
+    var(--color-paper-dim);
+  overflow: hidden;
+}
+.ph-frame .ph-note {
+  position: absolute;
+  left: 0.75rem;
+  bottom: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  color: var(--color-ink-soft);
+}
+
+/* ---------- layout helpers ---------- */
+.container {
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: clamp(1.5rem, 4vw, 3rem);
+}
+.section { padding-block: var(--space-section); }
+.section-tight { padding-block: calc(var(--space-section) * 0.6); }
+.section-loose { padding-block: calc(var(--space-section) * 1.35); }
