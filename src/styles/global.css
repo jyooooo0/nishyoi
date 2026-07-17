@@ -34,8 +34,19 @@
   --dur-move: 500ms;
   --dur-reveal: 800ms;
 
-  --space-section: clamp(6rem, 14vh, 12.5rem);
+  /* 余白スケール: 黄金比 φ=1.618 の等比数列(1rem基準)
+     sp-1 10px / sp-2 16px / sp-3 26px / sp-4 42px / sp-5 68px / sp-6 110px / sp-7 177px */
+  --sp-1: 0.618rem;
+  --sp-2: 1rem;
+  --sp-3: 1.618rem;
+  --sp-4: 2.618rem;
+  --sp-5: 4.236rem;
+  --sp-6: 6.854rem;
+  --sp-7: 11.089rem;
+
+  --space-section: clamp(var(--sp-5), 12vh, var(--sp-6));
   --container: 75rem; /* 1200px */
+  --pad-inline: clamp(var(--sp-3), 4vw, var(--sp-4));
 }
 :root[data-season="spring"] { --season: var(--color-season-spring); }
 :root[data-season="summer"] { --season: var(--color-season-summer); }
@@ -240,8 +251,8 @@ select:focus-visible {
 .container {
   max-width: var(--container);
   margin-inline: auto;
-  padding-inline: clamp(1.5rem, 4vw, 3rem);
+  padding-inline: var(--pad-inline);
 }
 .section { padding-block: var(--space-section); }
-.section-tight { padding-block: calc(var(--space-section) * 0.6); }
-.section-loose { padding-block: calc(var(--space-section) * 1.35); }
+.section-tight { padding-block: calc(var(--space-section) / 1.618); }
+.section-loose { padding-block: calc(var(--space-section) * 1.618); }

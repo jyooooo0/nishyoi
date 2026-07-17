@@ -257,16 +257,16 @@ const entrances = [
   }
   .hero-copy {
     position: relative;
-    margin-top: -5.5rem;
-    margin-left: clamp(1.5rem, 4vw, 3rem);
+    margin-top: calc(-1 * var(--sp-5));
+    margin-left: var(--pad-inline);
     max-width: min(34rem, calc(100% - 3rem));
     background: var(--color-paper);
     border: 1px solid var(--line);
-    padding: clamp(1.4rem, 3vw, 2.4rem);
+    padding: clamp(var(--sp-3), 3vw, var(--sp-4));
     z-index: 2;
   }
   .hero-lead {
-    margin-top: 1.2rem;
+    margin-top: var(--sp-3);
     font-size: 0.88rem;
     color: var(--color-ink-soft);
     line-height: 2.2;
@@ -274,22 +274,22 @@ const entrances = [
   .hero-sekki {
     max-width: 22rem;
     margin-left: auto;
-    padding: 2rem clamp(1.5rem, 4vw, 3rem) 0;
+    padding: var(--sp-4) var(--pad-inline) 0;
   }
 
   /* ---------- concept ---------- */
   .concept-grid {
     display: grid;
     grid-template-columns: auto 1fr;
-    gap: clamp(2rem, 6vw, 5rem);
+    gap: clamp(var(--sp-4), 6vw, var(--sp-5));
     align-items: start;
   }
   .concept-vert {
     border-left: 1px solid var(--line);
-    padding-left: 1rem;
+    padding-left: var(--sp-2);
     min-height: 12rem;
   }
-  .concept-body { display: grid; gap: 1.8rem; max-width: 40em; }
+  .concept-body { display: grid; gap: var(--sp-3); max-width: 40em; }
   .concept-text { color: var(--color-ink-soft); font-size: 0.92rem; }
   @media (max-width: 40rem) {
     .concept-grid { grid-template-columns: 1fr; }
@@ -297,18 +297,18 @@ const entrances = [
   }
 
   /* ---------- events ---------- */
-  .events .heading-pair { margin-bottom: 2.8rem; }
+  .events .heading-pair { margin-bottom: var(--sp-4); }
   .events-grid {
     display: grid;
     grid-template-columns: 1.5fr 1fr;
-    gap: clamp(2rem, 4vw, 3.5rem);
+    gap: clamp(var(--sp-4), 4vw, var(--sp-5));
     align-items: start;
   }
   @media (max-width: 48rem) {
     .events-grid { grid-template-columns: 1fr; }
   }
-  .event-featured { text-decoration: none; display: grid; gap: 0.9rem; }
-  .event-meta { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-top: 0.4rem; }
+  .event-featured { text-decoration: none; display: grid; gap: var(--sp-2); }
+  .event-meta { display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap; margin-top: 0.4rem; }
   .sekki-tag { color: var(--season); }
   .event-title {
     font-size: 1.05rem;
@@ -322,31 +322,31 @@ const entrances = [
     color: var(--color-ink-soft);
     line-height: 2;
   }
-  .event-list { display: grid; gap: 2rem; align-content: start; padding-top: 0.5rem; }
+  .event-list { display: grid; gap: var(--sp-3); align-content: start; padding-top: var(--sp-1); }
   .event-row {
     text-decoration: none;
     display: grid;
-    gap: 0.5rem;
+    gap: var(--sp-1);
     border-top: 1px solid var(--line);
-    padding-top: 1.4rem;
+    padding-top: var(--sp-2);
   }
 
   /* ---------- entrances ---------- */
-  .entrances .heading-pair { margin-bottom: 2.8rem; }
+  .entrances .heading-pair { margin-bottom: var(--sp-4); }
   .entrance-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: clamp(1.5rem, 4vw, 3.5rem);
+    gap: clamp(var(--sp-3), 4vw, var(--sp-5));
   }
   .entrance {
     text-decoration: none;
     display: grid;
-    gap: 0.6rem;
+    gap: var(--sp-1);
   }
   /* 段差: 右列を下げ、非対称に */
-  .entrance:nth-child(2) { margin-top: clamp(2rem, 6vw, 4.5rem); }
-  .entrance:nth-child(3) { margin-top: clamp(-2rem, -3vw, -1rem); }
-  .entrance .ent-en { margin-top: 0.5rem; }
+  .entrance:nth-child(2) { margin-top: clamp(var(--sp-4), 6vw, var(--sp-5)); }
+  .entrance:nth-child(3) { margin-top: calc(-1 * var(--sp-3)); }
+  .entrance .ent-en { margin-top: var(--sp-1); }
   .entrance .ent-ja {
     font-family: var(--font-serif);
     font-size: 1.05rem;
@@ -361,12 +361,12 @@ const entrances = [
   }
 
   /* ---------- journal / contact sheet ---------- */
-  .journal .heading-pair { margin-bottom: 2.8rem; }
+  .journal .heading-pair { margin-bottom: var(--sp-4); }
   .sheet {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 1.2rem;
-    margin-bottom: 2.5rem;
+    gap: var(--sp-2);
+    margin-bottom: var(--sp-4);
   }
   @media (max-width: 64rem) { .sheet { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 40rem) {
@@ -412,7 +412,7 @@ const entrances = [
   .profile-grid {
     display: grid;
     grid-template-columns: minmax(0, 26rem) 1fr;
-    gap: clamp(2rem, 6vw, 5rem);
+    gap: clamp(var(--sp-4), 6vw, var(--sp-6));
     align-items: center;
   }
   /* 左右非対称: 写真を左端へ寄せる */
@@ -421,9 +421,9 @@ const entrances = [
     .profile-grid { grid-template-columns: 1fr; }
     .profile-photo { margin-right: 14%; }
   }
-  .profile-body { display: grid; gap: 1.6rem; max-width: 36em; }
+  .profile-body { display: grid; gap: var(--sp-3); max-width: 36em; }
   .profile-text { font-size: 0.9rem; color: var(--color-ink-soft); }
-  .profile-links { display: flex; gap: 2.5rem; flex-wrap: wrap; }
+  .profile-links { display: flex; gap: var(--sp-4); flex-wrap: wrap; }
 
   /* ---------- web works(夜色) ---------- */
   .web-works {
@@ -431,12 +431,12 @@ const entrances = [
     color: var(--color-night-ink);
     --line: var(--line-night);
   }
-  .web-works .heading-pair { margin-bottom: 2.5rem; }
+  .web-works .heading-pair { margin-bottom: var(--sp-4); }
   .web-works .t-section { color: var(--color-night-ink); }
   .web-grid {
     display: grid;
     grid-template-columns: 1.3fr 1fr;
-    gap: clamp(2rem, 5vw, 4rem);
+    gap: clamp(var(--sp-4), 5vw, var(--sp-5));
   }
   @media (max-width: 48rem) { .web-grid { grid-template-columns: 1fr; } }
   .web-text {
@@ -445,7 +445,7 @@ const entrances = [
     opacity: 0.85;
     max-width: 36em;
   }
-  .web-side { display: grid; gap: 1.5rem; align-content: start; }
-  .web-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.8rem; }
+  .web-side { display: grid; gap: var(--sp-3); align-content: start; }
+  .web-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--sp-1); }
   .web-list a { color: inherit; }
 </style>

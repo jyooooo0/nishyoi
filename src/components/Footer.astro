@@ -5,7 +5,7 @@ const year = new Date().getFullYear();
 
 <footer class="site-footer">
   <div class="container">
-    <SekkiStrip class="foot-sekki" />
+    <div class="foot-sekki"><SekkiStrip /></div>
     <div class="cols">
       <div>
         <p class="t-label" style="margin-bottom:.6rem;">NISHYOI</p>
@@ -35,14 +35,14 @@ const year = new Date().getFullYear();
 <style>
   .site-footer {
     border-top: 1px solid var(--line);
-    padding-block: 3.5rem 2rem;
+    padding-block: var(--sp-5) var(--sp-4);
     background: var(--color-paper);
   }
-  .foot-sekki { margin-bottom: 3rem; }
+  .foot-sekki { margin-bottom: var(--sp-5); }
   .cols {
     display: grid;
     grid-template-columns: 1.4fr 1fr 1fr;
-    gap: 2.5rem;
+    gap: var(--sp-4);
   }
   @media (max-width: 48rem) {
     .cols { grid-template-columns: 1fr; }
@@ -52,7 +52,7 @@ const year = new Date().getFullYear();
     color: var(--color-ink-soft);
     line-height: 2.1;
   }
-  .foot-nav { display: grid; gap: 0.55rem; align-content: start; }
+  .foot-nav { display: grid; gap: var(--sp-1); align-content: start; }
   .foot-nav a {
     font-size: 0.78rem;
     letter-spacing: 0.08em;
@@ -62,7 +62,7 @@ const year = new Date().getFullYear();
   }
   .foot-nav a:hover { color: var(--color-river); }
   .copy {
-    margin-top: 3.5rem;
+    margin-top: var(--sp-5);
     color: var(--color-ink-soft);
     letter-spacing: 0.3em;
   }
