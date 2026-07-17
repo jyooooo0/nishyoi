@@ -1,4 +1,156 @@
 ---
-import Stub from '../../layouts/Stub.astro';
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import AboutNav from '../../components/AboutNav.astro';
+import PhotoFrame from '../../components/PhotoFrame.astro';
+import RiverLine from '../../components/RiverLine.astro';
+
+const description =
+  '山形県鶴岡市の山あいにある関川集落。雪と川とともにある暮らし、受け継がれてきたしな織、そしてこれからのこと。';
+
+// 「集落の記録」カテゴリーの記事(本番ではdraft除外)
+const records = (await getCollection('journal'))
+  .filter((j) => j.data.category === '集落の記録' && !(import.meta.env.PROD && j.data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
 ---
-<Stub title="関川集落について" en="Sekigawa" step="Step 4" />
+
+<Base title="関川集落について" description={description}>
+  <article class="sekigawa">
+    <header class="container head">
+      <div class="heading-pair">
+        <span class="en">Sekigawa Village</span>
+        <h1 class="t-display">関川集落について</h1>
+      </div>
+      <AboutNav />
+    </header>
+
+    <!-- 写真エッセイ型: 大きな写真と短い文章の交互 -->
+    <div class="essay">
+      <figure class="container-wide">
+        <PhotoFrame ratio="21/9" note="撮影予定: 関川の全景(山・谷・家並み)" />
+      </figure>
+      <div class="container para reveal">
+        <p>
+          関川は、山形県鶴岡市の山あいにある集落です。
+          旧温海町のエリア、山に囲まれた谷を川が流れ、
+          その流れに沿うように家々と田畑が並んでいます。
+        </p>
+      </div>
+
+      <figure class="container photo-left">
+        <PhotoFrame ratio="3/2" note="撮影予定: 冬の関川(雪と家)" />
+      </figure>
+      <div class="container para para-right reveal">
+        <h2 class="t-section">雪とともにある</h2>
+        <p>
+          冬の関川は深い雪に覆われます。
+          雪かきも、薪の備えも、ここでは季節の仕事の一部です。
+          雪は暮らしを重くもしますが、山の水を蓄え、
+          春からの恵みを支えてもいます。
+        </p>
+      </div>
+
+      <figure class="container photo-right">
+        <PhotoFrame ratio="3/2" note="撮影予定: しな織・シナノキ・手仕事の道具など" />
+      </figure>
+      <div class="container para reveal">
+        <h2 class="t-section">受け継がれてきたもの</h2>
+        <p>
+          関川には、シナノキの樹皮から糸をつくり、布を織る
+          「しな織」の文化が受け継がれてきました。
+          木を伐り、皮を剥ぎ、糸を績み、織り上げるまで、
+          一年をかけて山と人が関わり続ける手仕事です。
+        </p>
+      </div>
+
+      <RiverLine variant={3} />
+
+      <div class="container para reveal">
+        <h2 class="t-section">これからのこと</h2>
+        <p>
+          一方で、人口の減少は進み、集落の将来は決して安泰ではありません。
+          NISHYOIは、この場所の時間を記録しながら、
+          ここで暮らし続けられる形を探しています。
+        </p>
+        <p class="note t-data">
+          ※人口・世帯数などの数値は、基準日と出典を確認のうえ掲載します。
+        </p>
+      </div>
+    </div>
+
+    {records.length > 0 && (
+      <div class="container records">
+        <div class="heading-pair reveal">
+          <span class="en">Records</span>
+          <h2 class="t-section">集落の記録</h2>
+        </div>
+        <ul class="rec-list">
+          {records.map((r, i) => (
+            <li class="reveal" style={`--stagger:${i * 90}ms`}>
+              <a href={`/journal/${r.id}/`}>
+                <span class="t-data">{r.data.date.getFullYear()}.{String(r.data.date.getMonth() + 1).padStart(2, '0')}</span>
+                <span>{r.data.title}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    <div class="container next">
+      <a class="link-line reveal" href="/journal/">暮らしの記録を読む <span aria-hidden="true">→</span></a>
+      <a class="link-line reveal" style="--stagger:90ms" href="/events/">イベントに参加する <span aria-hidden="true">→</span></a>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .sekigawa { padding-block: calc(var(--space-section) + var(--sp-4)) var(--space-section); }
+  .head { display: grid; gap: var(--sp-4); margin-bottom: var(--sp-5); }
+
+  .essay { display: grid; gap: var(--sp-5); }
+  .container-wide {
+    margin: 0;
+    max-width: min(85rem, 100%);
+    margin-inline: auto;
+    padding-inline: 0;
+  }
+  .para { display: grid; gap: var(--sp-3); max-width: 46rem; }
+  .para p {
+    font-size: 0.92rem;
+    color: var(--color-ink-soft);
+    line-height: 2.3;
+    max-width: 38em;
+  }
+  /* 左右非対称: 写真と文章を交互にずらす */
+  .photo-left { max-width: 56rem; margin-right: auto; }
+  .photo-right { max-width: 56rem; margin-left: auto; }
+  .para-right { margin-left: auto; margin-right: var(--pad-inline); }
+  @media (max-width: 48rem) {
+    .para-right { margin-left: 0; margin-right: 0; }
+  }
+  .note { color: var(--color-ink-soft); opacity: 0.8; }
+
+  .records { display: grid; gap: var(--sp-4); margin-top: var(--space-section); }
+  .rec-list { list-style: none; margin: 0; padding: 0; display: grid; }
+  .rec-list li { border-top: 1px solid var(--line); }
+  .rec-list li:last-child { border-bottom: 1px solid var(--line); }
+  .rec-list a {
+    display: grid;
+    grid-template-columns: 5rem 1fr;
+    gap: var(--sp-2);
+    padding-block: var(--sp-2);
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+  .rec-list a:hover { color: var(--color-river); }
+  .rec-list .t-data { color: var(--color-ink-soft); }
+
+  .next {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-4);
+    margin-top: var(--space-section);
+  }
+</style>

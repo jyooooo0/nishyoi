@@ -1,4 +1,175 @@
 ---
-import Stub from '../../layouts/Stub.astro';
+import Base from '../../layouts/Base.astro';
+import AboutNav from '../../components/AboutNav.astro';
+import PhotoFrame from '../../components/PhotoFrame.astro';
+import RiverLine from '../../components/RiverLine.astro';
+
+const description =
+  'NISHYOIは、山形県鶴岡市関川を拠点にした暮らしの実験と記録の屋号。里山の知恵と新しい技術を組み合わせ、未完成な暮らしを続けていく。';
+
+const activities = [
+  {
+    cat: '季節と手仕事',
+    body: '家庭菜園、山菜採り、薪割り、雪かき。季節ごとの仕事を、受け継がれてきたやり方から学び直す。',
+  },
+  {
+    cat: '動物と暮らし',
+    body: '受精卵から始めるニワトリの飼育。将来はヤギも迎え、暮らしの中に動物の時間を取り戻す。',
+  },
+  {
+    cat: '田舎とテクノロジー',
+    body: '衛星データとAIを使った舞茸候補地の探索など、新しい技術を山の暮らしの道具として試す。',
+  },
+  {
+    cat: 'イベント',
+    body: '二十四節気のフォトウォークと、暮らしの一部をそのまま体験するオープンデイを開く。',
+  },
+  {
+    cat: '発信と仕事',
+    body: '写真・映像・Webでこの暮らしを記録し、あわせて小さな事業のWeb制作を仕事にする。',
+  },
+];
 ---
-<Stub title="NISHYOIについて" en="About" step="Step 4" />
+
+<Base title="NISHYOIについて" description={description}>
+  <article class="about">
+    <header class="container head">
+      <div class="heading-pair">
+        <span class="en">About NISHYOI</span>
+        <h1 class="t-display">NISHYOIについて</h1>
+      </div>
+      <AboutNav />
+    </header>
+
+    <div class="container body">
+      <!-- TODO: 屋号NISHYOIの由来が確定したら、ここに1段落追加する -->
+      <p class="lead reveal">
+        NISHYOIは、山形県鶴岡市関川を拠点にした、<br class="pc" />暮らしの実験と記録の屋号です。
+      </p>
+
+      <section class="block reveal">
+        <p>
+          私が生まれ育った関川は、山あいにある小さな集落です。
+          人は少しずつ減り、続いてきた暮らしの手ざわりも、静かに薄れつつあります。
+          このまま進めば、いつか集落そのものがなくなるかもしれない——
+          それは遠い未来の話ではなく、目の前にある現実です。
+        </p>
+      </section>
+
+      <PhotoFrame ratio="21/9" note="撮影予定: 関川の谷あいと家並み(引き)" class="wide-photo" />
+
+      <section class="block reveal">
+        <h2 class="t-section">未完成のまま、続けていく</h2>
+        <p>
+          NISHYOIは、その現実を嘆くことから始めません。
+          完成した暮らしの見本をつくるのでもありません。
+          季節ごとに試し、失敗し、直しながら、
+          「未完成のまま続けていく」こと自体を大切にします。
+        </p>
+      </section>
+
+      <section class="block reveal">
+        <h2 class="t-section">里山の知恵と、新しい技術</h2>
+        <p>
+          手がかりは二つあります。
+          ひとつは、山菜の採り方や薪の扱い、雪との付き合い方といった、
+          この土地で受け継がれてきた里山の知恵。
+          もうひとつは、衛星データやAI、Webといった新しい技術です。
+          どちらか一方に寄りかからず、両方を組み合わせて、
+          小さな暮らしでも続けていける形を探します。
+        </p>
+      </section>
+
+      <section class="block reveal">
+        <h2 class="t-section">モデルになるか、アーカイブとして残るか</h2>
+        <p>
+          この試みがうまくいけば、同じような場所で暮らしたい誰かのモデルになります。
+          もしうまくいかなくても、記録はアーカイブとして残り、
+          この集落に確かに暮らしがあったことを伝え続けます。
+          だから、やってみることと記録することを、いつも一緒に進めます。
+        </p>
+      </section>
+    </div>
+
+    <RiverLine variant={2} />
+
+    <div class="container acts">
+      <div class="heading-pair reveal">
+        <span class="en">Activities</span>
+        <h2 class="t-section">現在の取り組み</h2>
+      </div>
+      <dl class="act-list">
+        {activities.map((a, i) => (
+          <div class="act reveal" style={`--stagger:${i * 90}ms`}>
+            <dt>{a.cat}</dt>
+            <dd>{a.body}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+
+    <div class="container next">
+      <a class="link-line reveal" href="/about/jo/">丈のプロフィール <span aria-hidden="true">→</span></a>
+      <a class="link-line reveal" style="--stagger:90ms" href="/about/sekigawa/">関川集落について <span aria-hidden="true">→</span></a>
+      <a class="link-line reveal" style="--stagger:180ms" href="https://kotograph-joe.com/" target="_blank" rel="noopener">KOTOGRAPH <span aria-hidden="true">↗</span></a>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .about { padding-block: calc(var(--space-section) + var(--sp-4)) var(--space-section); }
+  .head { display: grid; gap: var(--sp-4); margin-bottom: var(--sp-5); }
+  .body { display: grid; gap: var(--sp-5); max-width: 46rem; }
+  .lead {
+    font-family: var(--font-serif);
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    letter-spacing: 0.1em;
+    line-height: 2.4;
+  }
+  .pc { display: none; }
+  @media (min-width: 40rem) { .pc { display: inline; } }
+  .block { display: grid; gap: var(--sp-3); }
+  .block p {
+    font-size: 0.92rem;
+    color: var(--color-ink-soft);
+    line-height: 2.3;
+    max-width: 40em;
+  }
+  .wide-photo { margin-block: var(--sp-2); }
+
+  .acts { display: grid; gap: var(--sp-4); margin-block: var(--space-section); }
+  .act-list {
+    margin: 0;
+    display: grid;
+    gap: 0;
+    max-width: 46rem;
+  }
+  .act {
+    display: grid;
+    grid-template-columns: minmax(9rem, 13rem) 1fr;
+    gap: var(--sp-3);
+    padding-block: var(--sp-3);
+    border-top: 1px solid var(--line);
+  }
+  .act:last-child { border-bottom: 1px solid var(--line); }
+  @media (max-width: 40rem) {
+    .act { grid-template-columns: 1fr; gap: var(--sp-1); }
+  }
+  .act dt {
+    font-family: var(--font-serif);
+    letter-spacing: 0.12em;
+    font-size: 0.95rem;
+  }
+  .act dd {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--color-ink-soft);
+    line-height: 2.1;
+  }
+
+  .next {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-4);
+  }
+</style>

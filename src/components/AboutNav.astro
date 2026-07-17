@@ -1,0 +1,38 @@
+---
+/** Aboutセクション内の横断ナビ */
+const items = [
+  { href: '/about/', label: 'NISHYOIについて' },
+  { href: '/about/jo/', label: '丈のプロフィール' },
+  { href: '/about/sekigawa/', label: '関川集落' },
+];
+const current = Astro.url.pathname;
+---
+
+<nav class="about-nav t-data" aria-label="Aboutセクション内ナビゲーション">
+  {items.map((item) => (
+    <a href={item.href} aria-current={current === item.href ? 'page' : undefined}>
+      {item.label}
+    </a>
+  ))}
+</nav>
+
+<style>
+  .about-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-3);
+    border-top: 1px solid var(--line);
+    padding-top: var(--sp-2);
+  }
+  .about-nav a {
+    text-decoration: none;
+    color: var(--color-ink-soft);
+    letter-spacing: 0.12em;
+  }
+  .about-nav a:hover { color: var(--color-river); }
+  .about-nav a[aria-current="page"] {
+    color: var(--season);
+    border-bottom: 1px solid var(--season);
+    padding-bottom: 2px;
+  }
+</style>

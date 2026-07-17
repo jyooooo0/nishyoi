@@ -1,4 +1,109 @@
 ---
-import Stub from '../../layouts/Stub.astro';
+import Base from '../../layouts/Base.astro';
+import AboutNav from '../../components/AboutNav.astro';
+import PhotoFrame from '../../components/PhotoFrame.astro';
+
+const description =
+  '五十嵐 丈(Jo Igarashi)。1993年、山形県鶴岡市関川生まれ。写真家として活動しながら、生まれ育った集落で暮らしを起点にしたNISHYOIを始めている。';
+
+/* 年表。年が確定していない項目は年を空欄にする(捏造しない) */
+const timeline = [
+  { year: '1993', body: '山形県鶴岡市関川に生まれる' },
+  { year: '', body: '大学進学を機に、一度地域を離れる' },
+  { year: '', body: '卒業後、銀行勤務を経験する' },
+  { year: '', body: '自然体験プログラムや、しな織・しなの花を活用した地域事業に携わる' },
+  { year: '', body: '上記のプロジェクトを離れ、写真家として活動を始める(KOTOGRAPH)' },
+  { year: '2026', body: '生まれ育った関川で、暮らしを起点にしたNISHYOIを始める' },
+];
 ---
-<Stub title="丈のプロフィール" en="Jo Igarashi" step="Step 4" />
+
+<Base title="丈のプロフィール" description={description}>
+  <article class="jo">
+    <header class="container head">
+      <div class="heading-pair">
+        <span class="en">Profile</span>
+        <h1 class="t-display">五十嵐 丈</h1>
+        <p class="t-data" style="letter-spacing:.24em; color:var(--color-ink-soft);">JO IGARASHI — PHOTOGRAPHER</p>
+      </div>
+      <AboutNav />
+    </header>
+
+    <div class="container main-grid">
+      <div class="photos">
+        <PhotoFrame ratio="4/5" note="撮影予定: 作業中(薪割り/撮影/山仕事)" />
+        <PhotoFrame ratio="4/5" note="撮影予定: 正面または半身" class="photo-sub" />
+      </div>
+
+      <div class="text">
+        <p class="bio reveal">
+          1993年、鶴岡市関川生まれ。大学進学で一度地域を離れ、卒業後は銀行勤務を経験。
+          その後、自然体験プログラムや、しな織・しなの花を活用した地域事業に携わる。
+          現在はそれらのプロジェクトを離れ、写真家として活動しながら、
+          生まれ育った集落で、暮らしそのものを起点にしたNISHYOIを始めている。
+        </p>
+        <!-- TODO: 本人の言葉による補足(暮らしへの考え方など)は、確定文をもらってから追加する -->
+
+        <div class="tl reveal" style="--stagger:90ms">
+          <h2 class="t-label" style="margin-bottom: var(--sp-2);">Timeline</h2>
+          <ol class="tl-list">
+            {timeline.map((t) => (
+              <li>
+                <span class="t-data year">{t.year || '—'}</span>
+                <span class="body">{t.body}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <div class="links reveal" style="--stagger:180ms">
+          <a class="link-line" href="https://kotograph-joe.com/" target="_blank" rel="noopener">KOTOGRAPH(写真の仕事) <span aria-hidden="true">↗</span></a>
+          <a class="link-line" href="/works/">Web制作 <span aria-hidden="true">→</span></a>
+          <a class="link-line" href="https://www.instagram.com/nishyoi/" target="_blank" rel="noopener">Instagram <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .jo { padding-block: calc(var(--space-section) + var(--sp-4)) var(--space-section); }
+  .head { display: grid; gap: var(--sp-4); margin-bottom: var(--sp-5); }
+  .main-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 24rem) 1fr;
+    gap: clamp(var(--sp-4), 6vw, var(--sp-6));
+    align-items: start;
+  }
+  @media (max-width: 48rem) {
+    .main-grid { grid-template-columns: 1fr; }
+  }
+  .photos { display: grid; gap: var(--sp-3); }
+  /* 2枚目を右へずらして重なりのリズムを作る */
+  .photo-sub { margin-left: 22%; margin-top: calc(-1 * var(--sp-4)); }
+
+  .text { display: grid; gap: var(--sp-4); max-width: 40em; }
+  .bio {
+    font-size: 0.95rem;
+    line-height: 2.4;
+    letter-spacing: 0.04em;
+  }
+  .tl-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+  }
+  .tl-list li {
+    display: grid;
+    grid-template-columns: 4.5rem 1fr;
+    gap: var(--sp-2);
+    padding-block: var(--sp-1);
+    border-top: 1px solid var(--line);
+    font-size: 0.85rem;
+    line-height: 2;
+  }
+  .tl-list li:last-child { border-bottom: 1px solid var(--line); }
+  .tl-list .year { color: var(--color-river); align-self: baseline; padding-top: 0.3em; }
+  .tl-list .body { color: var(--color-ink-soft); }
+  .links { display: flex; flex-wrap: wrap; gap: var(--sp-4); }
+</style>
