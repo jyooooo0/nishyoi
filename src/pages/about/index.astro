@@ -42,14 +42,23 @@ const activities = [
     </header>
 
     <div class="container body">
-      <!-- TODO: 屋号NISHYOIの由来が確定したら、ここに1段落追加する -->
       <p class="lead reveal">
         NISHYOIは、山形県鶴岡市関川を拠点にした、<br class="pc" />暮らしの実験と記録の屋号です。
       </p>
 
       <section class="block reveal">
+        <h2 class="t-section">屋号「にしょい」</h2>
         <p>
-          私が生まれ育った関川は、山あいにある小さな集落です。
+          NISHYOIは、私が生まれ育った実家の屋号からとりました。
+          正式には「二平(にへえ)」という屋号ですが、
+          集落では訛って「にしょい」と呼ばれてきました。
+          ご近所がこの家を呼んできた名前を、そのまま活動の名前にしています。
+        </p>
+      </section>
+
+      <section class="block reveal">
+        <p>
+          関川は、山あいにある小さな集落です。
           人は少しずつ減り、続いてきた暮らしの手ざわりも、静かに薄れつつあります。
           このまま進めば、いつか集落そのものがなくなるかもしれない——
           それは遠い未来の話ではなく、目の前にある現実です。
@@ -59,12 +68,13 @@ const activities = [
       <PhotoFrame ratio="21/9" note="撮影予定: 関川の谷あいと家並み(引き)" class="wide-photo" />
 
       <section class="block reveal">
-        <h2 class="t-section">未完成のまま、続けていく</h2>
+        <h2 class="t-section">「未完成な暮らし」とは</h2>
         <p>
-          NISHYOIは、その現実を嘆くことから始めません。
-          完成した暮らしの見本をつくるのでもありません。
-          季節ごとに試し、失敗し、直しながら、
-          「未完成のまま続けていく」こと自体を大切にします。
+          未完成な暮らしとは、何かに偏らない暮らしのことです。
+          昔の暮らしに戻るのではなく、かといって流行に流されるのでもなく。
+          時代が変わっていくのに合わせて、昔から大切にされてきた知恵を引き継ぎながら、
+          現代の知恵をうまく組み合わせて、山の暮らしをアップデートし続ける。
+          完成しないことを欠点ではなく前提として引き受ける、そんな暮らし方です。
         </p>
       </section>
 
@@ -87,6 +97,9 @@ const activities = [
           もしうまくいかなくても、記録はアーカイブとして残り、
           この集落に確かに暮らしがあったことを伝え続けます。
           だから、やってみることと記録することを、いつも一緒に進めます。
+        </p>
+        <p>
+          なぜこの活動を始めたのか——その経緯は、<a href="/about/jo/">丈のプロフィール</a>に書きました。
         </p>
       </section>
     </div>
@@ -135,6 +148,7 @@ const activities = [
     line-height: 2.3;
     max-width: 40em;
   }
+  .block a { color: var(--color-river); text-underline-offset: 4px; }
   .wide-photo { margin-block: var(--sp-2); }
 
   .acts { display: grid; gap: var(--sp-4); margin-block: var(--space-section); }

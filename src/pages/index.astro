@@ -57,18 +57,18 @@ const entrances = [
         class="hero-photo-frame"
       />
     </div>
-    <div class="hero-copy">
-      <h1 class="t-display">
-        未完成な暮らしを、<br />続けていく。
-      </h1>
-      <p class="hero-lead">
-        山形の山あいにある、生まれ育った集落。<br />
-        なくなるかもしれないこの場所で、私はもう一度、暮らしをつくり始めます。<br />
-        古くからの知恵と新しい技術を手がかりに、その過程を記録します。
-      </p>
-    </div>
-    <div class="hero-sekki">
-      <SekkiStrip />
+    <div class="container hero-under">
+      <div class="hero-text">
+        <h1><span class="nb">未完成な暮らしを、</span><span class="nb">続けていく。</span></h1>
+        <p class="hero-lead">
+          昔の暮らしに戻るのではなく、流行に流されるのでもなく。<br class="pc" />
+          受け継がれてきた知恵と新しい技術を組み合わせながら、<br class="pc" />
+          山の暮らしを、時代とともにアップデートし続ける。
+        </p>
+      </div>
+      <div class="hero-sekki">
+        <SekkiStrip />
+      </div>
     </div>
   </section>
 
@@ -82,10 +82,10 @@ const entrances = [
           <h2 class="t-section">山あいの暮らしを、<br />記録する。</h2>
         </div>
         <p class="concept-text reveal" style="--stagger:90ms">
-          完成をゴールにせず、季節ごとに試し、直し、育てながら暮らす。
-          なくなるかもしれないと言われる集落でも、里山の知恵と新しい技術を
-          組み合わせれば、続けていく形はきっと見つかる。
-          その試行錯誤を記録し、いつか誰かの手がかりとして残します。
+          なくなるかもしれないと言われる集落の、試したこと、直したこと、失敗したこと。
+          その日々を写真と文章で記録していきます。
+          うまくいけば、同じような場所で暮らしたい誰かのモデルに。
+          そうでなくても、ここに暮らしがあったことを伝えるアーカイブに。
         </p>
         <a class="link-line reveal" style="--stagger:180ms" href="/about/">NISHYOIについて <span aria-hidden="true">→</span></a>
       </div>
@@ -321,27 +321,31 @@ const entrances = [
     height: 100%;
     aspect-ratio: auto !important;
   }
-  .hero-copy {
-    position: relative;
-    margin-top: calc(-1 * var(--sp-5));
-    margin-left: var(--pad-inline);
-    max-width: min(34rem, calc(100% - 3rem));
-    background: var(--color-paper);
-    border: 1px solid var(--line);
-    padding: clamp(var(--sp-3), 3vw, var(--sp-4));
-    z-index: 2;
+  /* 写真の下に、静かにコンセプトを置く(大きなキャッチの重なりはやめる) */
+  .hero-under {
+    display: grid;
+    grid-template-columns: 1fr minmax(14rem, 20rem);
+    gap: var(--sp-4);
+    align-items: end;
+    padding-block: var(--sp-4) 0;
   }
+  @media (max-width: 48rem) {
+    .hero-under { grid-template-columns: 1fr; }
+    .hero-sekki { max-width: 20rem; }
+  }
+  .hero-text { display: grid; gap: var(--sp-3); }
+  .hero-text h1 {
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    letter-spacing: 0.16em;
+  }
+  .hero-text .nb { display: inline-block; }
   .hero-lead {
-    margin-top: var(--sp-3);
-    font-size: 0.88rem;
+    font-size: 0.9rem;
     color: var(--color-ink-soft);
-    line-height: 2.2;
+    line-height: 2.3;
   }
-  .hero-sekki {
-    max-width: 22rem;
-    margin-left: auto;
-    padding: var(--sp-4) var(--pad-inline) 0;
-  }
+  .pc { display: none; }
+  @media (min-width: 48rem) { .pc { display: inline; } }
 
   /* ---------- concept ---------- */
   .concept-grid {
