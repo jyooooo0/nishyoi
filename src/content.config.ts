@@ -53,10 +53,16 @@ const journal = defineCollection({
   schema: z.object({
     title: z.string(),
     date: z.coerce.date(),
+    /** 更新日(本文を大きく直した時のみ) */
+    updated: z.coerce.date().optional(),
     category: z.enum(JOURNAL_CATEGORIES),
     sekki: z.string().optional(),
     tags: z.array(z.string()).default([]),
     summary: z.string(),
+    /** 使用した技術・道具 */
+    tools: z.array(z.string()).default([]),
+    /** noteの詳細記事など外部リンク */
+    noteUrl: z.string().url().optional(),
     /** trueの間は本番ビルドに含めない(仮記事・執筆中) */
     draft: z.boolean().default(false),
   }),

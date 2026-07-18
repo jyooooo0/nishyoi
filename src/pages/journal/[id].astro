@@ -1,15 +1,221 @@
 ---
-import { getCollection } from 'astro:content';
-import Stub from '../../layouts/Stub.astro';
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PhotoFrame from '../../components/PhotoFrame.astro';
+import RiverLine from '../../components/RiverLine.astro';
 
 export async function getStaticPaths() {
   const posts = (await getCollection('journal')).filter(
     (j) => !(import.meta.env.PROD && j.data.draft)
   );
-  return posts.map((j) => ({ params: { id: j.id }, props: { post: j } }));
+  return posts.map((post) => ({ params: { id: post.id }, props: { post } }));
 }
+
 const { post } = Astro.props;
+const { Content } = await render(post);
+
+const fmt = (d: Date) =>
+  `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
+
+// 通し番号(古い順)と前後の記事
+const all = (await getCollection('journal'))
+  .filter((j) => !(import.meta.env.PROD && j.data.draft))
+  .sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+const index = all.findIndex((p) => p.id === post.id);
+const no = index + 1;
+const prev = index > 0 ? all[index - 1] : undefined;
+const next = index < all.length - 1 ? all[index + 1] : undefined;
+
+// 関連記事: 同カテゴリーの新しい順、自分を除いて最大3件
+const related = all
+  .filter((p) => p.id !== post.id && p.data.category === post.data.category)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
 ---
-<Stub title={post.data.title} en="Journal" step="Step 5(記事詳細)">
-  <p style="font-size:.88rem; color: var(--color-ink-soft);">{post.data.summary}</p>
-</Stub>
+
+<Base title={post.data.title} description={post.data.summary}>
+  <article class="post">
+    <header class="container head">
+      <div class="meta t-data">
+        <span>No.{String(no).padStart(3, '0')}</span>
+        <span>{fmt(post.data.date)}</span>
+        {post.data.updated && <span>更新 {fmt(post.data.updated)}</span>}
+        <a class="cat" href="/journal/">{post.data.category}</a>
+        {post.data.sekki && <span class="sekki">{post.data.sekki}</span>}
+      </div>
+      <h1 class="t-display">{post.data.title}</h1>
+      <p class="summary">{post.data.summary}</p>
+      {post.data.tags.length > 0 && (
+        <ul class="tags t-data" aria-label="タグ">
+          {post.data.tags.map((t) => <li>#{t}</li>)}
+        </ul>
+      )}
+    </header>
+
+    <figure class="container hero-photo-wrap">
+      <PhotoFrame ratio="3/2" note="記事メイン写真" />
+    </figure>
+
+    <div class="container prose-wrap">
+      <div class="prose">
+        <Content />
+      </div>
+
+      {post.data.tools.length > 0 && (
+        <aside class="tools">
+          <h2 class="t-label">使った技術・道具</h2>
+          <ul class="t-data">
+            {post.data.tools.map((t) => <li>{t}</li>)}
+          </ul>
+        </aside>
+      )}
+
+      {post.data.noteUrl && (
+        <p class="note-link">
+          <a class="link-line" href={post.data.noteUrl} target="_blank" rel="noopener">
+            noteで詳しく読む <span aria-hidden="true">↗</span>
+          </a>
+        </p>
+      )}
+    </div>
+
+    <RiverLine variant={1} />
+
+    <nav class="container pn" aria-label="前後の記事">
+      {prev ? (
+        <a href={`/journal/${prev.id}/`} class="pn-item">
+          <span class="t-label">← 前の記録</span>
+          <span class="pn-title">{prev.data.title}</span>
+        </a>
+      ) : <span></span>}
+      {next ? (
+        <a href={`/journal/${next.id}/`} class="pn-item pn-next">
+          <span class="t-label">次の記録 →</span>
+          <span class="pn-title">{next.data.title}</span>
+        </a>
+      ) : <span></span>}
+    </nav>
+
+    {related.length > 0 && (
+      <div class="container related">
+        <h2 class="t-label">同じカテゴリーの記録</h2>
+        <ul>
+          {related.map((r) => (
+            <li>
+              <a href={`/journal/${r.id}/`}>
+                <span class="t-data">{fmt(r.data.date)}</span>
+                <span>{r.data.title}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    <div class="container back">
+      <a class="link-line" href="/journal/">記録の一覧へ <span aria-hidden="true">→</span></a>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .post { padding-block: calc(var(--space-section) + var(--sp-4)) var(--space-section); }
+  .head { display: grid; gap: var(--sp-3); max-width: 46rem; margin-bottom: var(--sp-4); }
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+    color: var(--color-ink-soft);
+  }
+  .meta .cat { color: var(--color-river); text-decoration: none; }
+  .meta .cat:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .meta .sekki { color: var(--season); }
+  .summary {
+    font-size: 0.92rem;
+    color: var(--color-ink-soft);
+    line-height: 2.2;
+  }
+  .tags {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+    color: var(--color-ink-soft);
+  }
+
+  .hero-photo-wrap { margin: 0 auto var(--sp-5); max-width: 56rem; }
+
+  .prose-wrap { display: grid; gap: var(--sp-4); max-width: 46rem; margin-bottom: var(--sp-5); }
+  .prose {
+    font-size: 0.95rem;
+    line-height: 2.4;
+    letter-spacing: 0.02em;
+  }
+  .prose :global(p) { margin: 0 0 var(--sp-3); }
+  .prose :global(h2) {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    letter-spacing: 0.12em;
+    margin: var(--sp-4) 0 var(--sp-2);
+  }
+  .prose :global(h3) {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    letter-spacing: 0.1em;
+    margin: var(--sp-3) 0 var(--sp-1);
+  }
+  .prose :global(ul), .prose :global(ol) { padding-left: 1.4em; margin: 0 0 var(--sp-3); }
+  .prose :global(blockquote) {
+    margin: var(--sp-3) 0;
+    padding-left: var(--sp-2);
+    border-left: 2px solid var(--season);
+    color: var(--color-ink-soft);
+  }
+  .prose :global(img) { border: 1px solid var(--line); }
+  .prose :global(a) { color: var(--color-river); text-underline-offset: 4px; }
+  .prose :global(hr) { border: none; border-top: 1px solid var(--line); margin: var(--sp-4) 0; }
+
+  .tools {
+    border: 1px solid var(--line);
+    padding: var(--sp-3);
+    display: grid;
+    gap: var(--sp-2);
+  }
+  .tools ul { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--sp-1); color: var(--color-ink-soft); }
+
+  .pn {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-3);
+    margin-block: var(--sp-4) var(--sp-5);
+    max-width: 56rem;
+  }
+  @media (max-width: 40rem) { .pn { grid-template-columns: 1fr; } }
+  .pn-item {
+    text-decoration: none;
+    display: grid;
+    gap: var(--sp-1);
+    border-top: 1px solid var(--line);
+    padding-top: var(--sp-2);
+  }
+  .pn-next { text-align: right; }
+  .pn-title { font-size: 0.88rem; letter-spacing: 0.06em; }
+  .pn-item:hover .pn-title { color: var(--color-river); }
+
+  .related { display: grid; gap: var(--sp-3); max-width: 46rem; margin-bottom: var(--sp-5); }
+  .related ul { list-style: none; margin: 0; padding: 0; display: grid; }
+  .related li { border-top: 1px solid var(--line); }
+  .related li:last-child { border-bottom: 1px solid var(--line); }
+  .related a {
+    display: grid;
+    grid-template-columns: 6.5rem 1fr;
+    gap: var(--sp-2);
+    padding-block: var(--sp-2);
+    text-decoration: none;
+    font-size: 0.88rem;
+  }
+  .related a:hover { color: var(--color-river); }
+  .related .t-data { color: var(--color-ink-soft); }
+</style>

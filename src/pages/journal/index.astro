@@ -1,4 +1,146 @@
 ---
-import Stub from '../../layouts/Stub.astro';
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PhotoFrame from '../../components/PhotoFrame.astro';
+import { JOURNAL_CATEGORIES } from '../../content.config';
+
+const description =
+  '関川での暮らしと実験の記録。季節と手仕事、動物と暮らし、田舎とテクノロジー、山の恵み、集落の記録、写真と映像。';
+
+// 本番ではdraftを除外。番号は古い順に通し番号(コンタクトシートのコマ番号)
+const all = (await getCollection('journal'))
+  .filter((j) => !(import.meta.env.PROD && j.data.draft))
+  .sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+const numbered = all.map((post, i) => ({ post, no: i + 1 }));
+const posts = [...numbered].reverse(); // 表示は新しい順
+
+const fmt = (d: Date) =>
+  `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
+
+// カテゴリーごとの記事数(0件のカテゴリーも凡例として見せる)
+const counts = Object.fromEntries(
+  JOURNAL_CATEGORIES.map((c) => [c, all.filter((p) => p.data.category === c).length])
+);
 ---
-<Stub title="記録" en="Journal" step="Step 5" />
+
+<Base title="記録" description={description}>
+  <section class="journal-index">
+    <header class="container head">
+      <div class="heading-pair">
+        <span class="en">Journal</span>
+        <h1 class="t-display">暮らしと実験の記録</h1>
+      </div>
+      <p class="lead">
+        試したこと、うまくいったこと、失敗したこと。<br />
+        関川での暮らしを、コンタクトシートのように残していきます。
+      </p>
+      <ul class="cats t-data" aria-label="カテゴリー一覧">
+        {JOURNAL_CATEGORIES.map((c) => (
+          <li data-empty={counts[c] === 0 ? 'true' : undefined}>
+            {c} <span class="count">{counts[c]}</span>
+          </li>
+        ))}
+      </ul>
+    </header>
+
+    <div class="container">
+      {posts.length === 0 ? (
+        <p class="empty t-data">記事は準備中です。</p>
+      ) : (
+        <div class="sheet" role="list">
+          {posts.map(({ post, no }, i) => (
+            <a
+              class="frame reveal"
+              role="listitem"
+              href={`/journal/${post.id}/`}
+              style={`--stagger:${(i % 4) * 90}ms`}
+            >
+              <PhotoFrame ratio="3/2" note="記事写真" reveal={false} />
+              <div class="frame-no t-data">
+                <span>No.{String(no).padStart(3, '0')}</span>
+                <span class="sekki">{post.data.sekki ?? ''}</span>
+              </div>
+              <h2 class="frame-title">{post.data.title}</h2>
+              <p class="frame-summary">{post.data.summary}</p>
+              <div class="frame-meta t-data">
+                <span>{fmt(post.data.date)}</span>
+                <span>{post.data.category}</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .journal-index { padding-block: calc(var(--space-section) + var(--sp-4)) var(--space-section); }
+  .head { display: grid; gap: var(--sp-4); margin-bottom: var(--sp-5); }
+  .lead {
+    font-size: 0.92rem;
+    color: var(--color-ink-soft);
+    line-height: 2.3;
+  }
+  .cats {
+    list-style: none;
+    margin: 0;
+    padding: var(--sp-2) 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2) var(--sp-3);
+    border-top: 1px solid var(--line);
+    color: var(--color-ink-soft);
+  }
+  .cats li[data-empty] { opacity: 0.45; }
+  .cats .count { color: var(--season); }
+
+  .empty { color: var(--color-ink-soft); }
+
+  .sheet {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--sp-3);
+  }
+  @media (max-width: 64rem) { .sheet { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 40rem) { .sheet { grid-template-columns: 1fr; } }
+  .frame {
+    text-decoration: none;
+    border: 1px solid var(--line);
+    background: var(--color-paper);
+    padding: var(--sp-1) var(--sp-1) var(--sp-2);
+    display: grid;
+    gap: var(--sp-1);
+    align-content: start;
+  }
+  .frame-no {
+    display: flex;
+    justify-content: space-between;
+    color: var(--color-ink-soft);
+  }
+  .frame-no .sekki { color: var(--season); }
+  .frame-title {
+    font-size: 0.98rem;
+    letter-spacing: 0.06em;
+    line-height: 1.9;
+    transition: color var(--dur-micro);
+  }
+  .frame:hover .frame-title { color: var(--color-river); }
+  .frame-summary {
+    font-size: 0.8rem;
+    color: var(--color-ink-soft);
+    line-height: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+  .frame-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--sp-2);
+    color: var(--color-ink-soft);
+    padding-top: var(--sp-1);
+    border-top: 1px solid var(--line);
+  }
+</style>
