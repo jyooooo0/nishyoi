@@ -1,13 +1,252 @@
 ---
-import { getCollection } from 'astro:content';
-import Stub from '../../layouts/Stub.astro';
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PhotoFrame from '../../components/PhotoFrame.astro';
+import RiverLine from '../../components/RiverLine.astro';
+import { EVENT_STATUS } from '../../content.config';
 
 export async function getStaticPaths() {
-  const events = await getCollection('events');
+  // 下書き以外は終了後もページを残す(記録として)
+  const events = (await getCollection('events')).filter((e) => e.data.status !== 'draft' || !import.meta.env.PROD);
   return events.map((e) => ({ params: { id: e.id }, props: { event: e } }));
 }
+
 const { event } = Astro.props;
+const { Content } = await render(event);
+const d = event.data;
+
+const WEEK = ['日', '月', '火', '水', '木', '金', '土'];
+const fmtDate = `${d.date.getFullYear()}年${d.date.getMonth() + 1}月${d.date.getDate()}日(${WEEK[d.date.getDay()]})`;
+const fmtTime = `${d.date.getHours()}:${String(d.date.getMinutes()).padStart(2, '0')}`;
+const canApply = d.status === 'open';
+
+const statusNote: Record<string, string> = {
+  soon: '受付開始までお待ちください。',
+  full: '満席になりました。キャンセルが出た場合はお知らせします。',
+  closed: '受付を終了しました。',
+  cancelled: 'このイベントは中止になりました。',
+  ended: 'このイベントは終了しました。',
+};
 ---
-<Stub title={event.data.title} en="Event" step="Step 6(詳細・申込みフォーム)">
-  <p style="font-size:.88rem; color: var(--color-ink-soft);">{event.data.summary}</p>
-</Stub>
+
+<Base title={d.title} description={d.summary}>
+  <article class="event">
+    <header class="container head">
+      <div class="meta t-data">
+        <span class="badge" data-state={d.status}>{EVENT_STATUS[d.status]}</span>
+        {d.sekki && <span class="sekki">{d.sekki}</span>}
+      </div>
+      <h1 class="t-display">{d.title}</h1>
+      <p class="summary">{d.summary}</p>
+    </header>
+
+    <figure class="container photo">
+      <PhotoFrame ratio="3/2" note={`撮影予定: ${d.sekki ?? ''}のイベント風景`} />
+    </figure>
+
+    <div class="container cols">
+      <!-- 開催情報 -->
+      <aside class="facts">
+        <h2 class="t-label">開催情報</h2>
+        <dl>
+          <div><dt>日時</dt><dd>{fmtDate} {fmtTime}〜{d.durationMinutes ? `(約${d.durationMinutes}分)` : ''}</dd></div>
+          {d.audience && <div><dt>対象</dt><dd>{d.audience}</dd></div>}
+          <div><dt>定員</dt><dd>{d.capacity}名{d.remaining != null && canApply ? `(残席 ${d.remaining})` : ''}</dd></div>
+          {d.fee && <div><dt>参加費</dt><dd>{d.fee}</dd></div>}
+          <div><dt>場所</dt><dd>{d.area}<br /><span class="small">正確な集合場所はお申込みの方にご案内します</span></dd></div>
+        </dl>
+      </aside>
+
+      <!-- 本文 -->
+      <div class="prose">
+        <Content />
+      </div>
+    </div>
+
+    <RiverLine variant={2} />
+
+    <!-- 申込み -->
+    <section id="apply" class="container apply">
+      <div class="heading-pair">
+        <span class="en">Apply</span>
+        <h2 class="t-section">申込み</h2>
+      </div>
+
+      <p id="form-status" class="form-status t-data" hidden></p>
+
+      {canApply ? (
+        <form method="post" action="/api/bookings" class="form">
+          <input type="hidden" name="event_id" value={event.id} />
+          <input type="hidden" name="event_title" value={d.title} />
+          <!-- ハニーポット(人間には見えない) -->
+          <p class="trap" aria-hidden="true">
+            <label>このフィールドは空のままにしてください<input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+          </p>
+
+          <div class="row">
+            <label for="f-name">お名前 <span class="req">必須</span></label>
+            <input id="f-name" name="name" type="text" required autocomplete="name" />
+          </div>
+          <div class="row">
+            <label for="f-email">メールアドレス <span class="req">必須</span></label>
+            <input id="f-email" name="email" type="email" required autocomplete="email" />
+            <p class="hint">集合場所のご案内をこのアドレスへお送りします</p>
+          </div>
+          <div class="row">
+            <label for="f-guests">参加人数</label>
+            <select id="f-guests" name="guests">
+              <option value="1">1名</option>
+              <option value="2">2名</option>
+              <option value="3">3名</option>
+            </select>
+          </div>
+          <div class="row">
+            <label for="f-message">メッセージ(任意)</label>
+            <textarea id="f-message" name="message" rows="4" placeholder="質問や、参加にあたって伝えておきたいことがあればどうぞ"></textarea>
+          </div>
+          <div class="row consent">
+            <label>
+              <input type="checkbox" name="consent" required />
+              <span><a href="/privacy/" target="_blank">プライバシーポリシー</a>と<a href="/terms/" target="_blank">イベント利用規約</a>に同意します <span class="req">必須</span></span>
+            </label>
+          </div>
+          <button type="submit" class="submit">申し込む</button>
+        </form>
+      ) : (
+        <p class="closed-note">{statusNote[d.status] ?? '現在は受付していません。'}</p>
+      )}
+    </section>
+
+    <div class="container back">
+      <a class="link-line" href="/events/">イベント一覧へ <span aria-hidden="true">→</span></a>
+    </div>
+  </article>
+</Base>
+
+<script>
+  // 静的ページのため、送信結果はクエリパラメータで受け取って表示する
+  const params = new URLSearchParams(location.search);
+  const box = document.getElementById('form-status');
+  if (box) {
+    if (params.get('sent')) {
+      box.textContent = '申込みを受け付けました。確認メールをお送りしますので、届かない場合はお問い合わせください。';
+      box.dataset.kind = 'ok';
+      box.hidden = false;
+      document.querySelector('#apply form')?.remove();
+    } else if (params.get('error')) {
+      const kind = params.get('error');
+      box.textContent =
+        kind === 'input'
+          ? '入力内容をご確認ください(お名前・メールアドレス・同意が必要です)。'
+          : kind === 'unconfigured'
+            ? '申込みフォームは現在準備中です。恐れ入りますが、お問い合わせからご連絡ください。'
+            : '送信に失敗しました。時間をおいてもう一度お試しください。';
+      box.dataset.kind = 'error';
+      box.hidden = false;
+    }
+  }
+</script>
+
+<style>
+  .event { padding-block: calc(var(--space-section) + var(--sp-4)) var(--space-section); }
+  .head { display: grid; gap: var(--sp-3); max-width: 46rem; margin-bottom: var(--sp-4); }
+  .meta { display: flex; gap: var(--sp-2); align-items: center; }
+  .meta .sekki { color: var(--season); }
+  .summary { font-size: 0.92rem; color: var(--color-ink-soft); line-height: 2.2; }
+
+  .photo { margin: 0 auto var(--sp-5); max-width: 56rem; }
+
+  .cols {
+    display: grid;
+    grid-template-columns: minmax(15rem, 20rem) 1fr;
+    gap: clamp(var(--sp-4), 5vw, var(--sp-5));
+    align-items: start;
+    margin-bottom: var(--sp-4);
+  }
+  @media (max-width: 48rem) { .cols { grid-template-columns: 1fr; } }
+
+  .facts {
+    border: 1px solid var(--line);
+    padding: var(--sp-3);
+    display: grid;
+    gap: var(--sp-2);
+    position: sticky;
+    top: var(--sp-5);
+  }
+  .facts dl { margin: 0; display: grid; gap: var(--sp-2); }
+  .facts dt {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    color: var(--color-ink-soft);
+  }
+  .facts dd { margin: 0; font-size: 0.88rem; line-height: 1.9; }
+  .facts .small { font-size: 0.75rem; color: var(--color-ink-soft); }
+
+  .prose { font-size: 0.95rem; line-height: 2.4; max-width: 40em; }
+  .prose :global(h2) {
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    letter-spacing: 0.12em;
+    margin: var(--sp-4) 0 var(--sp-2);
+  }
+  .prose :global(h2:first-child) { margin-top: 0; }
+  .prose :global(p) { margin: 0 0 var(--sp-3); }
+  .prose :global(ul) { padding-left: 1.4em; margin: 0 0 var(--sp-3); }
+  .prose :global(a) { color: var(--color-river); text-underline-offset: 4px; }
+
+  .apply { display: grid; gap: var(--sp-4); max-width: 40rem; margin-block: var(--sp-4) var(--sp-5); }
+  .form-status {
+    border: 1px solid var(--line);
+    padding: var(--sp-2) var(--sp-3);
+    line-height: 1.9;
+  }
+  .form-status[data-kind="ok"] { border-color: var(--season); color: var(--season); }
+  .form-status[data-kind="error"] { border-color: #a1503c; color: #a1503c; }
+
+  .form { display: grid; gap: var(--sp-3); }
+  .trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .row { display: grid; gap: var(--sp-1); }
+  .row label { font-size: 0.85rem; letter-spacing: 0.06em; }
+  .req {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    color: var(--season);
+    border: 1px solid var(--season);
+    border-radius: 999px;
+    padding: 0.05em 0.7em;
+    margin-left: 0.5em;
+    vertical-align: 0.15em;
+  }
+  input[type="text"], input[type="email"], select, textarea {
+    font: inherit;
+    font-size: 0.92rem;
+    background: var(--color-paper);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    padding: 0.7em 0.9em;
+    color: var(--color-ink);
+    width: 100%;
+    box-sizing: border-box;
+  }
+  textarea { resize: vertical; }
+  .hint { font-size: 0.75rem; color: var(--color-ink-soft); }
+  .consent label { display: flex; gap: 0.6em; align-items: baseline; font-size: 0.85rem; line-height: 2; }
+  .consent a { color: var(--color-river); text-underline-offset: 4px; }
+  .submit {
+    font: inherit;
+    font-size: 0.9rem;
+    letter-spacing: 0.24em;
+    background: var(--color-ink);
+    color: var(--color-paper);
+    border: none;
+    border-radius: 2px;
+    padding: 1em 2em;
+    cursor: pointer;
+    justify-self: start;
+    transition: background var(--dur-micro);
+  }
+  .submit:hover { background: var(--color-river); }
+  .closed-note { font-size: 0.9rem; color: var(--color-ink-soft); }
+  .back { margin-top: var(--sp-4); }
+</style>

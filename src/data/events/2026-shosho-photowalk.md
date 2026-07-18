@@ -5,7 +5,7 @@ durationMinutes: 120
 audience: どなたでも(小学生以下は保護者同伴)
 capacity: 8
 remaining: 4
-status: open
+status: draft
 area: 山形県鶴岡市関川周辺
 summary: 二十四節気「小暑」の関川を、写真家と一緒に歩きながら撮る2時間。カメラはスマートフォンでも構いません。正確な集合場所はお申込みの方にご案内します。
 sekki: 小暑

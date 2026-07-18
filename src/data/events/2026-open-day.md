@@ -4,7 +4,7 @@ date: 2026-08-23T10:00:00+09:00
 durationMinutes: 180
 audience: どなたでも
 capacity: 6
-status: soon
+status: draft
 area: 山形県鶴岡市関川周辺
 summary: 薪割り、ニワトリの世話、山の水路の掃除。NISHYOIの暮らしの一部をそのまま体験する半日。処暑の頃、山の空気が変わり始める時期に開きます。
 sekki: 処暑

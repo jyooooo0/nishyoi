@@ -1,4 +1,151 @@
 ---
-import Stub from '../../layouts/Stub.astro';
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PhotoFrame from '../../components/PhotoFrame.astro';
+import RiverLine from '../../components/RiverLine.astro';
+import { EVENT_STATUS } from '../../content.config';
+
+const description =
+  '山の暮らしをシェアするNISHYOIのイベント。薪割りなどの暮らしの作業を手伝いながら、その一部をそのまま体験します。';
+
+const all = (await getCollection('events')).filter((e) => e.data.status !== 'draft');
+const upcoming = all
+  .filter((e) => ['open', 'soon', 'full'].includes(e.data.status))
+  .sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+const past = all
+  .filter((e) => ['closed', 'ended', 'cancelled'].includes(e.data.status))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const WEEK = ['日', '月', '火', '水', '木', '金', '土'];
+const fmt = (d: Date) =>
+  `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}(${WEEK[d.getDay()]})`;
 ---
-<Stub title="イベント" en="Events" step="Step 6" />
+
+<Base title="イベント" description={description}>
+  <section class="events-index">
+    <header class="container head">
+      <div class="heading-pair">
+        <span class="en">Events</span>
+        <h1 class="t-display">山の暮らしを、シェアする</h1>
+      </div>
+      <p class="lead">
+        田舎暮らしに関心があっても、一人で山の暮らしを営むのはかなりの労力が要ります。<br class="pc" />
+        NISHYOIのイベントは、暮らしの作業を手伝ってもらいながら、
+        その一部をそのまま体験してもらう「山の暮らしのシェア」です。<br class="pc" />
+        これまでには、倒れた小屋の瓦を敷いて
+        <a href="https://note.com/joe_igarashi/n/n2df1b0ce1210" target="_blank" rel="noopener">道を作る</a>
+        こともやりました。
+      </p>
+    </header>
+
+    <div class="container">
+      <h2 class="t-label sec-label">募集中・開催予定</h2>
+      {upcoming.length === 0 ? (
+        <p class="empty">現在募集中のイベントはありません。次の予定が決まったらここでお知らせします。</p>
+      ) : (
+        <div class="list">
+          {upcoming.map((e, i) => (
+            <a class="card reveal" href={`/events/${e.id}/`} style={`--stagger:${i * 90}ms`}>
+              <PhotoFrame ratio="3/2" note={`撮影予定: ${e.data.sekki ?? ''}のイベント風景`} />
+              <div class="card-body">
+                <div class="meta t-data">
+                  <span class="badge" data-state={e.data.status}>{EVENT_STATUS[e.data.status]}</span>
+                  <span>{fmt(e.data.date)}</span>
+                  {e.data.sekki && <span class="sekki">{e.data.sekki}</span>}
+                  {e.data.remaining != null && e.data.status === 'open' && <span>残席 {e.data.remaining}</span>}
+                </div>
+                <h3 class="card-title">{e.data.title}</h3>
+                <p class="card-summary">{e.data.summary}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+      )}
+
+      {past.length > 0 && (
+        <>
+          <h2 class="t-label sec-label" style="margin-top: var(--sp-5);">終了したイベント</h2>
+          <ul class="past">
+            {past.map((e) => (
+              <li>
+                <a href={`/events/${e.id}/`}>
+                  <span class="t-data">{fmt(e.data.date)}</span>
+                  <span>{e.data.title}</span>
+                  <span class="badge" data-state={e.data.status}>{EVENT_STATUS[e.data.status]}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+    </div>
+
+    <RiverLine variant={1} />
+
+    <div class="container note-box">
+      <p>
+        参加にあたっての基本的な考え方(キャンセル・安全・撮影)は
+        <a href="/terms/">イベント利用規約</a>にまとめています。
+        はじめての方も、お気軽にどうぞ。
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .events-index { padding-block: calc(var(--space-section) + var(--sp-4)) var(--space-section); }
+  .head { display: grid; gap: var(--sp-4); margin-bottom: var(--sp-5); }
+  .lead {
+    font-size: 0.92rem;
+    color: var(--color-ink-soft);
+    line-height: 2.3;
+    max-width: 44em;
+  }
+  .lead a { color: var(--color-river); text-underline-offset: 4px; }
+  .pc { display: none; }
+  @media (min-width: 48rem) { .pc { display: inline; } }
+
+  .sec-label { margin-bottom: var(--sp-3); display: block; }
+  .empty { color: var(--color-ink-soft); font-size: 0.9rem; }
+
+  .list { display: grid; gap: var(--sp-4); }
+  .card {
+    text-decoration: none;
+    display: grid;
+    grid-template-columns: minmax(0, 24rem) 1fr;
+    gap: var(--sp-3) var(--sp-4);
+    border-top: 1px solid var(--line);
+    padding-top: var(--sp-3);
+    align-items: start;
+  }
+  @media (max-width: 48rem) { .card { grid-template-columns: 1fr; } }
+  .card-body { display: grid; gap: var(--sp-2); }
+  .meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); color: var(--color-ink-soft); }
+  .meta .sekki { color: var(--season); }
+  .card-title { font-size: 1.1rem; letter-spacing: 0.08em; transition: color var(--dur-micro); }
+  .card:hover .card-title { color: var(--color-river); }
+  .card-summary { font-size: 0.85rem; color: var(--color-ink-soft); line-height: 2.1; max-width: 40em; }
+
+  .past { list-style: none; margin: 0; padding: 0; display: grid; }
+  .past li { border-top: 1px solid var(--line); }
+  .past li:last-child { border-bottom: 1px solid var(--line); }
+  .past a {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+    align-items: center;
+    padding-block: var(--sp-2);
+    text-decoration: none;
+    font-size: 0.88rem;
+  }
+  .past a:hover { color: var(--color-river); }
+  .past .t-data { color: var(--color-ink-soft); }
+
+  .note-box p {
+    font-size: 0.85rem;
+    color: var(--color-ink-soft);
+    line-height: 2.2;
+    max-width: 40em;
+  }
+  .note-box a { color: var(--color-river); text-underline-offset: 4px; }
+</style>
