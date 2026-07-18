@@ -8,7 +8,7 @@ export default defineConfig({
   // ページは静的生成のまま。/api/ のエンドポイントだけ prerender=false で
   // Cloudflare Pages Functions として動く
   output: 'static',
-  adapter: cloudflare({ imageService: 'compile' }),
+  adapter: cloudflare(),
   vite: {
     plugins: [tailwindcss()],
   },

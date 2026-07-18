@@ -4,7 +4,7 @@ import Base from '../layouts/Base.astro';
 import PhotoFrame from '../components/PhotoFrame.astro';
 import RiverLine from '../components/RiverLine.astro';
 import SekkiStrip from '../components/SekkiStrip.astro';
-import { EVENT_STATUS } from '../content.config';
+import { EVENT_STATUS } from '../lib/constants';
 
 // 募集中のイベント(最大3件)。下書き・終了系は載せない
 const events = (await getCollection('events'))
