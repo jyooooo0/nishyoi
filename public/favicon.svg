@@ -1,4 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- 屋号紋「鉤(かね)にイ」。手書きマークの実データが入るまでの清書版 -->
   <rect width="32" height="32" fill="#F7F4EE"/>
-  <path d="M3 21 C 8 21, 10 12, 16 12 S 24 20, 29 18" fill="none" stroke="#33586B" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M4 7 H26.5 V27.5" fill="none" stroke="#21201C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M19.5 11 C17.5 14.5, 13.5 17.5, 9.5 19.5" fill="none" stroke="#21201C" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M14.6 16.2 V27.5" fill="none" stroke="#21201C" stroke-width="2.4" stroke-linecap="round"/>
 </svg>
