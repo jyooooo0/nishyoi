@@ -1,0 +1,29 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // イベント申込み: 作成のみ許可(内容の検証つき)。
+    // 読み取り・更新・削除は不可 = 申込み一覧はFirebaseコンソールで確認する
+    match /bookings/{id} {
+      allow create: if
+        request.resource.data.name is string &&
+        request.resource.data.name.size() > 0 &&
+        request.resource.data.name.size() <= 100 &&
+        request.resource.data.email is string &&
+        request.resource.data.email.size() <= 200 &&
+        request.resource.data.event_id is string &&
+        request.resource.data.event_id.size() <= 100 &&
+        request.resource.data.message is string &&
+        request.resource.data.message.size() <= 2000 &&
+        request.resource.data.guests is int &&
+        request.resource.data.guests >= 1 &&
+        request.resource.data.guests <= 9;
+      allow read, update, delete: if false;
+    }
+
+    // それ以外はすべて拒否
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
