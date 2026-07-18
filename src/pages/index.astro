@@ -22,6 +22,18 @@ const journal = (await getCollection('journal'))
 // Web制作の実績(掲載許可済みのみ)
 const works = (await getCollection('works')).filter((w) => w.data.published);
 
+// noteの記事引用(本番ではdraft除外)。アカウント自体へのリンクは常設
+const NOTE_ACCOUNT = 'https://note.com/joe_igarashi';
+const notes = (await getCollection('notes'))
+  .filter((n) => !(import.meta.env.PROD && n.data.draft))
+  .sort((a, b) => (b.data.date?.getTime() ?? 0) - (a.data.date?.getTime() ?? 0))
+  .slice(0, 2);
+
+// 興味本位でつくったホームページ
+const labs = (await getCollection('labs')).filter(
+  (l) => !(import.meta.env.PROD && l.data.draft)
+);
+
 const fmt = (d: Date) =>
   `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
 
@@ -176,6 +188,28 @@ const entrances = [
     </section>
   )}
 
+  <!-- 5.5 noteの記事 -->
+  <section class="section-tight notes-corner">
+    <div class="container">
+      <div class="heading-pair reveal">
+        <span class="en">Note</span>
+        <h2 class="t-section">noteでも書いています</h2>
+      </div>
+      <div class="notes-grid">
+        {notes.map((n, i) => (
+          <a class="note-card reveal" href={n.data.url} target="_blank" rel="noopener" style={`--stagger:${i * 90}ms`}>
+            {n.data.excerpt && <blockquote>{n.data.excerpt}</blockquote>}
+            <span class="note-title">{n.data.title} <span aria-hidden="true">↗</span></span>
+          </a>
+        ))}
+        <div class="note-account reveal" style={`--stagger:${notes.length * 90}ms`}>
+          <p>写真や暮らしのこと、少し長い文章はnoteに書いています。</p>
+          <a class="link-line" href={NOTE_ACCOUNT} target="_blank" rel="noopener">note.com/joe_igarashi <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- 6. 丈のプロフィール -->
   <section class="section profile" style="background: var(--color-paper-dim);">
     <div class="container profile-grid">
@@ -230,6 +264,38 @@ const entrances = [
       </div>
     </div>
   </section>
+
+  <!-- 7.5 興味本位でつくったもの -->
+  {labs.length > 0 && (
+    <section class="section playground">
+      <div class="container">
+        <div class="heading-pair reveal">
+          <span class="en">Playground</span>
+          <h2 class="t-section">興味本位でつくったもの</h2>
+        </div>
+        <p class="pg-lead reveal" style="--stagger:90ms">
+          仕事とは別に、気になったことを形にしてみた小さなホームページたち。
+        </p>
+        <div class="pg-grid">
+          {labs.map((l, i) => (
+            l.data.url ? (
+              <a class="pg-card reveal" href={l.data.url} target="_blank" rel="noopener" style={`--stagger:${i * 90}ms`}>
+                <span class="pg-url t-data">{new URL(l.data.url).host} <span aria-hidden="true">↗</span></span>
+                <span class="pg-title">{l.data.title}</span>
+                <span class="pg-desc">{l.data.description}</span>
+              </a>
+            ) : (
+              <div class="pg-card reveal" style={`--stagger:${i * 90}ms`}>
+                <span class="pg-url t-data">準備中</span>
+                <span class="pg-title">{l.data.title}</span>
+                <span class="pg-desc">{l.data.description}</span>
+              </div>
+            )
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
 
   <!--
     8-9. 将来枠: Films(YouTube開始後) / Shop(販売開始後)
@@ -448,4 +514,79 @@ const entrances = [
   .web-side { display: grid; gap: var(--sp-3); align-content: start; }
   .web-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--sp-1); }
   .web-list a { color: inherit; }
+
+  /* ---------- notes corner ---------- */
+  .notes-corner { background: var(--color-paper); }
+  .notes-corner .heading-pair { margin-bottom: var(--sp-4); }
+  .notes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: var(--sp-4);
+    align-items: start;
+  }
+  .note-card {
+    text-decoration: none;
+    display: grid;
+    gap: var(--sp-2);
+    border: 1px solid var(--line);
+    padding: var(--sp-3);
+    background: var(--color-paper);
+  }
+  .note-card blockquote {
+    margin: 0;
+    padding-left: var(--sp-2);
+    border-left: 2px solid var(--season);
+    font-family: var(--font-serif);
+    font-size: 0.9rem;
+    line-height: 2.2;
+    color: var(--color-ink-soft);
+  }
+  .note-card .note-title {
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    transition: color var(--dur-micro);
+  }
+  .note-card:hover .note-title { color: var(--color-river); }
+  .note-account { display: grid; gap: var(--sp-2); align-content: center; }
+  .note-account p {
+    font-size: 0.85rem;
+    color: var(--color-ink-soft);
+    line-height: 2.1;
+  }
+
+  /* ---------- playground ---------- */
+  .playground { background: var(--color-paper-dim); }
+  .playground .heading-pair { margin-bottom: var(--sp-2); }
+  .pg-lead {
+    font-size: 0.88rem;
+    color: var(--color-ink-soft);
+    margin-bottom: var(--sp-4);
+  }
+  .pg-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+    gap: var(--sp-3);
+  }
+  .pg-card {
+    text-decoration: none;
+    display: grid;
+    gap: var(--sp-1);
+    border: 1px solid var(--line);
+    background: var(--color-paper);
+    padding: var(--sp-3);
+    align-content: start;
+  }
+  .pg-url { color: var(--color-river); }
+  .pg-title {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    transition: color var(--dur-micro);
+  }
+  a.pg-card:hover .pg-title { color: var(--color-river); }
+  .pg-desc {
+    font-size: 0.8rem;
+    color: var(--color-ink-soft);
+    line-height: 2;
+  }
 </style>

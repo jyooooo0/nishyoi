@@ -68,6 +68,33 @@ const journal = defineCollection({
   }),
 });
 
+/** noteの記事引用(サイト内Journalとは別の、note掲載記事の紹介) */
+const notes = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/data/notes' }),
+  schema: z.object({
+    title: z.string(),
+    url: z.string().url(),
+    date: z.coerce.date().optional(),
+    /** 記事からの短い引用文 */
+    excerpt: z.string().optional(),
+    /** trueの間は本番ビルドに含めない */
+    draft: z.boolean().default(false),
+  }),
+});
+
+/** 興味本位でつくったホームページ(仕事のWorksとは別枠) */
+const labs = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/data/labs' }),
+  schema: z.object({
+    title: z.string(),
+    url: z.string().url().optional(),
+    year: z.number().optional(),
+    description: z.string(),
+    /** trueの間は本番ビルドに含めない(URL未確定など) */
+    draft: z.boolean().default(false),
+  }),
+});
+
 const works = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/data/works' }),
   schema: z.object({
@@ -82,4 +109,4 @@ const works = defineCollection({
   }),
 });
 
-export const collections = { events, journal, works };
+export const collections = { events, journal, works, notes, labs };
