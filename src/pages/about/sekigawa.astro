@@ -10,13 +10,13 @@ import shinaFlowers from '../../assets/photos/shina-flowers.jpg';
 import heroSummer from '../../assets/photos/hero-summer.jpg';
 
 const description =
-  '山形県鶴岡市の山あいにある関川集落。雪と川とともにある暮らし、受け継がれてきたしな織、そしてこれからのこと。';
+  '山形県鶴岡市関川。新潟県境に近い山あいの集落で、日本三大古代布のひとつ「しな織」が受け継がれてきた。雪とともにある暮らしと、これからのこと。';
 
-// 「集落の記録」カテゴリーの記事(本番ではdraft除外)
+// 「集落の記録」カテゴリーの公開記事(draftでない)があれば表示。増えたら自動で出る
 const records = (await getCollection('journal'))
-  .filter((j) => j.data.category === '集落の記録' && !(import.meta.env.PROD && j.data.draft))
+  .filter((j) => j.data.category === '集落の記録' && !j.data.draft)
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-  .slice(0, 3);
+  .slice(0, 4);
 ---
 
 <Base title="関川集落について" description={description}>
@@ -29,7 +29,6 @@ const records = (await getCollection('journal'))
       <AboutNav />
     </header>
 
-    <!-- 写真エッセイ型: 大きな写真と短い文章の交互 -->
     <div class="essay">
       <figure class="container-wide">
         <PhotoFrame
@@ -41,14 +40,56 @@ const records = (await getCollection('journal'))
           sizes="100vw"
         />
       </figure>
+
       <div class="container para reveal">
+        <h2 class="t-section">新潟県境の、山あいの集落</h2>
         <p>
-          関川は、山形県鶴岡市の山あいにある集落です。
-          旧温海町のエリア、山に囲まれた谷を川が流れ、
-          その流れに沿うように家々と田畑が並んでいます。
+          関川は、山形県鶴岡市の西南端、旧温海(あつみ)町のエリアにある集落です。
+          鶴岡市は新潟県と接していて、関川はその県境にほど近い山あいにあります。
+          三方を摩耶(まや)山系の山に囲まれ、谷を流れる川に沿うように、
+          家々と田畑が並んでいます。
+        </p>
+        <p>
+          近くには開湯千年と伝わるあつみ温泉があり、
+          海の幸と山の幸、どちらも近い土地です。
+          いまは百人ほどが暮らす、小さな集落です。
         </p>
       </div>
 
+      <!-- しな織: 関川の核 -->
+      <figure class="container photo-right">
+        <PhotoFrame
+          ratio="3/2"
+          src={shinaFlowers}
+          alt="初夏、シナノキから落ちた小さな白い花が路面に散る(2025年6月撮影)"
+          focal="50% 50%"
+          sizes="(max-width: 56rem) 100vw, 56rem"
+        />
+      </figure>
+      <div class="container para reveal">
+        <h2 class="t-section">日本三大古代布「しな織」の里</h2>
+        <p>
+          関川は、木の皮の繊維から糸をつくり布を織る「しな織(しな布)」が
+          受け継がれてきた集落です。しな布は、沖縄の芭蕉布、静岡の葛布とならぶ
+          <strong>日本三大古代布</strong>のひとつに数えられ、
+          樹皮からつくる布としては日本最古ともいわれます。
+          その繊維の利用は縄文時代にさかのぼると伝えられています。
+        </p>
+        <p>
+          原料は、山に育つシナノキやオオバボダイジュの樹皮。
+          木を伐り、皮を剥ぎ、煮て、績(う)み、績んだ糸を織り上げるまで、
+          <strong>およそ一年、二十を超える工程</strong>を、すべて手仕事で重ねます。
+          水に強く丈夫で、使うほどにやわらかく、味わいを増していく布です。
+        </p>
+        <p>
+          2005年には「羽越(うえつ)しな布」として、
+          国(経済産業大臣)の伝統的工芸品に指定されました。
+          集落には製作・販売と織り体験の拠点「関川しな織センター」があり、
+          毎年10月には「関川しな織まつり」が開かれます。
+        </p>
+      </div>
+
+      <!-- 雪 -->
       <figure class="container photo-left">
         <PhotoFrame
           ratio="3/2"
@@ -68,39 +109,9 @@ const records = (await getCollection('journal'))
         </p>
       </div>
 
-      <figure class="container photo-right">
-        <PhotoFrame
-          ratio="3/2"
-          src={shinaFlowers}
-          alt="初夏、路面に散り敷いた小さな白い花(2025年6月撮影)"
-          focal="50% 50%"
-          sizes="(max-width: 56rem) 100vw, 56rem"
-        />
-      </figure>
-      <div class="container para reveal">
-        <h2 class="t-section">受け継がれてきたもの</h2>
-        <p>
-          関川には、シナノキの樹皮から糸をつくり、布を織る
-          「しな織」の文化が受け継がれてきました。
-          木を伐り、皮を剥ぎ、糸を績み、織り上げるまで、
-          一年をかけて山と人が関わり続ける手仕事です。
-        </p>
-      </div>
-
       <RiverLine variant={3} />
 
-      <div class="container para reveal">
-        <h2 class="t-section">これからのこと</h2>
-        <p>
-          一方で、人口の減少は進み、集落の将来は決して安泰ではありません。
-          NISHYOIは、この場所の時間を記録しながら、
-          ここで暮らし続けられる形を探しています。
-        </p>
-        <p class="note t-data">
-          ※人口・世帯数などの数値は、基準日と出典を確認のうえ掲載します。
-        </p>
-      </div>
-
+      <!-- これからのこと -->
       <figure class="container photo-left">
         <PhotoFrame
           ratio="3/2"
@@ -110,6 +121,47 @@ const records = (await getCollection('journal'))
           sizes="(max-width: 56rem) 100vw, 56rem"
         />
       </figure>
+      <div class="container para reveal">
+        <h2 class="t-section">これからのこと</h2>
+        <p>
+          受け継がれてきた手仕事がある一方で、人口の減少は進み、
+          集落の将来は決して安泰ではありません。
+          NISHYOIは、この場所の時間を記録しながら、
+          ここで暮らし続けられる形を探しています。
+        </p>
+      </div>
+    </div>
+
+    <!-- 周辺とアクセス(集落の位置をつかむための地図的情報) -->
+    <div class="container access">
+      <div class="heading-pair reveal">
+        <span class="en">Around</span>
+        <h2 class="t-section">周辺とアクセス</h2>
+      </div>
+      <dl class="access-list reveal">
+        <div>
+          <dt>所在</dt>
+          <dd>山形県鶴岡市関川(旧温海町エリア)。新潟県境に近い山あいの集落。</dd>
+        </div>
+        <div>
+          <dt>車で</dt>
+          <dd>日本海東北自動車道「あつみ温泉IC」から約30分。山形自動車道「鶴岡IC」から国道345号経由で約45分。</dd>
+        </div>
+        <div>
+          <dt>近くのもの</dt>
+          <dd>あつみ温泉(開湯千年)、関川しな織センター、日本海の海岸線。買い物や病院はあつみ温泉・鶴岡市街方面へ。</dd>
+        </div>
+        <div>
+          <dt>季節の催し</dt>
+          <dd>関川しな織まつり(毎年10月)。しな織製品や地元の山菜・きのこの販売、糸づくりの実演など。</dd>
+        </div>
+      </dl>
+      <p class="sources t-data reveal">
+        出典:
+        <a href="https://www.city.tsuruoka.lg.jp/shisei/shiyakusyo/infomation/atsumi/kanko/atsangyo-sina-dentou.html" target="_blank" rel="noopener">鶴岡市「羽越しな布」</a>、
+        <a href="https://atsumi-spa.or.jp/atsumisightseeing/shinaori-center/" target="_blank" rel="noopener">あつみ観光協会「関川しな織センター」</a>。
+        人口・世帯数などの数値は基準日により変わります(掲載時は最新の統計で確認します)。
+      </p>
     </div>
 
     {records.length > 0 && (
@@ -156,6 +208,7 @@ const records = (await getCollection('journal'))
     line-height: 2.3;
     max-width: 38em;
   }
+  .para strong { color: var(--color-ink); font-weight: 500; }
   /* 左右非対称: 写真と文章を交互にずらす */
   .photo-left { max-width: 56rem; margin-right: auto; }
   .photo-right { max-width: 56rem; margin-left: auto; }
@@ -163,7 +216,30 @@ const records = (await getCollection('journal'))
   @media (max-width: 48rem) {
     .para-right { margin-left: 0; margin-right: 0; }
   }
-  .note { color: var(--color-ink-soft); opacity: 0.8; }
+
+  .access { display: grid; gap: var(--sp-4); margin-top: var(--space-section); max-width: 46rem; }
+  .access-list { margin: 0; display: grid; }
+  .access-list > div {
+    display: grid;
+    grid-template-columns: 7rem 1fr;
+    gap: var(--sp-2) var(--sp-3);
+    padding-block: var(--sp-3);
+    border-top: 1px solid var(--line);
+  }
+  .access-list > div:last-child { border-bottom: 1px solid var(--line); }
+  @media (max-width: 40rem) {
+    .access-list > div { grid-template-columns: 1fr; gap: var(--sp-1); }
+  }
+  .access-list dt {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    color: var(--color-river);
+    padding-top: 0.2em;
+  }
+  .access-list dd { margin: 0; font-size: 0.88rem; line-height: 2.1; color: var(--color-ink-soft); }
+  .sources { color: var(--color-ink-soft); line-height: 2; opacity: 0.85; }
+  .sources a { color: var(--color-river); text-underline-offset: 3px; }
 
   .records { display: grid; gap: var(--sp-4); margin-top: var(--space-section); }
   .rec-list { list-style: none; margin: 0; padding: 0; display: grid; }

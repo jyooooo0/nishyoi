@@ -75,12 +75,17 @@ const flow = [
     <div class="container">
       <h2 class="t-label sec-label">制作実績</h2>
       {works.length > 0 ? (
-        <ul class="works-list">
-          {works.map((w) => (
-            <li>
-              <a href={`/works/${w.id}/`}>
-                <span class="t-data">{w.data.year ?? ''}</span>
-                <span>{w.data.title}</span>
+        <ul class="works-grid">
+          {works.map((w, i) => (
+            <li class="reveal" style={`--stagger:${(i % 2) * 90}ms`}>
+              <a href={w.data.url ?? `/works/${w.id}/`} target={w.data.url ? '_blank' : undefined} rel={w.data.url ? 'noopener' : undefined}>
+                <div class="wk-meta t-data">
+                  {w.data.kind && <span class="wk-kind">{w.data.kind}</span>}
+                  {w.data.year && <span>{w.data.year}</span>}
+                  {w.data.url && <span class="wk-host">{new URL(w.data.url).host} ↗</span>}
+                </div>
+                <h3 class="wk-title">{w.data.title}</h3>
+                <p class="wk-summary">{w.data.summary}</p>
               </a>
             </li>
           ))}
@@ -130,11 +135,37 @@ const flow = [
   .flow p { font-size: 0.85rem; color: var(--color-ink-soft); line-height: 2.1; }
   .fee-note { font-size: 0.85rem; color: var(--color-ink-soft); margin-bottom: var(--sp-5); }
 
-  .works-list { list-style: none; margin: 0 0 var(--sp-5); padding: 0; display: grid; max-width: 42rem; }
-  .works-list li { border-top: 1px solid var(--line); }
-  .works-list li:last-child { border-bottom: 1px solid var(--line); }
-  .works-list a { display: flex; gap: var(--sp-2); padding-block: var(--sp-2); text-decoration: none; font-size: 0.9rem; }
-  .works-list a:hover { color: var(--color-river); }
+  .works-grid {
+    list-style: none;
+    margin: 0 0 var(--sp-5);
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--sp-3);
+    max-width: 52rem;
+  }
+  @media (max-width: 40rem) { .works-grid { grid-template-columns: 1fr; } }
+  .works-grid a {
+    text-decoration: none;
+    display: grid;
+    gap: var(--sp-1);
+    border: 1px solid var(--line);
+    background: var(--color-paper);
+    padding: var(--sp-3);
+    height: 100%;
+    align-content: start;
+  }
+  .wk-meta { display: flex; flex-wrap: wrap; gap: var(--sp-1) var(--sp-2); align-items: center; color: var(--color-ink-soft); }
+  .wk-kind { color: var(--season); }
+  .wk-host { color: var(--color-river); }
+  .wk-title {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    letter-spacing: 0.08em;
+    transition: color var(--dur-micro);
+  }
+  .works-grid a:hover .wk-title { color: var(--color-river); }
+  .wk-summary { font-size: 0.82rem; color: var(--color-ink-soft); line-height: 2; }
   .empty { font-size: 0.88rem; color: var(--color-ink-soft); margin-bottom: var(--sp-5); }
 
   .cta { display: grid; gap: var(--sp-3); margin-top: var(--sp-4); }

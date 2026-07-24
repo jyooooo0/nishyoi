@@ -3,8 +3,8 @@ import Base from '../../layouts/Base.astro';
 import AboutNav from '../../components/AboutNav.astro';
 import PhotoFrame from '../../components/PhotoFrame.astro';
 import RiverLine from '../../components/RiverLine.astro';
-import workForest from '../../assets/photos/work-forest.jpg';
-import makiwari from '../../assets/photos/makiwari.jpg';
+import joPortrait from '../../assets/photos/jo-portrait.jpg';
+import joSnow from '../../assets/photos/jo-snow.jpg';
 
 const description =
   '五十嵐 丈(Jo Igarashi)。1993年、山形県鶴岡市関川生まれ。写真家として活動しながら、生まれ育った集落で暮らしを起点にしたNISHYOIを始めている。';
@@ -61,16 +61,16 @@ const story = [
       <div class="photos">
         <PhotoFrame
           ratio="4/5"
-          src={workForest}
-          alt="夏の山際で、伐った枝を運ぶ作業中(2025年6月撮影)"
-          focal="70% 50%"
+          src={joPortrait}
+          alt="五十嵐丈のポートレート"
+          focal="50% 38%"
           sizes="(max-width: 48rem) 90vw, 24rem"
         />
         <PhotoFrame
           ratio="4/5"
-          src={makiwari}
-          alt="山を背にした薪割りの作業場。割った薪が積み上がる(2025年6月撮影)"
-          focal="50% 60%"
+          src={joSnow}
+          alt="雪の森に立ち、木々を見上げる(冬撮影)"
+          focal="50% 45%"
           class="photo-sub"
           sizes="(max-width: 48rem) 70vw, 18rem"
         />

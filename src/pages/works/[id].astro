@@ -18,7 +18,8 @@ const d = work.data;
   <article class="work">
     <header class="container head">
       <div class="meta t-data">
-        <span>{d.year}</span>
+        {d.kind && <span>{d.kind}</span>}
+        {d.year && <span>{d.year}</span>}
         {d.url && <a href={d.url} target="_blank" rel="noopener">{new URL(d.url).host} ↗</a>}
       </div>
       <h1 class="t-display">{d.title}</h1>

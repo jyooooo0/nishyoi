@@ -82,7 +82,9 @@ const works = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/data/works' }),
   schema: z.object({
     title: z.string(),
-    year: z.number(),
+    /** 一言でわかる業種・種別 例: フラワーショップ */
+    kind: z.string().optional(),
+    year: z.number().optional(),
     url: z.string().url().optional(),
     /** 担当範囲 */
     roles: z.array(z.string()).default([]),
