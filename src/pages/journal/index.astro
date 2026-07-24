@@ -55,7 +55,14 @@ const counts = Object.fromEntries(
               href={`/journal/${post.id}/`}
               style={`--stagger:${(i % 4) * 90}ms`}
             >
-              <PhotoFrame ratio="3/2" note="記事写真" reveal={false} />
+              <PhotoFrame
+                ratio="3/2"
+                src={post.data.image}
+                alt={post.data.imageAlt ?? ''}
+                note="記事写真"
+                reveal={false}
+                sizes="(max-width: 40rem) 90vw, 30vw"
+              />
               <div class="frame-no t-data">
                 <span>No.{String(no).padStart(3, '0')}</span>
                 <span class="sekki">{post.data.sekki ?? ''}</span>

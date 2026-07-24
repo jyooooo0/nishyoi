@@ -41,7 +41,14 @@ const statusNote: Record<string, string> = {
     </header>
 
     <figure class="container photo">
-      <PhotoFrame ratio="3/2" note={`撮影予定: ${d.sekki ?? ''}のイベント風景`} />
+      <PhotoFrame
+        ratio="3/2"
+        src={d.image}
+        alt={d.imageAlt ?? ''}
+        focal="50% 55%"
+        note={`撮影予定: ${d.sekki ?? ''}のイベント風景`}
+        sizes="(max-width: 56rem) 100vw, 56rem"
+      />
     </figure>
 
     <div class="container cols">

@@ -4,7 +4,10 @@ import { JOURNAL_CATEGORIES } from './lib/constants';
 
 const events = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/data/events' }),
-  schema: z.object({
+  schema: ({ image }) => z.object({
+    /** イベント写真(src/assets内を相対パスで指定) */
+    image: image().optional(),
+    imageAlt: z.string().optional(),
     title: z.string(),
     date: z.coerce.date(),
     /** 所要時間(分) */
@@ -27,7 +30,10 @@ const events = defineCollection({
 
 const journal = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/data/journal' }),
-  schema: z.object({
+  schema: ({ image }) => z.object({
+    /** 記事メイン写真(src/assets内を相対パスで指定) */
+    image: image().optional(),
+    imageAlt: z.string().optional(),
     title: z.string(),
     date: z.coerce.date(),
     /** 更新日(本文を大きく直した時のみ) */

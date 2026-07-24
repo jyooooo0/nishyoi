@@ -1,10 +1,35 @@
 ---
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import Base from '../layouts/Base.astro';
 import PhotoFrame from '../components/PhotoFrame.astro';
 import RiverLine from '../components/RiverLine.astro';
 import SekkiStrip from '../components/SekkiStrip.astro';
 import { EVENT_STATUS } from '../lib/constants';
+import { currentSekki } from '../lib/sekki';
+import { nowPhoto } from '../lib/nowPhoto';
+import heroSummer from '../assets/photos/hero-summer.jpg';
+import heroAutumn from '../assets/photos/hero-autumn.jpg';
+import heroWinter from '../assets/photos/hero-winter.jpg';
+import heroEarlySpring from '../assets/photos/hero-earlyspring.jpg';
+import aerialValley from '../assets/photos/aerial-valley.jpg';
+import teshigotoDrying from '../assets/photos/teshigoto-drying.jpg';
+import recordInaboshi from '../assets/photos/record-inaboshi.jpg';
+import workForest from '../assets/photos/work-forest.jpg';
+
+// ヒーロー: 関川の四季(現在の季節を先頭に、ゆっくりクロスフェード)
+const heroSlides = [
+  { img: heroEarlySpring, season: 'spring', alt: '雪解けが進む早春の関川(2026年3月撮影)' },
+  { img: heroSummer, season: 'summer', alt: '緑の山あいを川が流れる初夏の関川(2025年6月撮影)' },
+  { img: heroAutumn, season: 'autumn', alt: '霧のかかった山と家並み、秋の関川(2025年10月撮影)' },
+  { img: heroWinter, season: 'winter', alt: '雪に覆われた集落を上空から、冬の関川(2026年1月撮影)' },
+];
+const season = currentSekki().season;
+while (heroSlides[0]!.season !== season) heroSlides.push(heroSlides.shift()!);
+
+// いまの頃の関川(撮影日がいちばん近い写真)
+const now = nowPhoto();
 
 // 募集中のイベント(最大3件)。下書き・終了系は載せない
 const events = (await getCollection('events'))
@@ -37,25 +62,46 @@ const labs = (await getCollection('labs')).filter(
 const fmt = (d: Date) =>
   `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
 
-const entrances = [
-  { label: '季節と手仕事', en: 'Seasons & Handwork', ratio: '4/5', note: '撮影予定: 手仕事の手元' },
-  { label: '動物と暮らし', en: 'Animals & Life', ratio: '1/1', note: '撮影予定: ニワトリ/孵卵器' },
-  { label: '田舎とテクノロジー', en: 'Countryside & Technology', ratio: '3/2', note: '撮影予定: 地形図とPC' },
-  { label: '集落の記録', en: 'Village Records', ratio: '4/3', note: '撮影予定: 集落の風景' },
+type Entrance = {
+  label: string; en: string; ratio: string;
+  src?: ImageMetadata; alt?: string; focal?: string; note?: string;
+};
+const entrances: Entrance[] = [
+  {
+    label: '季節と手仕事', en: 'Seasons & Handwork', ratio: '4/5',
+    src: teshigotoDrying, alt: 'ざるに広げて干した実。冬支度の手仕事', focal: '50% 45%',
+  },
+  {
+    label: '動物と暮らし', en: 'Animals & Life', ratio: '1/1',
+    note: '撮影予定: ニワトリ/孵卵器',
+  },
+  {
+    label: '田舎とテクノロジー', en: 'Countryside & Technology', ratio: '3/2',
+    src: aerialValley, alt: 'ドローンで上空から撮影した関川の谷と家並み', focal: '50% 45%',
+  },
+  {
+    label: '集落の記録', en: 'Village Records', ratio: '4/3',
+    src: recordInaboshi, alt: '軒先に稲を干した関川の家', focal: '50% 55%',
+  },
 ];
 ---
 
 <Base>
-  <!-- 1. ファーストビュー -->
+  <!-- 1. ファーストビュー: 関川の四季 -->
   <section class="hero">
-    <div class="hero-media">
-      <PhotoFrame
-        ratio="16/9"
-        note="撮影予定: 関川集落の全景(夏・引き) PC=16:9 / SP=縦3:4"
-        priority
-        reveal={false}
-        class="hero-photo-frame"
-      />
+    <div class="hero-media" role="img" aria-label="関川の四季の風景">
+      {heroSlides.map((s, i) => (
+        <Image
+          class={`hero-slide ${i === 0 ? 'is-first' : ''}`}
+          src={s.img}
+          alt={i === 0 ? s.alt : ''}
+          widths={[768, 1280, 1920]}
+          sizes="100vw"
+          loading={i === 0 ? 'eager' : 'lazy'}
+          fetchpriority={i === 0 ? 'high' : 'auto'}
+          style={`--slide: ${i};`}
+        />
+      ))}
     </div>
     <div class="container hero-under">
       <div class="hero-text">
@@ -66,8 +112,16 @@ const entrances = [
           山の暮らしを、時代とともにアップデートし続ける。
         </p>
       </div>
-      <div class="hero-sekki">
+      <div class="hero-side">
         <SekkiStrip />
+        <a class="now-card" href="/about/sekigawa/">
+          <Image src={now.img} alt={now.alt} widths={[480, 800]} sizes="(max-width: 48rem) 90vw, 20rem" loading="lazy" />
+          <span class="now-meta">
+            <span class="t-label">Sekigawa Now</span>
+            <span class="now-title">いまの頃の関川 — {now.caption}</span>
+            <span class="t-data">{now.taken} 撮影</span>
+          </span>
+        </a>
       </div>
     </div>
   </section>
@@ -104,7 +158,14 @@ const entrances = [
         <div class="events-grid">
           {featured && (
             <a class="event-featured reveal" href={`/events/${featured.id}/`} style="--stagger:90ms">
-              <PhotoFrame ratio="3/2" note={`撮影予定: ${featured.data.sekki ?? ''}のイベント風景`} />
+              <PhotoFrame
+                ratio="3/2"
+                src={featured.data.image}
+                alt={featured.data.imageAlt ?? ''}
+                focal="50% 55%"
+                note={`撮影予定: ${featured.data.sekki ?? ''}のイベント風景`}
+                sizes="(max-width: 48rem) 90vw, 40vw"
+              />
               <div class="event-meta">
                 <span class="badge" data-state={featured.data.status}>{EVENT_STATUS[featured.data.status]}</span>
                 <span class="t-data">{fmt(featured.data.date)}</span>
@@ -149,7 +210,14 @@ const entrances = [
             href="/journal/"
             style={`--stagger:${i * 90}ms`}
           >
-            <PhotoFrame ratio={ent.ratio} note={ent.note} />
+            <PhotoFrame
+              ratio={ent.ratio}
+              src={ent.src}
+              alt={ent.alt ?? ''}
+              focal={ent.focal}
+              note={ent.note ?? ''}
+              sizes="(max-width: 40rem) 90vw, 45vw"
+            />
             <span class="ent-en t-label">{ent.en}</span>
             <span class="ent-ja">{ent.label}</span>
           </a>
@@ -170,7 +238,14 @@ const entrances = [
         <div class="sheet" role="list">
           {journal.map((j, i) => (
             <a class="frame reveal" role="listitem" href={`/journal/${j.id}/`} style={`--stagger:${i * 90}ms`}>
-              <PhotoFrame ratio="3/2" note="記事写真" reveal={false} />
+              <PhotoFrame
+                ratio="3/2"
+                src={j.data.image}
+                alt={j.data.imageAlt ?? ''}
+                note="記事写真"
+                reveal={false}
+                sizes="(max-width: 40rem) 70vw, 22vw"
+              />
               <div class="frame-no t-data">
                 <span>No.{String(journal.length - i).padStart(3, '0')}</span>
                 <span>{j.data.sekki ?? ''}</span>
@@ -213,7 +288,14 @@ const entrances = [
   <!-- 6. 丈のプロフィール -->
   <section class="section profile" style="background: var(--color-paper-dim);">
     <div class="container profile-grid">
-      <PhotoFrame ratio="4/5" note="撮影予定: 丈・作業中(薪割り/撮影/山仕事)" class="profile-photo" />
+      <PhotoFrame
+        ratio="4/5"
+        src={workForest}
+        alt="夏の山際で、伐った枝を運ぶ作業中"
+        focal="70% 50%"
+        class="profile-photo"
+        sizes="(max-width: 48rem) 90vw, 26rem"
+      />
       <div class="profile-body">
         <div class="heading-pair reveal">
           <span class="en">Profile</span>
@@ -305,34 +387,89 @@ const entrances = [
 </Base>
 
 <style>
-  /* ---------- hero ---------- */
+  /* ---------- hero: 四季のクロスフェード ---------- */
   .hero {
     position: relative;
     padding-top: 0;
   }
   .hero-media {
+    position: relative;
+    overflow: hidden;
     height: min(88svh, 200vw);
+    background: var(--color-paper-dim);
   }
   @media (min-width: 48rem) {
     .hero-media { height: 78vh; }
   }
-  .hero-media :global(.ph-frame),
-  .hero-media :global(.photo) {
+  .hero-media :global(img.hero-slide) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
     height: 100%;
-    aspect-ratio: auto !important;
+    object-fit: cover;
+    opacity: 0;
+    /* 4枚×9秒=36秒でひとまわり。季節がゆっくり入れ替わる */
+    animation: hero-cycle 36s linear infinite;
+    animation-delay: calc(var(--slide) * 9s);
   }
+  .hero-media :global(img.hero-slide.is-first) {
+    animation-name: hero-cycle-first;
+  }
+  @keyframes hero-cycle {
+    0% { opacity: 0; }
+    4% { opacity: 1; }
+    25% { opacity: 1; }
+    29% { opacity: 0; }
+    100% { opacity: 0; }
+  }
+  /* 先頭の1枚だけ、最初から表示された状態で始める */
+  @keyframes hero-cycle-first {
+    0% { opacity: 1; }
+    25% { opacity: 1; }
+    29% { opacity: 0; }
+    96% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-media :global(img.hero-slide) { animation: none; }
+    .hero-media :global(img.hero-slide.is-first) { opacity: 1; }
+  }
+
   /* 写真の下に、静かにコンセプトを置く(大きなキャッチの重なりはやめる) */
   .hero-under {
     display: grid;
-    grid-template-columns: 1fr minmax(14rem, 20rem);
-    gap: var(--sp-4);
-    align-items: end;
+    grid-template-columns: 1fr minmax(16rem, 21rem);
+    gap: var(--sp-4) var(--sp-5);
+    align-items: start;
     padding-block: var(--sp-4) 0;
   }
   @media (max-width: 48rem) {
     .hero-under { grid-template-columns: 1fr; }
-    .hero-sekki { max-width: 20rem; }
   }
+  .hero-side { display: grid; gap: var(--sp-3); align-content: start; }
+  .now-card {
+    text-decoration: none;
+    display: grid;
+    gap: var(--sp-1);
+    border: 1px solid var(--line);
+    background: var(--color-paper);
+    padding: var(--sp-1);
+  }
+  .now-card :global(img) {
+    width: 100%;
+    aspect-ratio: 3/2;
+    height: auto;
+    object-fit: cover;
+  }
+  .now-meta { display: grid; gap: 0.15rem; padding: var(--sp-1) var(--sp-1) var(--sp-1); }
+  .now-title {
+    font-family: var(--font-serif);
+    font-size: 0.88rem;
+    letter-spacing: 0.1em;
+    transition: color var(--dur-micro);
+  }
+  .now-card:hover .now-title { color: var(--color-river); }
+  .now-meta .t-data { color: var(--color-ink-soft); }
   .hero-text { display: grid; gap: var(--sp-3); }
   .hero-text h1 {
     font-size: clamp(1.4rem, 3vw, 2rem);

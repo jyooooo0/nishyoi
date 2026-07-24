@@ -46,7 +46,14 @@ const fmt = (d: Date) =>
         <div class="list">
           {upcoming.map((e, i) => (
             <a class="card reveal" href={`/events/${e.id}/`} style={`--stagger:${i * 90}ms`}>
-              <PhotoFrame ratio="3/2" note={`撮影予定: ${e.data.sekki ?? ''}のイベント風景`} />
+              <PhotoFrame
+                ratio="3/2"
+                src={e.data.image}
+                alt={e.data.imageAlt ?? ''}
+                focal="50% 55%"
+                note={`撮影予定: ${e.data.sekki ?? ''}のイベント風景`}
+                sizes="(max-width: 48rem) 90vw, 24rem"
+              />
               <div class="card-body">
                 <div class="meta t-data">
                   <span class="badge" data-state={e.data.status}>{EVENT_STATUS[e.data.status]}</span>

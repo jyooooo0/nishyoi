@@ -1,5 +1,7 @@
 ---
 title: 【仮】夏至の薪割り — 冬の暖かさは半年前に決まる
+image: ../../assets/photos/makiwari.jpg
+imageAlt: 山を背にした薪割りの作業場
 date: 2026-06-25
 category: 季節と手仕事
 sekki: 夏至

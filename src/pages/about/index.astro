@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import AboutNav from '../../components/AboutNav.astro';
 import PhotoFrame from '../../components/PhotoFrame.astro';
 import RiverLine from '../../components/RiverLine.astro';
+import aerialValley from '../../assets/photos/aerial-valley.jpg';
 
 const description =
   'NISHYOIは、山形県鶴岡市関川を拠点にした暮らしの実験と記録の屋号。里山の知恵と新しい技術を組み合わせ、未完成な暮らしを続けていく。';
@@ -65,7 +66,14 @@ const activities = [
         </p>
       </section>
 
-      <PhotoFrame ratio="21/9" note="撮影予定: 関川の谷あいと家並み(引き)" class="wide-photo" />
+      <PhotoFrame
+        ratio="21/9"
+        src={aerialValley}
+        alt="上空から見た関川。山に囲まれた谷あいに家々が並ぶ(2025年12月撮影)"
+        focal="50% 40%"
+        class="wide-photo"
+        sizes="(max-width: 48rem) 100vw, 46rem"
+      />
 
       <section class="block reveal">
         <h2 class="t-section">「未完成な暮らし」とは</h2>

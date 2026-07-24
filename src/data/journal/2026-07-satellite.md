@@ -1,5 +1,7 @@
 ---
 title: 【仮】衛星データで舞茸の出る山を絞り込む(方法編)
+image: ../../assets/photos/aerial-valley.jpg
+imageAlt: 上空から見た関川の谷と山
 date: 2026-07-05
 category: 田舎とテクノロジー
 sekki: 小暑

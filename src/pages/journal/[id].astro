@@ -53,7 +53,13 @@ const related = all
     </header>
 
     <figure class="container hero-photo-wrap">
-      <PhotoFrame ratio="3/2" note="記事メイン写真" />
+      <PhotoFrame
+        ratio="3/2"
+        src={post.data.image}
+        alt={post.data.imageAlt ?? ''}
+        note="記事メイン写真"
+        sizes="(max-width: 56rem) 100vw, 56rem"
+      />
     </figure>
 
     <div class="container prose-wrap">

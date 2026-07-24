@@ -4,6 +4,10 @@ import Base from '../../layouts/Base.astro';
 import AboutNav from '../../components/AboutNav.astro';
 import PhotoFrame from '../../components/PhotoFrame.astro';
 import RiverLine from '../../components/RiverLine.astro';
+import heroAutumn from '../../assets/photos/hero-autumn.jpg';
+import snowField from '../../assets/photos/snow-field.jpg';
+import shinaFlowers from '../../assets/photos/shina-flowers.jpg';
+import heroSummer from '../../assets/photos/hero-summer.jpg';
 
 const description =
   '山形県鶴岡市の山あいにある関川集落。雪と川とともにある暮らし、受け継がれてきたしな織、そしてこれからのこと。';
@@ -28,7 +32,14 @@ const records = (await getCollection('journal'))
     <!-- 写真エッセイ型: 大きな写真と短い文章の交互 -->
     <div class="essay">
       <figure class="container-wide">
-        <PhotoFrame ratio="21/9" note="撮影予定: 関川の全景(山・谷・家並み)" />
+        <PhotoFrame
+          ratio="21/9"
+          src={heroAutumn}
+          alt="霧のかかった山なみと関川の家並み(2025年10月撮影)"
+          focal="50% 62%"
+          priority
+          sizes="100vw"
+        />
       </figure>
       <div class="container para reveal">
         <p>
@@ -39,7 +50,13 @@ const records = (await getCollection('journal'))
       </div>
 
       <figure class="container photo-left">
-        <PhotoFrame ratio="3/2" note="撮影予定: 冬の関川(雪と家)" />
+        <PhotoFrame
+          ratio="3/2"
+          src={snowField}
+          alt="雪に覆われた田んぼと、動物の足あと(2026年1月撮影)"
+          focal="50% 55%"
+          sizes="(max-width: 56rem) 100vw, 56rem"
+        />
       </figure>
       <div class="container para para-right reveal">
         <h2 class="t-section">雪とともにある</h2>
@@ -52,7 +69,13 @@ const records = (await getCollection('journal'))
       </div>
 
       <figure class="container photo-right">
-        <PhotoFrame ratio="3/2" note="撮影予定: しな織・シナノキ・手仕事の道具など" />
+        <PhotoFrame
+          ratio="3/2"
+          src={shinaFlowers}
+          alt="初夏、路面に散り敷いた小さな白い花(2025年6月撮影)"
+          focal="50% 50%"
+          sizes="(max-width: 56rem) 100vw, 56rem"
+        />
       </figure>
       <div class="container para reveal">
         <h2 class="t-section">受け継がれてきたもの</h2>
@@ -77,6 +100,16 @@ const records = (await getCollection('journal'))
           ※人口・世帯数などの数値は、基準日と出典を確認のうえ掲載します。
         </p>
       </div>
+
+      <figure class="container photo-left">
+        <PhotoFrame
+          ratio="3/2"
+          src={heroSummer}
+          alt="緑の山あいを川が流れる初夏の関川(2025年6月撮影)"
+          focal="50% 55%"
+          sizes="(max-width: 56rem) 100vw, 56rem"
+        />
+      </figure>
     </div>
 
     {records.length > 0 && (
