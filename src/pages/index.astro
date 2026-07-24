@@ -111,11 +111,7 @@ const entrances: Entrance[] = [
     <div class="container hero-under">
       <div class="hero-text">
         <h1><span class="nb">未完成な暮らしを、</span><span class="nb">続けていく。</span></h1>
-        <p class="hero-lead">
-          昔の暮らしに戻るのではなく、流行に流されるのでもなく。<br class="pc" />
-          受け継がれてきた知恵と新しい技術を組み合わせながら、<br class="pc" />
-          山の暮らしを、時代とともにアップデートし続ける。
-        </p>
+        <p class="hero-lead">昔の暮らしに戻るのではなく、流行に流されるのでもなく。受け継がれてきた知恵と新しい技術を組み合わせながら、山の暮らしを、時代とともにアップデートし続ける。</p>
       </div>
       <div class="hero-side">
         <SekkiStrip />
@@ -498,9 +494,11 @@ const entrances: Entrance[] = [
     font-size: 0.9rem;
     color: var(--color-ink-soft);
     line-height: 2.3;
+    max-width: 30em;
+    /* 日本語の文節で自然に折り返す(対応ブラウザ) */
+    word-break: auto-phrase;
+    text-wrap: pretty;
   }
-  .pc { display: none; }
-  @media (min-width: 48rem) { .pc { display: inline; } }
 
   /* ---------- concept ---------- */
   .concept-grid {

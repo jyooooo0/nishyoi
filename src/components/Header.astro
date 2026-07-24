@@ -61,21 +61,18 @@ const current = Astro.url.pathname;
     padding: 1.1rem clamp(1.5rem, 4vw, 3rem);
     pointer-events: none;
   }
-  .site-header::before {
-    /* 写真の上でも文字が読める、ごく薄い上部グラデーション */
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom, rgba(247, 244, 238, 0.85), rgba(247, 244, 238, 0));
-    pointer-events: none;
+  /* ロゴとメニューは背景の反転色で表示(何の上でも読める) */
+  .logo, .menu-btn {
+    position: relative;
+    pointer-events: auto;
+    color: #fff;
+    mix-blend-mode: difference;
   }
-  .logo, .menu-btn { position: relative; pointer-events: auto; }
   .logo {
     font-family: var(--font-mono);
     font-size: 0.85rem;
     letter-spacing: 0.42em;
     text-decoration: none;
-    color: var(--color-ink);
   }
   .menu-btn {
     display: flex;
@@ -84,9 +81,9 @@ const current = Astro.url.pathname;
     background: none;
     border: none;
     cursor: pointer;
-    color: var(--color-ink);
     padding: 0.4rem 0;
   }
+  .menu-btn .t-label { color: inherit; }
   .menu-btn .lines { display: grid; gap: 6px; width: 26px; }
   .menu-btn .lines i {
     display: block;
