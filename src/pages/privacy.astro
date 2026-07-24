@@ -1,4 +1,90 @@
 ---
-import Stub from '../layouts/Stub.astro';
+import Base from '../layouts/Base.astro';
+const description = 'NISHYOIのプライバシーポリシー。取得する個人情報と利用目的、保管方法について。';
 ---
-<Stub title="プライバシーポリシー" en="Privacy Policy" step="Step 7" />
+
+<Base title="プライバシーポリシー" description={description}>
+  <article class="doc">
+    <header class="container head">
+      <div class="heading-pair">
+        <span class="en">Privacy Policy</span>
+        <h1 class="t-display">プライバシーポリシー</h1>
+      </div>
+    </header>
+
+    <div class="container body">
+      <p>
+        NISHYOI(以下「当方」)は、本サイトで取得する個人情報を次のとおり取り扱います。
+      </p>
+
+      <section>
+        <h2>取得する情報</h2>
+        <ul>
+          <li>イベント申込み: お名前、メールアドレス、参加人数、メッセージ</li>
+          <li>お問い合わせ: お名前、メールアドレス、組織名(任意)、お問い合わせ内容</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>利用目的</h2>
+        <ul>
+          <li>イベントの運営と、集合場所・変更・中止などのご連絡</li>
+          <li>お問い合わせへの回答</li>
+        </ul>
+        <p>上記以外の目的には使用しません。メールマガジン等への自動登録も行いません。</p>
+      </section>
+
+      <section>
+        <h2>保管と外部サービス</h2>
+        <p>
+          申込み情報の保存にはGoogle Firebase(Firestore)を、
+          メールの送受信にはFormSubmitおよびGmailを利用しています。
+          各サービスへの提供は上記の利用目的の範囲に限られます。
+        </p>
+      </section>
+
+      <section>
+        <h2>第三者への提供</h2>
+        <p>法令に基づく場合を除き、本人の同意なく第三者へ提供しません。</p>
+      </section>
+
+      <section>
+        <h2>アクセス解析</h2>
+        <p>現在、アクセス解析ツールおよび広告配信のためのCookieは使用していません。導入する場合は本ページでお知らせします。</p>
+      </section>
+
+      <section>
+        <h2>開示・訂正・削除</h2>
+        <p>
+          ご自身の情報の確認・訂正・削除をご希望の場合は、
+          <a href="/contact/">お問い合わせ</a>からご連絡ください。すみやかに対応します。
+        </p>
+      </section>
+
+      <section>
+        <h2>改定</h2>
+        <p>本ポリシーを改定する場合は、本ページで告知します。</p>
+      </section>
+
+      <p class="t-data date">制定日: 2026年7月</p>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .doc { padding-block: calc(var(--space-section) + var(--sp-4)) var(--space-section); }
+  .head { margin-bottom: var(--sp-5); }
+  .body { display: grid; gap: var(--sp-4); max-width: 42rem; font-size: 0.92rem; line-height: 2.3; color: var(--color-ink-soft); }
+  .body section { display: grid; gap: var(--sp-2); }
+  .body h2 {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    letter-spacing: 0.12em;
+    color: var(--color-ink);
+    border-top: 1px solid var(--line);
+    padding-top: var(--sp-3);
+  }
+  .body ul { margin: 0; padding-left: 1.4em; }
+  .body a { color: var(--color-river); text-underline-offset: 4px; }
+  .date { color: var(--color-ink-soft); }
+</style>

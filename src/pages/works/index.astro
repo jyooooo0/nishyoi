@@ -1,4 +1,142 @@
 ---
-import Stub from '../../layouts/Stub.astro';
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import RiverLine from '../../components/RiverLine.astro';
+
+const description =
+  '庄内の小規模事業者や、全国の過疎地域で小さな事業を始める人のためのWeb制作。魅力の整理から写真撮影、文章、実装、予約・問い合わせの導線まで。';
+
+const works = (await getCollection('works')).filter((w) => w.data.published);
+
+const services = [
+  { title: '地域や事業の魅力整理', body: 'なにを、誰に、どう伝えるか。話を聞きながら一緒に言葉にします。' },
+  { title: '写真撮影', body: '写真家として、商品・場所・人を撮影します。素材集めから任せられます。' },
+  { title: '文章・情報整理', body: 'プロフィール、商品説明、お知らせ。読まれる形に整えます。' },
+  { title: 'Webサイト制作', body: '設計から実装・公開まで。更新しやすい仕組みで作ります。' },
+  { title: '予約・販売・問い合わせの導線', body: 'イベント予約や問い合わせフォームなど、反応を受け取る仕組みまで。' },
+];
+
+const flow = [
+  { step: 'ヒアリング', body: '事業のこと、困りごと、目指す姿を聞きます。オンラインでも対面でも。' },
+  { step: '整理と撮影', body: '伝えることを整理し、必要な写真を撮影します。' },
+  { step: '設計と制作', body: '構成・デザイン・実装。途中経過を見てもらいながら進めます。' },
+  { step: '公開', body: 'ドメイン・公開設定まで面倒を見ます。' },
+  { step: '運用', body: '公開後の更新方法をお伝えし、必要に応じて伴走します。' },
+];
 ---
-<Stub title="Web制作" en="Web Works" step="Step 7" />
+
+<Base title="Web制作" description={description}>
+  <section class="works-page">
+    <header class="container head">
+      <div class="heading-pair">
+        <span class="en">Web Works</span>
+        <h1 class="t-display">小さな事業の、Webをつくる</h1>
+      </div>
+      <p class="lead">
+        庄内の小規模事業者・店舗・作家・地域プロジェクト。
+        そして全国の過疎地域で、小さな事業や発信を始める個人・団体。<br class="pc" />
+        山あいの集落で暮らしと事業を自分でつくっている経験ごと、
+        あなたの「伝えたい」を形にします。
+      </p>
+    </header>
+
+    <div class="container">
+      <h2 class="t-label sec-label">できること</h2>
+      <dl class="svc-list">
+        {services.map((s, i) => (
+          <div class="svc reveal" style={`--stagger:${i * 90}ms`}>
+            <dt>{s.title}</dt>
+            <dd>{s.body}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+
+    <RiverLine variant={1} />
+
+    <div class="container">
+      <h2 class="t-label sec-label">進め方</h2>
+      <ol class="flow">
+        {flow.map((f, i) => (
+          <li class="reveal" style={`--stagger:${i * 90}ms`}>
+            <span class="no t-data">{String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <h3>{f.step}</h3>
+              <p>{f.body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+      <p class="fee-note">
+        料金は内容に応じてお見積りします。まずは困りごとの段階からどうぞ。
+      </p>
+    </div>
+
+    <div class="container">
+      <h2 class="t-label sec-label">制作実績</h2>
+      {works.length > 0 ? (
+        <ul class="works-list">
+          {works.map((w) => (
+            <li>
+              <a href={`/works/${w.id}/`}>
+                <span class="t-data">{w.data.year ?? ''}</span>
+                <span>{w.data.title}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="empty">実績は、クライアントの掲載許可が確認できたものから順次公開します。</p>
+      )}
+    </div>
+
+    <div class="container cta">
+      <p class="cta-text">サイトを作りたい、発信を始めたい、何から手をつければいいか分からない——<br class="pc" />どの段階でも、お気軽にご相談ください。</p>
+      <a class="link-line" href="/contact/">お問い合わせ <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .works-page { padding-block: calc(var(--space-section) + var(--sp-4)) var(--space-section); }
+  .head { display: grid; gap: var(--sp-4); margin-bottom: var(--sp-5); }
+  .lead {
+    font-size: 0.92rem;
+    color: var(--color-ink-soft);
+    line-height: 2.3;
+    max-width: 44em;
+  }
+  .pc { display: none; }
+  @media (min-width: 48rem) { .pc { display: inline; } }
+  .sec-label { display: block; margin-bottom: var(--sp-3); }
+
+  .svc-list { margin: 0 0 var(--sp-4); display: grid; max-width: 46rem; }
+  .svc {
+    display: grid;
+    grid-template-columns: minmax(10rem, 15rem) 1fr;
+    gap: var(--sp-3);
+    padding-block: var(--sp-3);
+    border-top: 1px solid var(--line);
+  }
+  .svc:last-child { border-bottom: 1px solid var(--line); }
+  @media (max-width: 40rem) { .svc { grid-template-columns: 1fr; gap: var(--sp-1); } }
+  .svc dt { font-family: var(--font-serif); letter-spacing: 0.1em; font-size: 0.95rem; }
+  .svc dd { margin: 0; font-size: 0.85rem; color: var(--color-ink-soft); line-height: 2.1; }
+
+  .flow { list-style: none; margin: 0 0 var(--sp-3); padding: 0; display: grid; gap: var(--sp-3); max-width: 42rem; }
+  .flow li { display: grid; grid-template-columns: 3rem 1fr; gap: var(--sp-2); align-items: baseline; }
+  .flow .no { color: var(--color-river); }
+  .flow h3 { font-size: 0.95rem; letter-spacing: 0.1em; }
+  .flow p { font-size: 0.85rem; color: var(--color-ink-soft); line-height: 2.1; }
+  .fee-note { font-size: 0.85rem; color: var(--color-ink-soft); margin-bottom: var(--sp-5); }
+
+  .works-list { list-style: none; margin: 0 0 var(--sp-5); padding: 0; display: grid; max-width: 42rem; }
+  .works-list li { border-top: 1px solid var(--line); }
+  .works-list li:last-child { border-bottom: 1px solid var(--line); }
+  .works-list a { display: flex; gap: var(--sp-2); padding-block: var(--sp-2); text-decoration: none; font-size: 0.9rem; }
+  .works-list a:hover { color: var(--color-river); }
+  .empty { font-size: 0.88rem; color: var(--color-ink-soft); margin-bottom: var(--sp-5); }
+
+  .cta { display: grid; gap: var(--sp-3); margin-top: var(--sp-4); }
+  .cta-text { font-family: var(--font-serif); font-size: 1rem; letter-spacing: 0.06em; line-height: 2.4; }
+</style>

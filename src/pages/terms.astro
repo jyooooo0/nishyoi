@@ -1,4 +1,107 @@
 ---
-import Stub from '../layouts/Stub.astro';
+import Base from '../layouts/Base.astro';
+const description = 'NISHYOIが開催するイベントの利用規約。申込み、キャンセル、安全、写真掲載についての取り決め。';
 ---
-<Stub title="イベント利用規約" en="Terms" step="Step 7" />
+
+<Base title="イベント利用規約" description={description}>
+  <article class="doc">
+    <header class="container head">
+      <div class="heading-pair">
+        <span class="en">Terms</span>
+        <h1 class="t-display">イベント利用規約</h1>
+      </div>
+    </header>
+
+    <div class="container body">
+      <p>
+        本規約は、NISHYOI(以下「主催者」)が開催するイベントへの参加に適用されます。
+        お申込みをもって、本規約に同意いただいたものとします。
+      </p>
+
+      <section>
+        <h2>1. 申込みと成立</h2>
+        <p>
+          参加申込みは各イベントページのフォームから受け付けます。
+          受付の確認メールをお送りした時点で申込みが成立します。定員に達し次第、受付を終了します。
+        </p>
+      </section>
+
+      <section>
+        <h2>2. 参加費</h2>
+        <p>参加費と支払い方法は、イベントごとにご案内します。</p>
+      </section>
+
+      <section>
+        <h2>3. キャンセル</h2>
+        <p>
+          キャンセルは、受付確認メールへの返信でご連絡ください。
+          キャンセル料が発生する場合は、各イベントの案内に明記します。
+        </p>
+      </section>
+
+      <section>
+        <h2>4. 中止・変更</h2>
+        <p>
+          天候や安全上の理由により、内容の変更や中止を判断することがあります。
+          中止の場合はメールでご連絡し、支払い済みの参加費は返金します。
+        </p>
+      </section>
+
+      <section>
+        <h2>5. 安全について</h2>
+        <ul>
+          <li>山あいでの活動には、刃物・火・動物・傾斜地などが関わることがあります。主催者の案内と指示に従ってください</li>
+          <li>体調管理は各自でお願いします。無理のない範囲でご参加ください</li>
+          <li>主催者は安全に配慮して運営しますが、参加者自身の故意・不注意による事故や、主催者の管理の及ばない事由による損害については責任を負いかねます</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>6. 写真・映像の記録と掲載</h2>
+        <p>
+          活動の記録として写真・映像を撮影し、本サイトやSNS等で公開することがあります。
+          掲載を望まない方は、申込み時のメッセージまたは当日にお知らせください。掲載から除外します。
+        </p>
+      </section>
+
+      <section>
+        <h2>7. 集合場所の取り扱い</h2>
+        <p>
+          正確な集合場所はお申込みの方にのみご案内します。第三者への共有はご遠慮ください。
+        </p>
+      </section>
+
+      <section>
+        <h2>8. 未成年の参加</h2>
+        <p>
+          未成年の方は保護者の同意のうえでお申込みください。
+          小学生以下は保護者の同伴が必要です(イベントごとの対象欄に従います)。
+        </p>
+      </section>
+
+      <section>
+        <h2>9. 改定</h2>
+        <p>本規約を改定する場合は、本ページで告知します。</p>
+      </section>
+
+      <p class="t-data date">制定日: 2026年7月</p>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .doc { padding-block: calc(var(--space-section) + var(--sp-4)) var(--space-section); }
+  .head { margin-bottom: var(--sp-5); }
+  .body { display: grid; gap: var(--sp-4); max-width: 42rem; font-size: 0.92rem; line-height: 2.3; color: var(--color-ink-soft); }
+  .body section { display: grid; gap: var(--sp-2); }
+  .body h2 {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    letter-spacing: 0.12em;
+    color: var(--color-ink);
+    border-top: 1px solid var(--line);
+    padding-top: var(--sp-3);
+  }
+  .body ul { margin: 0; padding-left: 1.4em; display: grid; gap: var(--sp-1); }
+  .date { color: var(--color-ink-soft); }
+</style>

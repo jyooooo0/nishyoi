@@ -1,0 +1,59 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PhotoFrame from '../../components/PhotoFrame.astro';
+
+export async function getStaticPaths() {
+  // 掲載許可が確認できたもの(published)だけページを生成する
+  const works = (await getCollection('works')).filter((w) => w.data.published);
+  return works.map((w) => ({ params: { id: w.id }, props: { work: w } }));
+}
+
+const { work } = Astro.props;
+const { Content } = await render(work);
+const d = work.data;
+---
+
+<Base title={d.title} description={d.summary}>
+  <article class="work">
+    <header class="container head">
+      <div class="meta t-data">
+        <span>{d.year}</span>
+        {d.url && <a href={d.url} target="_blank" rel="noopener">{new URL(d.url).host} ↗</a>}
+      </div>
+      <h1 class="t-display">{d.title}</h1>
+      <p class="summary">{d.summary}</p>
+      {d.roles.length > 0 && (
+        <ul class="roles t-data" aria-label="担当範囲">
+          {d.roles.map((r) => <li>{r}</li>)}
+        </ul>
+      )}
+    </header>
+
+    <figure class="container shot">
+      <PhotoFrame ratio="16/10" note="サイトの完成画面" />
+    </figure>
+
+    <div class="container prose">
+      <Content />
+    </div>
+
+    <div class="container back">
+      <a class="link-line" href="/works/">Web制作について <span aria-hidden="true">→</span></a>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .work { padding-block: calc(var(--space-section) + var(--sp-4)) var(--space-section); }
+  .head { display: grid; gap: var(--sp-3); max-width: 46rem; margin-bottom: var(--sp-4); }
+  .meta { display: flex; gap: var(--sp-2); color: var(--color-ink-soft); }
+  .meta a { color: var(--color-river); }
+  .summary { font-size: 0.92rem; color: var(--color-ink-soft); line-height: 2.2; }
+  .roles { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--sp-2); color: var(--color-ink-soft); }
+  .roles li { border: 1px solid var(--line); border-radius: 999px; padding: 0.1em 0.9em; }
+  .shot { margin: 0 auto var(--sp-5); max-width: 56rem; }
+  .prose { font-size: 0.95rem; line-height: 2.4; max-width: 40em; margin-bottom: var(--sp-5); }
+  .prose :global(h2) { font-family: var(--font-serif); font-size: 1.15rem; letter-spacing: 0.12em; margin: var(--sp-4) 0 var(--sp-2); }
+  .prose :global(p) { margin: 0 0 var(--sp-3); }
+</style>

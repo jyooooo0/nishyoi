@@ -1,4 +1,135 @@
 ---
-import Stub from '../layouts/Stub.astro';
+import Base from '../layouts/Base.astro';
+
+const description = 'NISHYOIへのお問い合わせ。イベント、Web制作、写真・取材・協業のご相談はこちらから。';
+const kinds = ['イベントについて', 'Web制作の相談', '写真・取材・協業', 'その他'];
 ---
-<Stub title="お問い合わせ" en="Contact" step="Step 7" />
+
+<Base title="お問い合わせ" description={description}>
+  <section class="contact">
+    <header class="container head">
+      <div class="heading-pair">
+        <span class="en">Contact</span>
+        <h1 class="t-display">お問い合わせ</h1>
+      </div>
+      <p class="lead">
+        イベントのこと、Web制作のこと、写真や取材のこと。<br />
+        返信には数日いただくことがあります。
+      </p>
+    </header>
+
+    <div class="container form-wrap">
+      <p id="form-status" class="form-status t-data" hidden></p>
+
+      <form method="post" action="/api/contact" class="form">
+        <p class="trap" aria-hidden="true">
+          <label>このフィールドは空のままにしてください<input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+        </p>
+
+        <div class="row">
+          <label for="c-kind">種別</label>
+          <select id="c-kind" name="kind">
+            {kinds.map((k) => <option value={k}>{k}</option>)}
+          </select>
+        </div>
+        <div class="row">
+          <label for="c-name">お名前 <span class="req">必須</span></label>
+          <input id="c-name" name="name" type="text" required autocomplete="name" />
+        </div>
+        <div class="row">
+          <label for="c-email">メールアドレス <span class="req">必須</span></label>
+          <input id="c-email" name="email" type="email" required autocomplete="email" />
+        </div>
+        <div class="row">
+          <label for="c-org">組織名(任意)</label>
+          <input id="c-org" name="org" type="text" autocomplete="organization" />
+        </div>
+        <div class="row">
+          <label for="c-message">内容 <span class="req">必須</span></label>
+          <textarea id="c-message" name="message" rows="7" required></textarea>
+        </div>
+        <div class="row consent">
+          <label>
+            <input type="checkbox" name="consent" required />
+            <span><a href="/privacy/" target="_blank">プライバシーポリシー</a>に同意します <span class="req">必須</span></span>
+          </label>
+        </div>
+        <button type="submit" class="submit">送信する</button>
+      </form>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const params = new URLSearchParams(location.search);
+  const box = document.getElementById('form-status');
+  if (box) {
+    if (params.get('sent')) {
+      box.textContent = 'お問い合わせを受け付けました。確認の自動返信をお送りしています。';
+      box.dataset.kind = 'ok';
+      box.hidden = false;
+      document.querySelector('.form')?.remove();
+    } else if (params.get('error')) {
+      box.textContent =
+        params.get('error') === 'input'
+          ? '入力内容をご確認ください(お名前・メール・内容・同意が必要です)。'
+          : '送信に失敗しました。時間をおいてもう一度お試しください。';
+      box.dataset.kind = 'error';
+      box.hidden = false;
+    }
+  }
+</script>
+
+<style>
+  .contact { padding-block: calc(var(--space-section) + var(--sp-4)) var(--space-section); }
+  .head { display: grid; gap: var(--sp-3); margin-bottom: var(--sp-5); }
+  .lead { font-size: 0.9rem; color: var(--color-ink-soft); line-height: 2.3; }
+
+  .form-wrap { display: grid; gap: var(--sp-3); max-width: 38rem; }
+  .form-status { border: 1px solid var(--line); padding: var(--sp-2) var(--sp-3); line-height: 1.9; }
+  .form-status[data-kind="ok"] { border-color: var(--season); color: var(--season); }
+  .form-status[data-kind="error"] { border-color: #a1503c; color: #a1503c; }
+
+  .form { display: grid; gap: var(--sp-3); }
+  .trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .row { display: grid; gap: var(--sp-1); }
+  .row label { font-size: 0.85rem; letter-spacing: 0.06em; }
+  .req {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    color: var(--season);
+    border: 1px solid var(--season);
+    border-radius: 999px;
+    padding: 0.05em 0.7em;
+    margin-left: 0.5em;
+    vertical-align: 0.15em;
+  }
+  input[type="text"], input[type="email"], select, textarea {
+    font: inherit;
+    font-size: 0.92rem;
+    background: var(--color-paper);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    padding: 0.7em 0.9em;
+    color: var(--color-ink);
+    width: 100%;
+    box-sizing: border-box;
+  }
+  textarea { resize: vertical; }
+  .consent label { display: flex; gap: 0.6em; align-items: baseline; font-size: 0.85rem; line-height: 2; }
+  .consent a { color: var(--color-river); text-underline-offset: 4px; }
+  .submit {
+    font: inherit;
+    font-size: 0.9rem;
+    letter-spacing: 0.24em;
+    background: var(--color-ink);
+    color: var(--color-paper);
+    border: none;
+    border-radius: 2px;
+    padding: 1em 2em;
+    cursor: pointer;
+    justify-self: start;
+    transition: background var(--dur-micro);
+  }
+  .submit:hover { background: var(--color-river); }
+</style>

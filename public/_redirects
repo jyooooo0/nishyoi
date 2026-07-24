@@ -1,0 +1,6 @@
+# 旧サイトのURLを新構成へ(Cloudflare Pages)
+/rasendo/* / 301
+/food/* /journal/ 301
+/life/* /journal/ 301
+/tea/* /journal/ 301
+/index.html / 301
