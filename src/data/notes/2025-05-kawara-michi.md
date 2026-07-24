@@ -1,6 +1,7 @@
 ---
 title: 瓦の道の完成と──"供養"や"お祭り"の原型のかけら
 url: https://note.com/joe_igarashi/n/n2df1b0ce1210
+image: ../../assets/ogp/note-kawara-michi.jpg
 date: 2025-05-11
 excerpt: 何かが失われたとき、その感情は簡単に片づけられない。けれど、かたちにとらわれず人が交わる場所があれば、悲しみは別のエネルギーへと変わりうる
 ---

@@ -1,5 +1,6 @@
 ---
 title: SunLips
+image: ../../assets/ogp/sunlips.jpg
 kind: フラワーショップ
 url: https://sunlips2008.com/
 roles: [Web制作]

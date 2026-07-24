@@ -1,5 +1,6 @@
 ---
 title: タクなる 〜夢現〜 2026
+image: ../../assets/ogp/tacnal.jpg
 kind: アートイベント
 year: 2026
 url: https://tacnal-events.com/

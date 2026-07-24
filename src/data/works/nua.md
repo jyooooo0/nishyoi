@@ -1,5 +1,6 @@
 ---
 title: nua(ヌア)
+image: ../../assets/ogp/nua.jpg
 kind: ヘアサロン
 url: https://nua-nua-nua.com/
 roles: [Web制作, 予約フォーム]

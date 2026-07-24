@@ -1,5 +1,6 @@
 ---
 title: トーチてらす
+image: ../../assets/ogp/torch-terrace.jpg
 kind: コミュニティスペース
 url: https://torch-terrace.com/
 roles: [Web制作]

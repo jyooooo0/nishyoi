@@ -54,10 +54,12 @@ const journal = defineCollection({
 /** noteの記事引用(サイト内Journalとは別の、note掲載記事の紹介) */
 const notes = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/data/notes' }),
-  schema: z.object({
+  schema: ({ image }) => z.object({
     title: z.string(),
     url: z.string().url(),
     date: z.coerce.date().optional(),
+    /** 記事のアイキャッチ(OGP画像を保存したもの) */
+    image: image().optional(),
     /** 記事からの短い引用文 */
     excerpt: z.string().optional(),
     /** trueの間は本番ビルドに含めない */
@@ -80,8 +82,10 @@ const labs = defineCollection({
 
 const works = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/data/works' }),
-  schema: z.object({
+  schema: ({ image }) => z.object({
     title: z.string(),
+    /** サイトの画面(OGP画像を保存したもの) */
+    image: image().optional(),
     /** 一言でわかる業種・種別 例: フラワーショップ */
     kind: z.string().optional(),
     year: z.number().optional(),

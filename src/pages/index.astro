@@ -280,14 +280,25 @@ const entrances: Entrance[] = [
       <div class="notes-grid">
         {notes.map((n, i) => (
           <a class="note-card reveal" href={n.data.url} target="_blank" rel="noopener" style={`--stagger:${i * 90}ms`}>
-            {n.data.excerpt && <blockquote>{n.data.excerpt}</blockquote>}
+            <PhotoFrame
+              ratio="1.91/1"
+              src={n.data.image}
+              alt={`note記事「${n.data.title}」`}
+              note="note記事"
+              reveal={false}
+              class="note-shot"
+              sizes="(max-width: 48rem) 90vw, 22rem"
+            />
             <span class="note-title">{n.data.title} <span aria-hidden="true">↗</span></span>
           </a>
         ))}
-        <div class="note-account reveal" style={`--stagger:${notes.length * 90}ms`}>
-          <p>写真や暮らしのこと、少し長い文章はnoteに書いています。</p>
-          <a class="link-line" href={NOTE_ACCOUNT} target="_blank" rel="noopener">note.com/joe_igarashi <span aria-hidden="true">↗</span></a>
-        </div>
+        <a class="note-account reveal" href={NOTE_ACCOUNT} target="_blank" rel="noopener" style={`--stagger:${notes.length * 90}ms`}>
+          <span class="note-account-inner">
+            <span class="t-label">note.com</span>
+            <span class="note-account-name">joe_igarashi</span>
+            <span class="note-account-cap">写真や暮らしのこと、少し長い文章はこちらに <span aria-hidden="true">↗</span></span>
+          </span>
+        </a>
       </div>
     </div>
   </section>
@@ -675,32 +686,39 @@ const entrances: Entrance[] = [
   .note-card {
     text-decoration: none;
     display: grid;
-    gap: var(--sp-2);
+    gap: 0;
     border: 1px solid var(--line);
-    padding: var(--sp-3);
     background: var(--color-paper);
+    overflow: hidden;
+    align-content: start;
   }
-  .note-card blockquote {
-    margin: 0;
-    padding-left: var(--sp-2);
-    border-left: 2px solid var(--season);
-    font-family: var(--font-serif);
-    font-size: 0.9rem;
-    line-height: 2.2;
-    color: var(--color-ink-soft);
-  }
+  .note-shot :global(img) { transition: transform var(--dur-reveal) var(--ease-river); }
+  .note-card:hover .note-shot :global(img) { transform: scale(1.03); }
   .note-card .note-title {
-    font-size: 0.85rem;
-    letter-spacing: 0.08em;
+    font-size: 0.88rem;
+    letter-spacing: 0.06em;
+    line-height: 1.9;
+    padding: var(--sp-2) var(--sp-3) var(--sp-3);
     transition: color var(--dur-micro);
   }
   .note-card:hover .note-title { color: var(--color-river); }
-  .note-account { display: grid; gap: var(--sp-2); align-content: center; }
-  .note-account p {
-    font-size: 0.85rem;
-    color: var(--color-ink-soft);
-    line-height: 2.1;
+  /* アカウントカードは同じ枠で、色地に */
+  .note-account {
+    text-decoration: none;
+    border: 1px solid var(--line);
+    background: var(--color-paper-dim);
+    display: grid;
+    align-content: center;
+    padding: var(--sp-3);
   }
+  .note-account-inner { display: grid; gap: var(--sp-1); }
+  .note-account-name {
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    letter-spacing: 0.08em;
+  }
+  .note-account-cap { font-size: 0.8rem; color: var(--color-ink-soft); line-height: 2; }
+  .note-account:hover .note-account-name { color: var(--color-river); }
 
   /* ---------- playground ---------- */
   .playground { background: var(--color-paper-dim); }
