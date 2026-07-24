@@ -89,7 +89,14 @@ export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const send = await fetch(`https://formsubmit.co/ajax/${owner}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      // FormSubmitはOrigin/Refererがないと拒否する。アクティベーションを
+      // 1つに保つため、環境によらず本番ドメインを名乗る
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Origin: 'https://nishyoi.com',
+        Referer: 'https://nishyoi.com/events/',
+      },
       body: JSON.stringify({
         _subject: `【NISHYOI申込】${eventTitle} — ${name}様(${guests}名)`,
         _template: 'table',
