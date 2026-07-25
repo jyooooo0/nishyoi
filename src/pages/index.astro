@@ -94,7 +94,7 @@ const entrances: Entrance[] = [
 <Base>
   <!-- 1. ファーストビュー: 関川の四季 -->
   <section class="hero">
-    <div class="hero-media" role="img" aria-label="関川の四季の風景">
+    <div class="hero-media" role="img" aria-label="関川の四季の風景" data-nav-bg="dark">
       {heroSlides.map((s, i) => (
         <Image
           class={`hero-slide ${i === 0 ? 'is-first' : ''}`}
@@ -332,7 +332,7 @@ const entrances: Entrance[] = [
   <RiverLine variant={3} />
 
   <!-- 7. Web制作 -->
-  <section class="section web-works">
+  <section class="section web-works" data-nav-bg="dark">
     <div class="container">
       <div class="heading-pair reveal">
         <span class="en" style="color: var(--color-night-ink); opacity:.7;">Web Works</span>
@@ -411,6 +411,16 @@ const entrances: Entrance[] = [
     overflow: hidden;
     height: min(88svh, 200vw);
     background: var(--color-paper-dim);
+  }
+  /* 上部だけ、白いヘッダー文字が写真の明部でも読めるよう控えめに落とす */
+  .hero-media::after {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 120px;
+    background: linear-gradient(to bottom, rgba(18, 20, 18, 0.34), transparent);
+    pointer-events: none;
+    z-index: 1;
   }
   @media (min-width: 48rem) {
     .hero-media { height: 78vh; }

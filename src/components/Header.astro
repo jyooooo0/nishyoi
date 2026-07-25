@@ -61,12 +61,16 @@ const current = Astro.url.pathname;
     padding: 1.1rem clamp(1.5rem, 4vw, 3rem);
     pointer-events: none;
   }
-  /* ロゴとメニューは背景の反転色で表示(何の上でも読める) */
+  /* ロゴとメニューは、背後の明暗に合わせて黒/白へ切り替える(下のscript) */
   .logo, .menu-btn {
     position: relative;
     pointer-events: auto;
-    color: #fff;
-    mix-blend-mode: difference;
+    color: var(--color-ink);
+    transition: color 0.35s var(--ease-river);
+  }
+  :global(:root[data-nav="ondark"]) .logo,
+  :global(:root[data-nav="ondark"]) .menu-btn {
+    color: var(--color-paper);
   }
   .logo {
     font-family: var(--font-mono);
@@ -84,6 +88,9 @@ const current = Astro.url.pathname;
     padding: 0.4rem 0;
   }
   .menu-btn .t-label { color: inherit; }
+  @media (prefers-reduced-motion: reduce) {
+    .logo, .menu-btn { transition: none; }
+  }
   .menu-btn .lines { display: grid; gap: 6px; width: 26px; }
   .menu-btn .lines i {
     display: block;
@@ -186,6 +193,7 @@ const current = Astro.url.pathname;
       setTimeout(done, 600);
       btn.focus();
     }
+    updateNav(); // 開閉に合わせてヘッダー文字色も更新
   }
 
   btn.addEventListener('click', () => setOpen(!open));
@@ -200,4 +208,30 @@ const current = Astro.url.pathname;
       else if (!e.shiftKey && document.activeElement === last) { first.focus(); e.preventDefault(); }
     }
   });
+
+  // ── ヘッダーの文字色を、背後の明暗に合わせて黒/白へ切り替える ──
+  // 暗い背景の要素だけ data-nav-bg="dark" を付けておき、ヘッダー中央線に
+  // その要素が重なっている間だけ文字を明色(paper)にする。
+  const root = document.documentElement;
+  function updateNav() {
+    // メニューを開いている間は明色の地(overlay)なので黒文字
+    if (open) { root.dataset.nav = 'onlight'; return; }
+    const line = 28; // ヘッダーのおおよその中心Y
+    let onDark = false;
+    for (const el of document.querySelectorAll('[data-nav-bg="dark"]')) {
+      const r = el.getBoundingClientRect();
+      if (r.top <= line && r.bottom > line) { onDark = true; break; }
+    }
+    root.dataset.nav = onDark ? 'ondark' : 'onlight';
+  }
+  let ticking = false;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => { updateNav(); ticking = false; });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', updateNav);
+  window.addEventListener('load', updateNav); // スクロール位置復元後にも反映
+  updateNav();
 </script>
