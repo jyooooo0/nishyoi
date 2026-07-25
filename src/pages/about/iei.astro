@@ -1,0 +1,134 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import AboutNav from '../../components/AboutNav.astro';
+import ieiData from '../../data/iei.json';
+
+const description =
+  '集落の遺影 — 丈が2016年から撮り続けている、いつか無くなるかもしれない関川の記録。しな織の手仕事、住民、祭り、四季、そして朽ちていく家々。';
+
+// 画像を読み込み、iei.json(撮影日順)に並べる
+const files = import.meta.glob<{ default: ImageMetadata }>('../../assets/iei/*.jpg', { eager: true });
+const byName: Record<string, ImageMetadata> = {};
+for (const [path, mod] of Object.entries(files)) {
+  byName[path.split('/').pop()!] = mod.default;
+}
+
+type Shot = { img: ImageMetadata; date: Date; year: number; label: string; alt: string };
+const shots: Shot[] = ieiData
+  .map((d) => {
+    const date = new Date(d.date);
+    const y = date.getFullYear();
+    const m = date.getMonth() + 1;
+    return {
+      img: byName[d.src]!,
+      date,
+      year: y,
+      label: `${y}.${String(m).padStart(2, '0')}`,
+      alt: `関川の記録(${y}年${m}月撮影)`,
+    };
+  })
+  .filter((s) => s.img)
+  .sort((a, b) => a.date.getTime() - b.date.getTime());
+
+// 年ごとにまとめる
+const years = [...new Set(shots.map((s) => s.year))].sort();
+const byYear = years.map((y) => ({ year: y, shots: shots.filter((s) => s.year === y) }));
+---
+
+<Base title="集落の遺影" description={description}>
+  <article class="iei">
+    <header class="container head">
+      <div class="heading-pair">
+        <span class="en">Portraits of a Vanishing Village</span>
+        <h1 class="t-display">集落の遺影</h1>
+      </div>
+      <AboutNav />
+      <p class="lead">
+        いつか無くなるかもしれない——そう言われる関川を、私は2016年から撮り続けています。
+        しな織の手仕事、そこに暮らす人、祭り、めぐる季節、そして雪の重みで朽ちていく家々。
+        いま確かにここにある暮らしの姿を、遺影のように残しておきたいと思っています。
+      </p>
+      <p class="count t-data">{shots.length}点 / {years[0]}〜{years[years.length - 1]}年</p>
+    </header>
+
+    {byYear.map(({ year, shots }) => (
+      <section class="year-block">
+        <div class="container">
+          <h2 class="year-label t-data">{year}</h2>
+          <div class="sheet">
+            {shots.map((s) => (
+              <figure class="frame reveal">
+                <Image
+                  src={s.img}
+                  alt={s.alt}
+                  widths={[400, 800, 1200]}
+                  sizes="(max-width: 40rem) 45vw, (max-width: 64rem) 30vw, 22vw"
+                  loading="lazy"
+                />
+                <figcaption class="t-data">{s.label}</figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+    ))}
+
+    <div class="container next">
+      <a class="link-line" href="/about/sekigawa/">関川集落について <span aria-hidden="true">→</span></a>
+      <a class="link-line" href="https://kotograph-joe.com/" target="_blank" rel="noopener">KOTOGRAPH(写真の仕事) <span aria-hidden="true">↗</span></a>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .iei { padding-block: calc(var(--space-section) + var(--sp-4)) var(--space-section); }
+  .head { display: grid; gap: var(--sp-4); margin-bottom: var(--sp-5); }
+  .lead {
+    font-size: 0.95rem;
+    color: var(--color-ink-soft);
+    line-height: 2.4;
+    max-width: 40em;
+  }
+  .count { color: var(--color-river); letter-spacing: 0.2em; }
+
+  .year-block { padding-block: var(--sp-4); }
+  .year-label {
+    color: var(--color-ink-soft);
+    letter-spacing: 0.3em;
+    border-top: 1px solid var(--line);
+    padding-top: var(--sp-2);
+    margin-bottom: var(--sp-3);
+  }
+  /* コンタクトシート: 縦横混在をカラムで自然に流す */
+  .sheet {
+    columns: 4 16rem;
+    column-gap: var(--sp-2);
+  }
+  @media (max-width: 40rem) { .sheet { columns: 2 9rem; } }
+  .frame {
+    break-inside: avoid;
+    margin: 0 0 var(--sp-2);
+    border: 1px solid var(--line);
+    background: var(--color-paper);
+    padding: 0.35rem 0.35rem 0;
+  }
+  .frame :global(img) {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .frame figcaption {
+    color: var(--color-ink-soft);
+    padding: 0.4rem 0.15rem 0.5rem;
+    letter-spacing: 0.1em;
+  }
+
+  .next {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-4);
+    margin-top: var(--space-section);
+  }
+</style>
