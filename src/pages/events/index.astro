@@ -6,7 +6,7 @@ import RiverLine from '../../components/RiverLine.astro';
 import { EVENT_STATUS } from '../../lib/constants';
 
 const description =
-  '山の暮らしをシェアするNISHYOIのイベント。薪割りなどの暮らしの作業を手伝いながら、その一部をそのまま体験します。';
+  '山の暮らしをシェアするニショイのイベント。薪割りなどの暮らしの作業を手伝いながら、その一部をそのまま体験します。';
 
 const all = (await getCollection('events')).filter((e) => e.data.status !== 'draft');
 const upcoming = all
@@ -29,9 +29,10 @@ const fmt = (d: Date) =>
         <h1 class="t-display">山の暮らしを、シェアする</h1>
       </div>
       <p class="lead">
-        田舎暮らしに関心があっても、一人で山の暮らしを営むのはかなりの労力が要ります。<br class="pc" />
-        NISHYOIのイベントは、暮らしの作業を手伝ってもらいながら、
-        その一部をそのまま体験してもらう「山の暮らしのシェア」です。<br class="pc" />
+        田舎暮らしに関心はあっても、一人で山の暮らしを続けるのは、なかなか骨が折れます。
+        ニショイのイベントは、暮らしの作業を手伝ってもらいながら、
+        その一部をそのまま味わってもらう「山の暮らしのシェア」です。
+        正解を決めつけず、来た人と一緒に、そのつど面白がりながらやっています。
         これまでには、倒れた小屋の瓦を敷いて
         <a href="https://note.com/joe_igarashi/n/n2df1b0ce1210" target="_blank" rel="noopener">道を作る</a>
         こともやりました。

@@ -89,14 +89,14 @@ const activities = [
         </p>
         <p>
           私たちにとって「完成」はゴールではありません。
-          むしろ変化そのものを楽しみ、試行錯誤を重ねながら暮らしを進化させていく——
-          それこそが、これからも貫いていきたいテーマです。
-        </p>
-        <blockquote class="pull">
+          むしろ変化そのものを楽しみ、試行錯誤を重ねながら暮らしを進化させていく。
           何か一つに傾いて突き進むのは、簡単でわかりやすい。
-          でも本当に大切なのは、バランスを取りながらアップデートし続けること。
-          "未完成"という余白を共有できる仲間が増えたら、ここはもっと面白くなるはずです。
-        </blockquote>
+          でも本当に大切なのは、バランスを取りながらアップデートし続けることだと思っています。
+        </p>
+        <p class="theme-close">
+          そうやって、"未完成"という余白を一緒に面白がってくれる仲間が増えたら、
+          この場所はきっと、もっと面白くなるはずです。
+        </p>
       </section>
 
       <section class="block reveal">
@@ -175,14 +175,12 @@ const activities = [
   }
   .block a { color: var(--color-river); text-underline-offset: 4px; }
   .block > .en { display: block; margin-bottom: 0.2rem; }
-  .pull {
-    margin: var(--sp-2) 0 0;
-    padding: var(--sp-3) 0 var(--sp-1) var(--sp-3);
-    border-left: 2px solid var(--season);
+  /* テーマの締め。囲みにはせず、地の文のなかで少しだけ強調する */
+  .block .theme-close {
     font-family: var(--font-serif);
-    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-size: clamp(1rem, 2vw, 1.15rem);
     letter-spacing: 0.06em;
-    line-height: 2.2;
+    line-height: 2.3;
     color: var(--color-ink);
     max-width: 34em;
   }
