@@ -80,7 +80,7 @@ const story = [
           1993年、鶴岡市関川生まれ。大学進学で一度地域を離れ、卒業後は銀行勤務を経験。
           その後、自然体験プログラムや、しな織・しなの花を活用した地域事業に携わる。
           現在はそれらのプロジェクトを離れ、写真家として活動しながら、
-          生まれ育った集落で、暮らしそのものを起点にしたニショイを始めている。
+          生まれ育った集落で、暮らしそのものを起点にした<a href="/about/">ニショイ</a>を始めている。
         </p>
 
         <div class="tl reveal" style="--stagger:90ms">
@@ -105,6 +105,10 @@ const story = [
         <span class="en">Story</span>
         <h2 class="t-section">ここまでの道のり</h2>
       </div>
+      <p class="story-intro reveal">
+        いま考えていることは<a href="/about/">ニショイについて</a>にまとめました。
+        ここでは、その手前にある、個人的な道のりを。
+      </p>
       {story.map((s, i) => (
         <section class="chapter reveal" style={`--stagger:${(i % 2) * 90}ms`}>
           <h3>{s.title}</h3>
@@ -185,6 +189,7 @@ const story = [
     line-height: 2.4;
     letter-spacing: 0.04em;
   }
+  .bio a { color: var(--color-river); text-underline-offset: 4px; }
   .tl-list {
     list-style: none;
     margin: 0;
@@ -210,6 +215,8 @@ const story = [
     max-width: 46rem;
     margin-top: var(--sp-4);
   }
+  .story-intro { font-size: 0.9rem; color: var(--color-ink-soft); line-height: 2.2; }
+  .story-intro a { color: var(--color-river); text-underline-offset: 4px; }
   .chapter { display: grid; gap: var(--sp-2); }
   .chapter h3 {
     font-family: var(--font-serif);

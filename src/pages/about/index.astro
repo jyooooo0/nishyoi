@@ -76,19 +76,27 @@ const activities = [
       />
 
       <section class="block reveal">
-        <h2 class="t-section">「未完成な暮らし」って?</h2>
+        <span class="en">Project Theme</span>
+        <h2 class="t-section">「未完成な暮らし」</h2>
         <p>
-          便利さをただ追い求めすぎるのでもなく、
-          かといって、田舎の不便さを美徳として抱え込むのでもない。
-          そのあいだにある「余白」を、大事にしたいんです。
+          私たちニショイの活動の根っこにあるのは、効率化が加速する社会のなかで——
+          「便利さを追い求め過ぎること」と「田舎の不便さを美徳として抱え込み過ぎること」、
+          その両極のどちらにも振り切れることなく、あいだで絶妙なバランスを保ちながら
+          アップデートを重ねていく、という姿勢です。
+          テクノロジーの力を積極的に取り入れつつ、山や川、風土が授けてくれる自然資源を
+          最大限に活かし、両者の相乗効果を探り続ける。そして、刻々と変化する社会情勢のなかで、
+          その時々の"最適解"を柔軟に模索し続ける。
         </p>
         <p>
-          昔のやり方に丸ごと戻るわけでも、流行を追いかけるわけでもなく。
-          昔から大事にされてきた知恵を引き継ぎながら、新しい技術もうまく混ぜて、
-          時代に合わせてアップデートし続ける。その試行錯誤そのものを楽しむ。
-          ずっと完成しないけれど、それを欠点じゃなくて前提として引き受ける。
-          そんな暮らし方を「未完成な暮らし」と呼んでいます。
+          私たちにとって「完成」はゴールではありません。
+          むしろ変化そのものを楽しみ、試行錯誤を重ねながら暮らしを進化させていく——
+          それこそが、これからも貫いていきたいテーマです。
         </p>
+        <blockquote class="pull">
+          何か一つに傾いて突き進むのは、簡単でわかりやすい。
+          でも本当に大切なのは、バランスを取りながらアップデートし続けること。
+          "未完成"という余白を共有できる仲間が増えたら、ここはもっと面白くなるはずです。
+        </blockquote>
       </section>
 
       <section class="block reveal">
@@ -111,9 +119,6 @@ const activities = [
           この集落に確かに暮らしがあったことを伝えてくれる。
           だから、やってみることと記録することは、いつもセットで進めています。
         </p>
-        <p>
-          なんでこんなことを始めたのか——その話は、<a href="/about/jo/">丈のプロフィール</a>に書きました。
-        </p>
       </section>
     </div>
 
@@ -134,10 +139,17 @@ const activities = [
       </dl>
     </div>
 
-    <div class="container next">
-      <a class="link-line reveal" href="/about/jo/">丈のプロフィール <span aria-hidden="true">→</span></a>
-      <a class="link-line reveal" style="--stagger:90ms" href="/about/sekigawa/">関川集落について <span aria-hidden="true">→</span></a>
-      <a class="link-line reveal" style="--stagger:180ms" href="https://kotograph-joe.com/" target="_blank" rel="noopener">KOTOGRAPH <span aria-hidden="true">↗</span></a>
+    <div class="container closing">
+      <p class="closing-lead reveal">
+        そもそも、なぜこんなことを始めたのか。
+        銀行を辞めた日のことや、この土地への思いは、丈のプロフィールに書きました。
+      </p>
+      <div class="next reveal" style="--stagger:90ms">
+        <a class="link-line" href="/about/jo/">丈のプロフィールを読む <span aria-hidden="true">→</span></a>
+        <a class="link-line" href="/about/sekigawa/">関川集落について <span aria-hidden="true">→</span></a>
+        <a class="link-line" href="/about/iei/">集落の遺影(写真) <span aria-hidden="true">→</span></a>
+        <a class="link-line" href="https://kotograph-joe.com/" target="_blank" rel="noopener">KOTOGRAPH <span aria-hidden="true">↗</span></a>
+      </div>
     </div>
   </article>
 </Base>
@@ -162,6 +174,18 @@ const activities = [
     max-width: 40em;
   }
   .block a { color: var(--color-river); text-underline-offset: 4px; }
+  .block > .en { display: block; margin-bottom: 0.2rem; }
+  .pull {
+    margin: var(--sp-2) 0 0;
+    padding: var(--sp-3) 0 var(--sp-1) var(--sp-3);
+    border-left: 2px solid var(--season);
+    font-family: var(--font-serif);
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    letter-spacing: 0.06em;
+    line-height: 2.2;
+    color: var(--color-ink);
+    max-width: 34em;
+  }
   .wide-photo { margin-block: var(--sp-2); }
 
   .acts { display: grid; gap: var(--sp-4); margin-block: var(--space-section); }
@@ -194,6 +218,13 @@ const activities = [
     line-height: 2.1;
   }
 
+  .closing { display: grid; gap: var(--sp-3); margin-top: var(--space-section); max-width: 46rem; }
+  .closing-lead {
+    font-family: var(--font-serif);
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    letter-spacing: 0.06em;
+    line-height: 2.2;
+  }
   .next {
     display: flex;
     flex-wrap: wrap;
