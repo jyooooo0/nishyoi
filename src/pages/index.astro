@@ -32,6 +32,24 @@ while (heroSlides[0]!.season !== season) heroSlides.push(heroSlides.shift()!);
 // いまの頃の関川(撮影日がいちばん近い写真)
 const now = nowPhoto();
 
+// ニショイをつくっている人。妻・さつきは準備ができ次第 published:true で追加する
+type Member = {
+  name: string; reading: string; img?: ImageMetadata; focal?: string;
+  bio: string; href: string; published: boolean;
+};
+const members: Member[] = [
+  {
+    name: '五十嵐 丈', reading: 'JO IGARASHI', img: joPortrait, focal: '50% 38%',
+    bio: '1993年、関川生まれの写真家。銀行勤めや地域の仕事を経て、生まれ育った集落で、暮らしそのものを起点にニショイを始めた。',
+    href: '/about/jo/', published: true,
+  },
+  {
+    // 妻・さつき。プロフィールが整い次第 published を true に、img と bio を入れる
+    name: '五十嵐 さつき', reading: '', bio: '', href: '/about/', published: false,
+  },
+];
+const shownMembers = members.filter((m) => m.published);
+
 // 募集中のイベント(最大3件)。下書き・終了系は載せない
 const events = (await getCollection('events'))
   .filter((e) => ['open', 'soon', 'full'].includes(e.data.status))
@@ -111,7 +129,7 @@ const entrances: Entrance[] = [
     <div class="container hero-under">
       <div class="hero-text">
         <h1><span class="nb">未完成な暮らしを、</span><span class="nb">続けていく。</span></h1>
-        <p class="hero-lead">昔の暮らしに戻るのではなく、流行に流されるのでもなく。受け継がれてきた知恵と新しい技術を組み合わせながら、山の暮らしを、時代とともにアップデートし続ける。</p>
+        <p class="hero-lead">便利さを追い求めすぎるのでも、不便さを美徳として抱え込むのでもなく。そのあいだにある「余白」で、試行錯誤しながらアップデートし続ける。</p>
       </div>
       <div class="hero-side">
         <SekkiStrip />
@@ -132,17 +150,18 @@ const entrances: Entrance[] = [
     <div class="container concept-grid">
       <p class="t-vertical t-label concept-vert reveal" aria-hidden="true">関川 — SEKIGAWA</p>
       <div class="concept-body">
-        <div class="heading-pair reveal">
-          <span class="en">Concept</span>
-          <h2 class="t-section">山あいの暮らしを、<br />記録する。</h2>
-        </div>
+        <span class="en reveal">Concept</span>
+        <p class="concept-lead reveal">
+          便利さと不便さの、そのあいだにある「余白」で。
+          完成をゴールにせず、試行錯誤そのものを楽しみながら続けていく。
+        </p>
         <p class="concept-text reveal" style="--stagger:90ms">
-          なくなるかもしれないと言われる集落の、試したこと、直したこと、失敗したこと。
-          その日々を写真と文章で記録していきます。
-          うまくいけば、同じような場所で暮らしたい誰かのモデルに。
+          なくなるかもしれないと言われる集落で、試したこと、直したこと、失敗したこと。
+          その日々を写真と文章で残していきます。
+          うまくいけば、同じような場所で暮らしたい誰かの手がかりに。
           そうでなくても、ここに暮らしがあったことを伝えるアーカイブに。
         </p>
-        <a class="link-line reveal" style="--stagger:180ms" href="/about/">NISHYOIについて <span aria-hidden="true">→</span></a>
+        <a class="link-line reveal" style="--stagger:180ms" href="/about/">ニショイについて <span aria-hidden="true">→</span></a>
       </div>
     </div>
     <RiverLine variant={1} />
@@ -299,32 +318,35 @@ const entrances: Entrance[] = [
     </div>
   </section>
 
-  <!-- 6. 丈のプロフィール -->
-  <section class="section profile" style="background: var(--color-paper-dim);">
-    <div class="container profile-grid">
-      <PhotoFrame
-        ratio="4/5"
-        src={joPortrait}
-        alt="五十嵐丈のポートレート"
-        focal="50% 38%"
-        class="profile-photo"
-        sizes="(max-width: 48rem) 90vw, 26rem"
-      />
-      <div class="profile-body">
-        <div class="heading-pair reveal">
-          <span class="en">Profile</span>
-          <h2 class="t-section">五十嵐 丈<span class="t-data" style="margin-left:1em; letter-spacing:.2em;">JO IGARASHI</span></h2>
-        </div>
-        <p class="profile-text reveal" style="--stagger:90ms">
-          1993年、鶴岡市関川生まれ。大学進学で一度地域を離れ、卒業後は銀行勤務を経験。
-          その後、自然体験プログラムや、しな織・しなの花を活用した地域事業に携わる。
-          現在はそれらのプロジェクトを離れ、写真家として活動しながら、
-          生まれ育った集落で、暮らしそのものを起点にしたNISHYOIを始めている。
-        </p>
-        <div class="profile-links reveal" style="--stagger:180ms">
-          <a class="link-line" href="/about/jo/">プロフィール <span aria-hidden="true">→</span></a>
-          <a class="link-line" href="https://kotograph-joe.com/" target="_blank" rel="noopener">KOTOGRAPH(写真の仕事) <span aria-hidden="true">↗</span></a>
-        </div>
+  <!-- 6. つくっている人(丈。妻・さつきは準備でき次第ここに並ぶ) -->
+  <section class="section people" style="background: var(--color-paper-dim);">
+    <div class="container">
+      <div class="heading-pair reveal">
+        <span class="en">People</span>
+        <h2 class="t-section">ニショイの人</h2>
+      </div>
+      <div class="people-grid" data-count={shownMembers.length}>
+        {shownMembers.map((m, i) => (
+          <article class="person reveal" style={`--stagger:${i * 90}ms`}>
+            <PhotoFrame
+              ratio="4/5"
+              src={m.img}
+              alt={`${m.name}のポートレート`}
+              focal={m.focal}
+              note={`撮影予定: ${m.name}`}
+              sizes="(max-width: 48rem) 40vw, 12rem"
+              class="person-photo"
+            />
+            <div class="person-body">
+              <h3 class="person-name">{m.name}{m.reading && <span class="t-data person-reading">{m.reading}</span>}</h3>
+              <p class="person-bio">{m.bio}</p>
+              <a class="link-line" href={m.href}>プロフィール <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+        ))}
+      </div>
+      <div class="people-foot reveal">
+        <a class="link-line" href="https://kotograph-joe.com/" target="_blank" rel="noopener">KOTOGRAPH(写真の仕事) <span aria-hidden="true">↗</span></a>
       </div>
     </div>
   </section>
@@ -523,6 +545,13 @@ const entrances: Entrance[] = [
     min-height: 12rem;
   }
   .concept-body { display: grid; gap: var(--sp-3); max-width: 40em; }
+  .concept-body > .en { display: block; }
+  .concept-lead {
+    font-family: var(--font-serif);
+    font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+    letter-spacing: 0.08em;
+    line-height: 2.1;
+  }
   .concept-text { color: var(--color-ink-soft); font-size: 0.92rem; }
   @media (max-width: 40rem) {
     .concept-grid { grid-template-columns: 1fr; }
@@ -641,22 +670,36 @@ const entrances: Entrance[] = [
   }
   .frame-cat { letter-spacing: 0.04em; }
 
-  /* ---------- profile ---------- */
-  .profile-grid {
+  /* ---------- people(丈+将来さつき) ---------- */
+  .people .heading-pair { margin-bottom: var(--sp-4); }
+  .people-grid {
     display: grid;
-    grid-template-columns: minmax(0, 26rem) 1fr;
-    gap: clamp(var(--sp-4), 6vw, var(--sp-6));
-    align-items: center;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 30rem));
+    gap: clamp(var(--sp-4), 5vw, var(--sp-6));
   }
-  /* 左右非対称: 写真を左端へ寄せる */
-  .profile-grid { max-width: calc(var(--container) * 0.92); }
-  @media (max-width: 48rem) {
-    .profile-grid { grid-template-columns: 1fr; }
-    .profile-photo { margin-right: 14%; }
+  .person {
+    display: grid;
+    grid-template-columns: minmax(0, 11rem) 1fr;
+    gap: var(--sp-3);
+    align-items: start;
   }
-  .profile-body { display: grid; gap: var(--sp-3); max-width: 36em; }
-  .profile-text { font-size: 0.9rem; color: var(--color-ink-soft); }
-  .profile-links { display: flex; gap: var(--sp-4); flex-wrap: wrap; }
+  .person-photo { align-self: start; }
+  @media (max-width: 30rem) {
+    .person { grid-template-columns: 1fr; }
+  }
+  .person-body { display: grid; gap: var(--sp-2); }
+  .person-name {
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    letter-spacing: 0.1em;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.6em;
+  }
+  .person-reading { color: var(--color-ink-soft); letter-spacing: 0.2em; }
+  .person-bio { font-size: 0.86rem; color: var(--color-ink-soft); line-height: 2.1; }
+  .people-foot { margin-top: var(--sp-4); }
 
   /* ---------- web works(夜色) ---------- */
   .web-works {

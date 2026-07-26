@@ -7,17 +7,16 @@ import joPortrait from '../../assets/photos/jo-portrait.jpg';
 import joSnow from '../../assets/photos/jo-snow.jpg';
 
 const description =
-  '五十嵐 丈(Jo Igarashi)。1993年、山形県鶴岡市関川生まれ。写真家として活動しながら、生まれ育った集落で暮らしを起点にしたNISHYOIを始めている。';
+  '五十嵐 丈(Jo Igarashi)。1993年、山形県鶴岡市関川生まれ。写真家として活動しながら、生まれ育った集落で暮らしを起点にしたニショイを始めている。';
 
-/* 年表。年が確定していない項目は年を空欄にする(捏造しない) */
 const timeline = [
   { year: '1993', body: '山形県鶴岡市関川に生まれる' },
-  { year: '', body: '大学進学を機に、一度地域を離れる。在学中からしな織祭りの手伝いで関川に帰るように' },
-  { year: '', body: '大学4年の一年、研究のかたわら羽越しな布に関わる地域の仕事を手伝う' },
-  { year: '', body: '卒業後、地域の銀行に勤務。のちに退職' },
-  { year: '', body: '自然体験プログラムや、シナノキに咲く花を使ったコスメの地域事業に携わる' },
-  { year: '', body: '写真家として活動を始める(KOTOGRAPH)' },
-  { year: '2026', body: '生まれ育った関川で、暮らしを起点にしたNISHYOIを始める' },
+  { year: '2012', body: '大学進学を機に、一度地域を離れる' },
+  { year: '2013', body: '在学中から、しな織祭りの手伝いで関川に帰るようになる' },
+  { year: '2015', body: '大学4年。研究のかたわら、羽越しな布に関わる地域の仕事を手伝う' },
+  { year: '2016', body: '卒業。地域の銀行に勤める。この頃から、集落の写真を撮りはじめる(集落の遺影)' },
+  { year: '2017', body: '銀行を離れ、自然体験や、シナノキの花を使ったコスメの地域事業に携わる' },
+  { year: '2026', body: '生まれ育った関川で、暮らしを起点にニショイを始める' },
 ];
 
 /* 後半: 物語(音声で聞き取った内容の草稿。細かな文言は本人が改稿予定) */
@@ -36,11 +35,11 @@ const story = [
   },
   {
     title: '山間部がなくなる構造',
-    body: '銀行の仕事には、面白い部分もたくさんありました。けれど、街でお金を稼ぐ仕組みがある一方で、山にはお金が返ってこない。これは山間部がなくなっていく構造そのものであり、自分もそれに加担している——そう気づいて、退職しました。山にあるものから売上をつくらなければ、集落は続いていかない。それが、このとき見えたことです。',
+    body: '銀行の仕事には、面白い部分もたくさんありました。けれど、街でお金を稼ぐ仕組みがある一方で、山にはお金が返ってこない。これは山間部がなくなっていく構造そのものであり、自分もそれに加担している——そう気づいて、一年ほどで退職しました。山にあるものから売上をつくらなければ、集落は続いていかない。それが、このとき見えたことです。ちょうど同じ頃から、いつか無くなるかもしれない集落の姿を、写真に撮りはじめました。',
   },
   {
     title: '暮らしそのものを組み替える',
-    body: 'その後は、自然体験の仕事や、シナノキに咲く花を使ったコスメの製造販売に携わりました。ただ、それだけでは自分の生活が成り立たず、割ける時間にも限りがありました。だからいまは、ライフスタイルそのものを組み替えて、暮らしを起点に新しい形を試す——NISHYOIの活動に軸足を移しています。',
+    body: 'その後は、自然体験の仕事や、シナノキに咲く花を使ったコスメの製造販売に携わりました。ただ、それだけでは自分の生活が成り立たず、割ける時間にも限りがありました。だからいまは、ライフスタイルそのものを組み替えて、暮らしを起点に新しい形を試す——ニショイの活動に軸足を移しています。',
   },
 ];
 ---
@@ -81,7 +80,7 @@ const story = [
           1993年、鶴岡市関川生まれ。大学進学で一度地域を離れ、卒業後は銀行勤務を経験。
           その後、自然体験プログラムや、しな織・しなの花を活用した地域事業に携わる。
           現在はそれらのプロジェクトを離れ、写真家として活動しながら、
-          生まれ育った集落で、暮らしそのものを起点にしたNISHYOIを始めている。
+          生まれ育った集落で、暮らしそのものを起点にしたニショイを始めている。
         </p>
 
         <div class="tl reveal" style="--stagger:90ms">
@@ -100,7 +99,7 @@ const story = [
 
     <RiverLine variant={2} />
 
-    <!-- 後半: 詳細の物語。最後はNISHYOIの活動へつながる -->
+    <!-- 後半: 詳細の物語。最後はニショイの活動へつながる -->
     <div class="container story">
       <div class="heading-pair reveal">
         <span class="en">Story</span>
@@ -113,11 +112,48 @@ const story = [
         </section>
       ))}
       <p class="to-nishyoi reveal">
-        この続きは、NISHYOIの活動そのものです。
+        この続きは、ニショイの活動そのものです。
       </p>
+
+      <section class="family reveal">
+        <h3 class="fam-h">家族</h3>
+        <p class="fam-intro">いまは、この家族で暮らしています。</p>
+        <dl class="fam-list">
+          <div>
+            <dt>夫</dt>
+            <dd><span class="fam-name">五十嵐 丈</span></dd>
+          </div>
+          <div>
+            <dt>妻</dt>
+            <dd><span class="fam-name">五十嵐 颯稀</span><span class="fam-rd">さつき</span></dd>
+          </div>
+          <div>
+            <dt>長男</dt>
+            <dd>
+              <span class="fam-name">五十嵐 旦旦</span><span class="fam-rd">たんたん / 保護猫</span>
+              <span class="fam-note">2024年の元旦、妻の実家に帰省した初日の出の朝、ひとりで歩いていたところを保護しました。</span>
+            </dd>
+          </div>
+          <div>
+            <dt>次男</dt>
+            <dd>
+              <span class="fam-name">五十嵐 菅菅</span><span class="fam-rd">かんかん / 保護猫</span>
+              <span class="fam-note">2025年10月ごろ、菅野代のトンネルのあたりに、ふらりと現れるようになりました。</span>
+            </dd>
+          </div>
+          <div>
+            <dt>三男</dt>
+            <dd>
+              <span class="fam-name">五十嵐 希糸</span><span class="fam-rd">きいと</span>
+              <span class="fam-note">2026年5月に生まれました。</span>
+            </dd>
+          </div>
+        </dl>
+      </section>
+
       <div class="links reveal">
         <a class="link-line" href="/about/iei/">集落の遺影(写真) <span aria-hidden="true">→</span></a>
-        <a class="link-line" href="/about/">NISHYOIについて <span aria-hidden="true">→</span></a>
+        <a class="link-line" href="/about/">ニショイについて <span aria-hidden="true">→</span></a>
         <a class="link-line" href="https://kotograph-joe.com/" target="_blank" rel="noopener">KOTOGRAPH(写真の仕事) <span aria-hidden="true">↗</span></a>
         <a class="link-line" href="https://note.com/joe_igarashi" target="_blank" rel="noopener">note <span aria-hidden="true">↗</span></a>
         <a class="link-line" href="https://www.instagram.com/nishyoi/" target="_blank" rel="noopener">Instagram <span aria-hidden="true">↗</span></a>
@@ -192,5 +228,47 @@ const story = [
     letter-spacing: 0.1em;
     padding-top: var(--sp-2);
   }
+
+  /* 家族 */
+  .family { display: grid; gap: var(--sp-3); padding-top: var(--sp-2); }
+  .fam-h {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    letter-spacing: 0.14em;
+  }
+  .fam-intro { font-size: 0.9rem; color: var(--color-ink-soft); }
+  .fam-list { margin: 0; display: grid; }
+  .fam-list > div {
+    display: grid;
+    grid-template-columns: 4rem 1fr;
+    gap: var(--sp-2) var(--sp-3);
+    padding-block: var(--sp-3);
+    border-top: 1px solid var(--line);
+  }
+  .fam-list > div:last-child { border-bottom: 1px solid var(--line); }
+  @media (max-width: 30rem) {
+    .fam-list > div { grid-template-columns: 1fr; gap: var(--sp-1); }
+  }
+  .fam-list dt {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    color: var(--color-river);
+    padding-top: 0.35em;
+  }
+  .fam-list dd { margin: 0; display: grid; gap: 0.35rem; }
+  .fam-name {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+  }
+  .fam-rd {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    color: var(--color-ink-soft);
+  }
+  .fam-note { font-size: 0.85rem; color: var(--color-ink-soft); line-height: 2.1; }
+
   .links { display: flex; flex-wrap: wrap; gap: var(--sp-4); }
 </style>

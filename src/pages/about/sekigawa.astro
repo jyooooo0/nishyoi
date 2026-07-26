@@ -71,7 +71,7 @@ const records = (await getCollection('journal'))
         <p>
           関川は、木の皮の繊維から糸をつくり布を織る「しな織(しな布)」が
           受け継がれてきた集落です。しな布は、沖縄の芭蕉布、静岡の葛布とならぶ
-          <strong>日本三大古代布</strong>のひとつに数えられ、
+          日本三大古代布のひとつに数えられ、
           樹皮からつくる布としては日本最古ともいわれます。
           その繊維の利用は縄文時代にさかのぼると伝えられています。
         </p>
@@ -126,7 +126,7 @@ const records = (await getCollection('journal'))
         <p>
           受け継がれてきた手仕事がある一方で、人口の減少は進み、
           集落の将来は決して安泰ではありません。
-          NISHYOIは、この場所の時間を記録しながら、
+          ニショイは、この場所の時間を記録しながら、
           ここで暮らし続けられる形を探しています。
         </p>
       </div>
@@ -138,6 +138,49 @@ const records = (await getCollection('journal'))
         <span class="en">Around</span>
         <h2 class="t-section">周辺とアクセス</h2>
       </div>
+
+      <div class="map-row reveal">
+        <!-- 位置の図: 山形県 → 鶴岡市 → 温海地域 → 関川 -->
+        <figure class="locator" role="img" aria-label="関川の位置。山形県鶴岡市の温海地域、新潟県境に近い山あい">
+          <svg viewBox="0 0 300 200" preserveAspectRatio="xMidYMid meet">
+            <!-- 日本海(西の海岸) -->
+            <path class="sea" d="M8 8 C 22 40, 14 70, 26 100 S 14 150, 22 192" />
+            <text class="lbl sea-lbl" x="8" y="150" transform="rotate(-90 8 150)">日本海</text>
+            <!-- 山形県 -->
+            <rect class="region yamagata" x="40" y="16" width="248" height="168" rx="10" />
+            <text class="lbl region-lbl" x="52" y="34">山形県</text>
+            <!-- 鶴岡市(南西) -->
+            <rect class="region tsuruoka" x="52" y="70" width="150" height="104" rx="8" />
+            <text class="lbl region-lbl" x="62" y="88">鶴岡市</text>
+            <!-- 温海地域(さらに南西の隅) -->
+            <rect class="region atsumi" x="60" y="112" width="92" height="54" rx="6" />
+            <text class="lbl region-lbl" x="68" y="128">温海地域</text>
+            <!-- 新潟県境 -->
+            <line class="border" x1="40" y1="176" x2="288" y2="176" />
+            <text class="lbl border-lbl" x="200" y="192">新潟県境</text>
+            <!-- 関川のピン -->
+            <circle class="pin" cx="96" cy="150" r="5" />
+            <line class="pin-stem" x1="96" y1="150" x2="96" y2="138" />
+            <text class="lbl pin-lbl" x="106" y="153">関川</text>
+          </svg>
+          <figcaption class="t-data">山形県鶴岡市 温海地域 関川</figcaption>
+        </figure>
+
+        <!-- Googleマップ(周辺のおおよその位置) -->
+        <figure class="gmap-wrap">
+          <iframe
+            class="gmap"
+            title="関川周辺の地図(Google マップ)"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            src="https://maps.google.com/maps?q=%E5%B1%B1%E5%BD%A2%E7%9C%8C%E9%B6%B4%E5%B2%A1%E5%B8%82%E9%96%A2%E5%B7%9D&z=11&output=embed"
+          ></iframe>
+          <figcaption class="t-data">
+            <a href="https://www.google.com/maps/search/?api=1&query=%E5%B1%B1%E5%BD%A2%E7%9C%8C%E9%B6%B4%E5%B2%A1%E5%B8%82%E9%96%A2%E5%B7%9D" target="_blank" rel="noopener">Google マップで見る ↗</a>
+          </figcaption>
+        </figure>
+      </div>
+
       <dl class="access-list reveal">
         <div>
           <dt>所在</dt>
@@ -218,6 +261,48 @@ const records = (await getCollection('journal'))
   }
 
   .access { display: grid; gap: var(--sp-4); margin-top: var(--space-section); max-width: 46rem; }
+
+  /* 位置図 + Googleマップ */
+  .map-row {
+    display: grid;
+    grid-template-columns: minmax(0, 16rem) 1fr;
+    gap: var(--sp-3);
+    align-items: stretch;
+  }
+  @media (max-width: 40rem) { .map-row { grid-template-columns: 1fr; } }
+  .locator, .gmap-wrap { margin: 0; display: grid; gap: var(--sp-1); }
+  .locator svg {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--line);
+    background: var(--color-paper);
+    display: block;
+  }
+  .locator .region { fill: none; stroke: var(--line); }
+  .locator .region.atsumi { stroke: var(--color-river); }
+  .locator .sea { fill: none; stroke: var(--color-river); stroke-width: 1; opacity: 0.5; }
+  .locator .border { stroke: var(--color-ink-soft); stroke-width: 1; stroke-dasharray: 3 3; opacity: 0.7; }
+  .locator .lbl {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.08em;
+    fill: var(--color-ink-soft);
+  }
+  .locator .region-lbl { fill: var(--color-ink); }
+  .locator .pin { fill: var(--color-river); }
+  .locator .pin-stem { stroke: var(--color-river); stroke-width: 1.4; }
+  .locator .pin-lbl { fill: var(--color-river); font-size: 9px; }
+  .locator figcaption, .gmap-wrap figcaption { color: var(--color-ink-soft); letter-spacing: 0.06em; }
+  .gmap-wrap { min-height: 0; }
+  .gmap {
+    width: 100%;
+    height: 100%;
+    min-height: 13rem;
+    border: 1px solid var(--line);
+    filter: grayscale(0.35) contrast(0.96);
+  }
+  .gmap-wrap a { color: var(--color-river); text-underline-offset: 3px; }
+
   .access-list { margin: 0; display: grid; }
   .access-list > div {
     display: grid;
