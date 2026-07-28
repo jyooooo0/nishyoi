@@ -4,10 +4,9 @@ import AboutNav from '../../components/AboutNav.astro';
 import PhotoFrame from '../../components/PhotoFrame.astro';
 import RiverLine from '../../components/RiverLine.astro';
 import joPortrait from '../../assets/photos/jo-portrait.jpg';
-import joSnow from '../../assets/photos/jo-snow.jpg';
 
 const description =
-  '五十嵐 丈(Jo Igarashi)。1993年、山形県鶴岡市関川生まれ。写真家として活動しながら、生まれ育った集落で暮らしを起点にしたニショイを始めている。';
+  '五十嵐 丈(Joe Igarashi)。1993年、山形県鶴岡市関川生まれ。写真家として活動しながら、生まれ育った集落で暮らしを起点にしたニショイを始めている。';
 
 const timeline = [
   { year: '1993', body: '山形県鶴岡市関川に生まれる' },
@@ -50,7 +49,7 @@ const story = [
       <div class="heading-pair">
         <span class="en">Profile</span>
         <h1 class="t-display">五十嵐 丈</h1>
-        <p class="t-data" style="letter-spacing:.24em; color:var(--color-ink-soft);">JO IGARASHI / PHOTOGRAPHER</p>
+        <p class="t-data" style="letter-spacing:.24em; color:var(--color-ink-soft);">JOE IGARASHI / PHOTOGRAPHER</p>
       </div>
       <AboutNav />
     </header>
@@ -64,14 +63,6 @@ const story = [
           alt="五十嵐丈のポートレート"
           focal="50% 38%"
           sizes="(max-width: 48rem) 90vw, 24rem"
-        />
-        <PhotoFrame
-          ratio="4/5"
-          src={joSnow}
-          alt="雪の森に立ち、木々を見上げる(冬撮影)"
-          focal="50% 45%"
-          class="photo-sub"
-          sizes="(max-width: 48rem) 70vw, 18rem"
         />
       </div>
 
@@ -180,8 +171,6 @@ const story = [
     .main-grid { grid-template-columns: 1fr; }
   }
   .photos { display: grid; gap: var(--sp-3); }
-  /* 2枚目を右へずらして重なりのリズムを作る */
-  .photo-sub { margin-left: 22%; margin-top: calc(-1 * var(--sp-4)); }
 
   .text { display: grid; gap: var(--sp-4); max-width: 40em; }
   .bio {
