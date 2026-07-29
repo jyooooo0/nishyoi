@@ -61,6 +61,30 @@ const current = Astro.url.pathname;
     padding: 1.1rem clamp(1.5rem, 4vw, 3rem);
     pointer-events: none;
   }
+  /* スクロールで本文がヘッダーの下を通るとき、ロゴ・MENUと文字が重なって
+     読めなくなるのを防ぐ下地。明るい地の上でだけ敷く
+     (暗い地=ヒーロー写真の上には、写真側に別の下地がある)。 */
+  .site-header::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 6.5rem;
+    /* var(--color-paper) = #f7f4ee。ロゴ・MENUの行までは不透明にして、
+       その下でゆるやかに透過させる */
+    background: linear-gradient(
+      to bottom,
+      rgba(247, 244, 238, 1) 0%,
+      rgba(247, 244, 238, 1) 56%,
+      rgba(247, 244, 238, 0) 100%
+    );
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.35s var(--ease-river);
+  }
+  :global(:root[data-nav="onlight"]) .site-header::before { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) {
+    .site-header::before { transition: none; }
+  }
   /* ロゴとメニューは、背後の明暗に合わせて黒/白へ切り替える(下のscript) */
   .logo, .menu-btn {
     position: relative;

@@ -170,15 +170,20 @@ const statusNote: Record<string, string> = {
     align-items: start;
     margin-bottom: var(--sp-4);
   }
-  @media (max-width: 48rem) { .cols { grid-template-columns: 1fr; } }
-
   .facts {
     border: 1px solid var(--line);
+    /* 追従中に本文が透けないよう背景を敷く */
+    background: var(--color-paper);
     padding: var(--sp-3);
     display: grid;
     gap: var(--sp-2);
     position: sticky;
     top: var(--sp-5);
+  }
+  /* 1カラムになる幅では追従させない(本文と重なって読めなくなるため) */
+  @media (max-width: 48rem) {
+    .cols { grid-template-columns: 1fr; gap: var(--sp-4); }
+    .facts { position: static; top: auto; }
   }
   .facts dl { margin: 0; display: grid; gap: var(--sp-2); }
   .facts dt {
