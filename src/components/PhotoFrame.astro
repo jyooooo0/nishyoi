@@ -16,6 +16,10 @@ interface Props {
   note?: string;
   /** object-position 例 "50% 35%" — 写真ごとの焦点位置 */
   focal?: string;
+  /** object-fit。紙面のスキャンなど、切り抜きたくないものは "contain" */
+  fit?: 'cover' | 'contain';
+  /** 読込前・余白部分の地の色。紙面のスキャンなら "#fff" */
+  bg?: string;
   /** LCP画像はtrue(即時読込) */
   priority?: boolean;
   /** マスク出現演出を付けるか */
@@ -30,6 +34,8 @@ const {
   ratio,
   note = '撮影予定',
   focal = '50% 50%',
+  fit = 'cover',
+  bg,
   priority = false,
   reveal = true,
   class: className = '',
@@ -40,7 +46,7 @@ const revealClass = reveal && !priority ? 'reveal-mask' : '';
 ---
 
 {src ? (
-  <div class={`photo ${revealClass} ${className}`} style={`aspect-ratio: ${ratio};`}>
+  <div class={`photo ${revealClass} ${className}`} style={`aspect-ratio: ${ratio};${bg ? ` background: ${bg};` : ''}`}>
     <Image
       src={src}
       alt={alt}
@@ -48,7 +54,7 @@ const revealClass = reveal && !priority ? 'reveal-mask' : '';
       sizes={sizes}
       loading={priority ? 'eager' : 'lazy'}
       fetchpriority={priority ? 'high' : 'auto'}
-      style={`object-position: ${focal};`}
+      style={`object-position: ${focal}; object-fit: ${fit};`}
     />
   </div>
 ) : (

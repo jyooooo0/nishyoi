@@ -1,0 +1,330 @@
+---
+import { getImage } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import AboutNav from '../../components/AboutNav.astro';
+import PhotoFrame from '../../components/PhotoFrame.astro';
+import RiverLine from '../../components/RiverLine.astro';
+import satsukiPortrait from '../../assets/photos/satsuki-portrait.jpg';
+
+import w201605 from '../../assets/satsuki/machinaka-2016-05-satsuki.png';
+import w201606 from '../../assets/satsuki/machinaka-2016-06-minatoeki.png';
+import w201607 from '../../assets/satsuki/machinaka-2016-07-yoin.png';
+import w201609 from '../../assets/satsuki/machinaka-2016-09-yorusanpo.png';
+import w201610 from '../../assets/satsuki/machinaka-2016-10-kado.png';
+import w201611 from '../../assets/satsuki/machinaka-2016-11-tobidashite.png';
+import w201612 from '../../assets/satsuki/machinaka-2016-12-tokutoseki.png';
+import w201701 from '../../assets/satsuki/machinaka-2017-01-kaori.png';
+import w201702 from '../../assets/satsuki/machinaka-2017-02-tsumuide.png';
+import w201703 from '../../assets/satsuki/machinaka-2017-03-genten.png';
+
+const description =
+  '五十嵐 颯稀(Satsuki Igarashi)。1995年、宮城県石巻市生まれ。イラスト、パッケージの筆文字、ポップや看板、エッセイ。手で書いて、手で描く仕事をしています。';
+
+const timeline = [
+  { year: '1995', body: '宮城県石巻市に生まれる' },
+  { year: '2011', body: '東日本大震災で被災。これをきっかけに、まちづくりに関心を持つようになる' },
+  { year: '2016', body: 'フリーペーパー「まちなかプレス」で連載「まちの、」がはじまる。酒田のまちを歩いて、文と絵で綴る' },
+  { year: '2020', body: '結婚を機に、山形県鶴岡市へ移住' },
+  { year: '2026', body: '第一子が生まれる。子育て奮闘中' },
+];
+
+/** できること。名刺の肩書き Illustrator / Calligrapher / Writer に沿って整理 */
+const skills = [
+  { title: 'イラスト', body: 'ペンと色鉛筆で、まちの風景や建物、店先の様子を描きます。' },
+  { title: '筆文字・カリグラフィ', body: '商品パッケージやロゴまわりの手書き文字。墨の線で、そのものの表情をつくります。' },
+  { title: 'ポップ・看板', body: '店頭のポップや、手描きの看板。近くで見る人に向けた文字と絵です。' },
+  { title: '文章・エッセイ', body: '歩いて、見て、聞いたことを短い文にします。連載や寄稿の形で。' },
+  { title: 'お茶のこと', body: '日本茶専門店で働いていた頃から、お茶の魅力を伝える活動を続けています。' },
+];
+
+/**
+ * 連載「まちの、」(まちなかプレス掲載)
+ * 題字・本文の手書き文字・挿絵まで、すべて本人の手によるもの。
+ * excerpt は本文の書き出しをそのまま引いたもの。
+ */
+const works = [
+  {
+    img: w201605, title: '「まちの、」〜皐月さん〜', issue: '2016年5月号',
+    excerpt: 'たくみ通りにある、皐月。店主の五月さんは、真っ赤なエプロンがよく似合うお母さん。',
+    alt: '連載「まちの、」皐月さんの回。手書きの題字と本文、色鉛筆で描かれた三階建ての店構えの挿絵',
+  },
+  {
+    img: w201606, title: '「まちの、港駅」', issue: '2016年6月号',
+    excerpt: '南新町、いつもは車で橋をわたり通り過ぎる、その下。たくさんのコンテナが、行儀良く並んでいる。',
+    alt: '連載「まちの、港駅」。手書きの題字と本文、色鉛筆で描かれたJR貨物 酒田港駅の駅舎の挿絵',
+  },
+  {
+    img: w201607, title: '「まちの 余韻」', issue: '2016年7月号',
+    excerpt: 'いつものように習い事のため旧松山町を訪れた。ほのかに「まち」がにぎやかだ。',
+    alt: '連載「まちの 余韻」。手書きの題字と本文、ペンで描かれた松山能の舞台と大きな木の挿絵',
+  },
+  {
+    img: w201609, title: '「まちの、夜さんぽ」', issue: '2016年9月号',
+    excerpt: '真夏の暑さがやわらいで、夕方になると涼みに外へ出かけたくなる。',
+    alt: '連載「まちの、夜さんぽ」。手書きの題字と本文、色鉛筆で描かれたライトアップされた山居倉庫の挿絵',
+  },
+  {
+    img: w201610, title: '「まちの、かど」', issue: '2016年10月号',
+    excerpt: 'はじめて中町にきた時、最初に訪れた場所。真っ赤な椿が扉の横に一輪さしてあった。',
+    alt: '連載「まちの、かど」。手書きの題字と本文、色鉛筆で描かれた喫茶店の店内の挿絵',
+  },
+  {
+    img: w201611, title: '「まち、とびだして」', issue: '2016年11月号',
+    excerpt: '何度か訪れているはずなのに、早朝に聞こえる船のエンジン音も、窓をあけたらふわっとかおる海のにおいも、いつまでもなれることがない。',
+    alt: '連載「まち、とびだして」。手書きの題字と本文、色鉛筆で描かれた海の向こうに浮かぶ島の挿絵',
+  },
+  {
+    img: w201612, title: '「わたしの、特等席」', issue: '2016年12月号',
+    excerpt: '日和山から　周辺をぐるりと歩いていると、家と家との間に　ひっそりとのびる階段に出会う。',
+    alt: '連載「わたしの、特等席」。手書きの題字と本文、青い色鉛筆で描かれた高台から見下ろす家並みと海の挿絵',
+  },
+  {
+    img: w201701, title: '「まちの、かおり」', issue: '2017年1月号',
+    excerpt: '風がごうごうと吹いていて、目の前の海は白波立っている。石巻とよく似ているところもあるけれど、この景色に「ああ、ここは酒田なのだ」と思い知らされている。',
+    alt: '連載「まちの、かおり」。手書きの題字と本文、青いペンで描かれた港と工場の風景の挿絵',
+  },
+  {
+    img: w201702, title: '「まちの、紡いで」', issue: '2017年2月号',
+    excerpt: '49年もの間、若浜町で糸やさんを営むわたなべさん。「いらっしゃい」、と言いながらぶどう色のモヘアを編むその手先は魔法使いのよう。',
+    alt: '連載「まちの、紡いで」。手書きの題字と本文、ペンで細かく描かれたわたなべ糸店の店内の挿絵',
+  },
+  {
+    img: w201703, title: '「私の　原点」', issue: '2017年3月号',
+    excerpt: '墨と紙のにおいで少し背筋が伸びる。久しぶりに筆を持ち、机に向かう。',
+    alt: '連載「私の 原点」。筆で書かれた題字と手書きの本文、ペンで描かれた文具店・小花堂の店内の挿絵',
+  },
+];
+
+/** 拡大表示用の大きい画像URL(クリックで別タブに開く) */
+const fullImages = await Promise.all(
+  works.map((w) => getImage({ src: w.img, width: 1400, format: 'webp', quality: 82 }))
+);
+---
+
+<Base title="さつきのプロフィール" description={description}>
+  <article class="satsuki">
+    <header class="container head">
+      <div class="heading-pair">
+        <span class="en">Profile</span>
+        <h1 class="t-display">五十嵐 颯稀</h1>
+        <p class="t-data name-en">SATSUKI IGARASHI / ILLUSTRATOR, CALLIGRAPHER &amp; WRITER</p>
+      </div>
+      <AboutNav />
+    </header>
+
+    <div class="container main-grid">
+      <div class="side">
+        <PhotoFrame
+          ratio="1/1"
+          src={satsukiPortrait}
+          alt="五十嵐颯稀のポートレート"
+          focal="50% 40%"
+          sizes="(max-width: 52rem) 90vw, 20rem"
+        />
+
+        <aside class="skills reveal" style="--stagger:120ms">
+          <h2 class="t-label" style="margin-bottom: var(--sp-2);">できること</h2>
+          <dl class="skill-list">
+            {skills.map((s) => (
+              <div>
+                <dt>{s.title}</dt>
+                <dd>{s.body}</dd>
+              </div>
+            ))}
+          </dl>
+        </aside>
+      </div>
+
+      <div class="text">
+        <p class="bio reveal">
+          1995年、宮城県石巻市生まれ。3.11で被災したことをきっかけに、まちづくりに関心を持つようになりました。
+          山形県内の大学に進学し、在学中には「緑のふるさと協力隊」を通じて、群馬県上野村で1年間の田舎暮らしを経験。
+          卒業後は仙台市内の日本茶専門店に勤め、2020年、結婚を機に山形県鶴岡市へ移りました。
+          いまは<a href="/about/sekigawa/">関川</a>で暮らしながら、イラストやパッケージの筆文字デザイン、
+          ポップ・看板の制作、エッセイの連載、お茶の魅力を伝える活動などを、少しずつ続けています。
+          2026年に第一子が生まれ、子育てに奮闘中です。
+        </p>
+
+        <p class="bio-lead reveal" style="--stagger:60ms">
+          手で書くこと、手で描くこと。時間はかかるけれど、その分だけ、
+          そこにあるものをよく見ることになります。
+        </p>
+
+        <div class="tl reveal" style="--stagger:90ms">
+          <h2 class="t-label" style="margin-bottom: var(--sp-2);">Timeline</h2>
+          <ol class="tl-list">
+            {timeline.map((t) => (
+              <li>
+                <span class="t-data year">{t.year}</span>
+                <span class="body">{t.body}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <RiverLine variant={1} />
+
+    <!-- ポートフォリオ: 連載「まちの、」 -->
+    <section class="container portfolio">
+      <div class="heading-pair reveal">
+        <span class="en">Works</span>
+        <h2 class="t-section">連載「まちの、」</h2>
+      </div>
+      <p class="pf-intro reveal">
+        フリーペーパー「まちなかプレス」に、2016年から連載していたエッセイです。
+        酒田のまちを歩いて、見つけた場所や出会った人のことを短い文にして、
+        題字も、本文の文字も、挿絵も、すべて手で書きました。
+      </p>
+      <p class="pf-note reveal">画像をクリックすると大きく表示します。</p>
+
+      <ul class="pf-grid">
+        {works.map((w, i) => (
+          <li class="pf-item reveal" style={`--stagger:${(i % 3) * 90}ms`}>
+            <a href={fullImages[i]!.src} target="_blank" rel="noopener">
+              <PhotoFrame
+                ratio="9/16"
+                src={w.img}
+                alt={w.alt}
+                fit="contain"
+                bg="#fff"
+                reveal={false}
+                class="pf-shot"
+                widths={[400, 640, 900]}
+                sizes="(max-width: 40rem) 80vw, (max-width: 64rem) 40vw, 20rem"
+              />
+              <div class="pf-body">
+                <span class="pf-issue t-data">{w.issue}</span>
+                <h3 class="pf-title">{w.title}</h3>
+                <p class="pf-excerpt">{w.excerpt}</p>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <div class="container foot">
+      <p class="foot-text reveal">
+        ニショイでは、丈が写真とWebを、颯稀が絵と文字を担当しています。
+        パッケージの筆文字やイラストのご相談も、<a href="/contact/">お問い合わせ</a>からどうぞ。
+      </p>
+      <div class="links reveal">
+        <a class="link-line" href="/about/jo/">丈のプロフィール <span aria-hidden="true">→</span></a>
+        <a class="link-line" href="/about/">ニショイについて <span aria-hidden="true">→</span></a>
+        <a class="link-line" href="https://www.instagram.com/nishyoi/" target="_blank" rel="noopener">Instagram <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .satsuki { padding-block: calc(var(--space-section) + var(--sp-4)) var(--space-section); }
+  .head { display: grid; gap: var(--sp-4); margin-bottom: var(--sp-5); }
+  .name-en { letter-spacing: 0.18em; color: var(--color-ink-soft); }
+
+  .main-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 20rem) 1fr;
+    gap: clamp(var(--sp-4), 6vw, var(--sp-6));
+    align-items: start;
+    margin-bottom: var(--sp-4);
+  }
+  @media (max-width: 52rem) {
+    .main-grid { grid-template-columns: 1fr; }
+  }
+  .side { display: grid; gap: var(--sp-4); }
+
+  .text { display: grid; gap: var(--sp-4); max-width: 40em; }
+  .bio { font-size: 0.95rem; line-height: 2.4; letter-spacing: 0.04em; }
+  .bio a { color: var(--color-river); text-underline-offset: 4px; }
+  .bio-lead {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    letter-spacing: 0.1em;
+    line-height: 2.4;
+  }
+
+  .tl-list { list-style: none; margin: 0; padding: 0; display: grid; }
+  .tl-list li {
+    display: grid;
+    grid-template-columns: 4.5rem 1fr;
+    gap: var(--sp-2);
+    padding-block: var(--sp-1);
+    border-top: 1px solid var(--line);
+    font-size: 0.85rem;
+    line-height: 2;
+  }
+  .tl-list li:last-child { border-bottom: 1px solid var(--line); }
+  .tl-list .year { color: var(--color-river); align-self: baseline; padding-top: 0.3em; }
+  .tl-list .body { color: var(--color-ink-soft); }
+
+  .skill-list { margin: 0; display: grid; }
+  .skill-list > div {
+    padding-block: var(--sp-2);
+    border-top: 1px solid var(--line);
+    display: grid;
+    gap: 0.3rem;
+  }
+  .skill-list > div:last-child { border-bottom: 1px solid var(--line); }
+  .skill-list dt {
+    font-family: var(--font-serif);
+    font-size: 0.95rem;
+    letter-spacing: 0.1em;
+  }
+  .skill-list dd { margin: 0; font-size: 0.82rem; color: var(--color-ink-soft); line-height: 2.1; }
+
+  /* ---------- ポートフォリオ ---------- */
+  .portfolio { display: grid; gap: var(--sp-3); margin-block: var(--sp-4) var(--sp-5); }
+  .pf-intro {
+    font-size: 0.92rem;
+    color: var(--color-ink-soft);
+    line-height: 2.3;
+    max-width: 42em;
+  }
+  .pf-note {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    color: var(--color-ink-soft);
+  }
+  .pf-grid {
+    list-style: none;
+    margin: var(--sp-2) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--sp-4) var(--sp-3);
+  }
+  @media (max-width: 64rem) { .pf-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 40rem) { .pf-grid { grid-template-columns: 1fr; gap: var(--sp-5); } }
+
+  .pf-item a { text-decoration: none; display: grid; gap: var(--sp-2); height: 100%; align-content: start; }
+  /* .pf-shot は PhotoFrame 側の要素なので :global() で指定する(地の色は bg プロパティ) */
+  :global(.pf-shot) { border: 1px solid var(--line); }
+  /* PhotoFrame が描画する要素なので、親のスコープでは届かない。:global() で指定する */
+  :global(.pf-shot img) {
+    transition: transform var(--dur-reveal) var(--ease-river);
+  }
+  .pf-item a:hover :global(.pf-shot img) { transform: scale(1.02); }
+  .pf-body { display: grid; gap: 0.35rem; }
+  .pf-issue { color: var(--color-river); }
+  .pf-title {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    transition: color var(--dur-micro);
+  }
+  .pf-item a:hover .pf-title { color: var(--color-river); }
+  .pf-excerpt {
+    font-size: 0.8rem;
+    color: var(--color-ink-soft);
+    line-height: 2.1;
+  }
+
+  .foot { display: grid; gap: var(--sp-3); margin-top: var(--sp-4); }
+  .foot-text { font-size: 0.9rem; color: var(--color-ink-soft); line-height: 2.3; max-width: 40em; }
+  .foot-text a { color: var(--color-river); text-underline-offset: 4px; }
+  .links { display: flex; flex-wrap: wrap; gap: var(--sp-4); }
+</style>

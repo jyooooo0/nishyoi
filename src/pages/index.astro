@@ -18,6 +18,7 @@ import teshigotoDrying from '../assets/photos/teshigoto-drying.jpg';
 import recordInaboshi from '../assets/photos/record-inaboshi.jpg';
 import workForest from '../assets/photos/work-forest.jpg';
 import joPortrait from '../assets/photos/jo-portrait.jpg';
+import satsukiPortrait from '../assets/photos/satsuki-portrait.jpg';
 
 // ヒーロー: 関川の四季(現在の季節を先頭に、ゆっくりクロスフェード)
 const heroSlides = [
@@ -44,8 +45,9 @@ const members: Member[] = [
     href: '/about/jo/', published: true,
   },
   {
-    // 妻・さつき。プロフィールが整い次第 published を true に、img と bio を入れる
-    name: '五十嵐 さつき', reading: '', bio: '', href: '/about/', published: false,
+    name: '五十嵐 颯稀', reading: 'SATSUKI IGARASHI', img: satsukiPortrait, focal: '50% 40%',
+    bio: '1995年、石巻生まれ。イラストとパッケージの筆文字、ポップや看板、エッセイ。手で書いて、手で描く仕事をしている。',
+    href: '/about/satsuki/', published: true,
   },
 ];
 const shownMembers = members.filter((m) => m.published);

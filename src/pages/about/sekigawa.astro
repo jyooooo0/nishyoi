@@ -140,32 +140,6 @@ const records = (await getCollection('journal'))
       </div>
 
       <div class="map-row reveal">
-        <!-- 位置の図: 山形県 → 鶴岡市 → 温海地域 → 関川 -->
-        <figure class="locator" role="img" aria-label="関川の位置。山形県鶴岡市の温海地域、新潟県境に近い山あい">
-          <svg viewBox="0 0 300 200" preserveAspectRatio="xMidYMid meet">
-            <!-- 日本海(西の海岸) -->
-            <path class="sea" d="M8 8 C 22 40, 14 70, 26 100 S 14 150, 22 192" />
-            <text class="lbl sea-lbl" x="8" y="150" transform="rotate(-90 8 150)">日本海</text>
-            <!-- 山形県 -->
-            <rect class="region yamagata" x="40" y="16" width="248" height="168" rx="10" />
-            <text class="lbl region-lbl" x="52" y="34">山形県</text>
-            <!-- 鶴岡市(南西) -->
-            <rect class="region tsuruoka" x="52" y="70" width="150" height="104" rx="8" />
-            <text class="lbl region-lbl" x="62" y="88">鶴岡市</text>
-            <!-- 温海地域(さらに南西の隅) -->
-            <rect class="region atsumi" x="60" y="112" width="92" height="54" rx="6" />
-            <text class="lbl region-lbl" x="68" y="128">温海地域</text>
-            <!-- 新潟県境 -->
-            <line class="border" x1="40" y1="176" x2="288" y2="176" />
-            <text class="lbl border-lbl" x="200" y="192">新潟県境</text>
-            <!-- 関川のピン -->
-            <circle class="pin" cx="96" cy="150" r="5" />
-            <line class="pin-stem" x1="96" y1="150" x2="96" y2="138" />
-            <text class="lbl pin-lbl" x="106" y="153">関川</text>
-          </svg>
-          <figcaption class="t-data">山形県鶴岡市 温海地域 関川</figcaption>
-        </figure>
-
         <!-- Googleマップ(周辺のおおよその位置) -->
         <figure class="gmap-wrap">
           <iframe
@@ -262,38 +236,10 @@ const records = (await getCollection('journal'))
 
   .access { display: grid; gap: var(--sp-4); margin-top: var(--space-section); max-width: 46rem; }
 
-  /* 位置図 + Googleマップ */
-  .map-row {
-    display: grid;
-    grid-template-columns: minmax(0, 16rem) 1fr;
-    gap: var(--sp-3);
-    align-items: stretch;
-  }
-  @media (max-width: 40rem) { .map-row { grid-template-columns: 1fr; } }
-  .locator, .gmap-wrap { margin: 0; display: grid; gap: var(--sp-1); }
-  .locator svg {
-    width: 100%;
-    height: auto;
-    border: 1px solid var(--line);
-    background: var(--color-paper);
-    display: block;
-  }
-  .locator .region { fill: none; stroke: var(--line); }
-  .locator .region.atsumi { stroke: var(--color-river); }
-  .locator .sea { fill: none; stroke: var(--color-river); stroke-width: 1; opacity: 0.5; }
-  .locator .border { stroke: var(--color-ink-soft); stroke-width: 1; stroke-dasharray: 3 3; opacity: 0.7; }
-  .locator .lbl {
-    font-family: var(--font-mono);
-    font-size: 8px;
-    letter-spacing: 0.08em;
-    fill: var(--color-ink-soft);
-  }
-  .locator .region-lbl { fill: var(--color-ink); }
-  .locator .pin { fill: var(--color-river); }
-  .locator .pin-stem { stroke: var(--color-river); stroke-width: 1.4; }
-  .locator .pin-lbl { fill: var(--color-river); font-size: 9px; }
-  .locator figcaption, .gmap-wrap figcaption { color: var(--color-ink-soft); letter-spacing: 0.06em; }
-  .gmap-wrap { min-height: 0; }
+  /* Googleマップ */
+  .map-row { display: grid; }
+  .gmap-wrap { margin: 0; display: grid; gap: var(--sp-1); min-height: 0; }
+  .gmap-wrap figcaption { color: var(--color-ink-soft); letter-spacing: 0.06em; }
   .gmap {
     width: 100%;
     height: 100%;

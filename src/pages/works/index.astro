@@ -167,8 +167,9 @@ const flow = [
     align-content: start;
     overflow: hidden;
   }
-  .wk-shot :global(img) { transition: transform var(--dur-reveal) var(--ease-river); }
-  .works-grid a:hover .wk-shot :global(img) { transform: scale(1.03); }
+  /* PhotoFrame が描画する要素なので、親のスコープでは届かない。:global() で指定する */
+  :global(.wk-shot img) { transition: transform var(--dur-reveal) var(--ease-river); }
+  .works-grid a:hover :global(.wk-shot img) { transform: scale(1.03); }
   .wk-body { display: grid; gap: var(--sp-1); padding: var(--sp-3); }
   .wk-meta { display: flex; flex-wrap: wrap; gap: var(--sp-1) var(--sp-2); align-items: center; color: var(--color-ink-soft); }
   .wk-kind { color: var(--season); }
