@@ -90,8 +90,6 @@ const works = defineCollection({
     kind: z.string().optional(),
     year: z.number().optional(),
     url: z.string().url().optional(),
-    /** 担当範囲 */
-    roles: z.array(z.string()).default([]),
     summary: z.string(),
     /** クライアントの掲載許可が確認できるまで false のまま */
     published: z.boolean().default(false),
