@@ -1,6 +1,6 @@
 ---
 title: トーチてらす
-image: ../../assets/ogp/torch-terrace.jpg
+image: ../../assets/ogp/torch-terrace.png
 kind: コミュニティスペース
 url: https://torch-terrace.com/
 summary: 学習、仕事、演奏、交流など、世代を問わず思い思いに過ごせる山形県鶴岡市温海のコミュニティスペースです。
